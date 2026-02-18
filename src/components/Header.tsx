@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
 
@@ -36,8 +37,17 @@ export default function Header() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           {/* Logo / site name */}
-          <Link href="/" className="text-xl font-bold tracking-tight">
-            The Mesocratic Party
+          <Link href="/" className="flex items-center gap-2">
+            <Image
+              src="/logo-white.png"
+              alt="Mesocratic Party logo"
+              width={36}
+              height={36}
+              className="h-9 w-auto"
+            />
+            <span className="hidden sm:inline text-xl font-bold tracking-tight">
+              The Mesocratic Party
+            </span>
           </Link>
 
           {/* Desktop nav */}

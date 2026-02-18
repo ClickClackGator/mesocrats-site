@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import CountdownTimer from "@/components/CountdownTimer";
 import HomeJoinDonate from "@/components/HomeJoinDonate";
@@ -41,10 +42,19 @@ export default function Home() {
 
       {/* ──────────── 2. Mission Bar ──────────── */}
       <section className="bg-gray-light py-14 px-4 sm:px-6 lg:px-8">
-        <p className="max-w-3xl mx-auto text-center text-xl sm:text-2xl font-semibold leading-relaxed">
-          The middle class is the greatest invention in American history.
-          We&apos;re here to protect it.
-        </p>
+        <div className="max-w-3xl mx-auto flex items-center justify-center gap-4">
+          <Image
+            src="/logo-black.png"
+            alt="Mesocratic Party logo"
+            width={40}
+            height={40}
+            className="h-10 w-auto shrink-0"
+          />
+          <p className="text-xl sm:text-2xl font-semibold leading-relaxed">
+            The middle class is the greatest invention in American history.
+            We&apos;re here to protect it.
+          </p>
+        </div>
       </section>
 
       {/* ──────────── 3. Three Policy Cards ──────────── */}
