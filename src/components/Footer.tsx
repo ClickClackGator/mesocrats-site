@@ -68,12 +68,8 @@ export default function Footer() {
         <div className="border-t border-white/10 pt-8">
           {/* FEC Disclaimer */}
           <p className="text-xs text-white/50 leading-relaxed mb-4">
-            Paid for by The Mesocratic Party (mesocrats.org). Not authorized by
-            any candidate or candidate&apos;s committee. Contributions or gifts
-            to The Mesocratic Party are not tax deductible. Federal law requires
-            us to use our best efforts to collect and report the name, mailing
-            address, occupation and name of employer of individuals whose
-            contributions exceed $200 in an election cycle.
+            Paid for by the Mesocratic National Committee. Not authorized by
+            any candidate or candidate&apos;s committee.
           </p>
 
           {/* Copyright */}
