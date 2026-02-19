@@ -1,0 +1,69 @@
+// src/sanity/schemas/teamMember.ts
+
+import { defineField, defineType } from 'sanity'
+
+export default defineType({
+  name: 'teamMember',
+  title: 'Team Member',
+  type: 'document',
+  icon: () => '👤',
+
+  fields: [
+    defineField({
+      name: 'name',
+      title: 'Full Name',
+      type: 'string',
+      validation: (Rule) => Rule.required(),
+    }),
+    defineField({
+      name: 'title',
+      title: 'Title / Role',
+      type: 'string',
+      description: 'e.g., "Founder & Chairman"',
+      validation: (Rule) => Rule.required(),
+    }),
+    defineField({
+      name: 'image',
+      title: 'Headshot',
+      type: 'image',
+      options: { hotspot: true },
+      description: 'Professional but approachable. 400x500 portrait recommended.',
+    }),
+    defineField({
+      name: 'bio',
+      title: 'Biography',
+      type: 'array',
+      of: [
+        {
+          type: 'block',
+          marks: {
+            decorators: [
+              { title: 'Bold', value: 'strong' },
+              { title: 'Italic', value: 'em' },
+            ],
+          },
+        },
+      ],
+    }),
+    defineField({
+      name: 'shortBio',
+      title: 'Short Bio',
+      type: 'text',
+      rows: 2,
+      description: 'One-line bio for author cards on news posts',
+    }),
+    defineField({
+      name: 'order',
+      title: 'Display Order',
+      type: 'number',
+    }),
+  ],
+
+  preview: {
+    select: {
+      title: 'name',
+      subtitle: 'title',
+      media: 'image',
+    },
+  },
+})
