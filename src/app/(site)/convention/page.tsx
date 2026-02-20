@@ -127,6 +127,15 @@ export default async function ConventionPage() {
         )}
       </section>
 
+      {/* Body content (rich text) */}
+      {page?.content && page.content.length > 0 && (
+        <section className="py-16 sm:py-20 px-4 sm:px-6 lg:px-8">
+          <div className="max-w-3xl mx-auto">
+            <PortableTextRenderer value={page.content} />
+          </div>
+        </section>
+      )}
+
       {/* Text sections: Why New Orleans, What Is CCX, 5000 Delegates */}
       {textSections.map(
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
