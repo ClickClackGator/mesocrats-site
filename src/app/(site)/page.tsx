@@ -200,7 +200,7 @@ export default async function Home() {
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link
               href={ctaSection?.ctaLink || F.ccxCtaLink}
-              className="bg-cta hover:bg-cta-light text-white font-bold px-8 py-3 rounded transition-colors text-center"
+              className="bg-accent hover:bg-accent-light text-white font-bold px-8 py-3 rounded transition-colors text-center"
             >
               {ctaSection?.ctaLabel || F.ccxCtaLabel}
             </Link>
