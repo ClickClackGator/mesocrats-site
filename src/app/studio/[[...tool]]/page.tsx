@@ -1,5 +1,3 @@
-// app/studio/[[...tool]]/page.tsx
-
 import dynamic from 'next/dynamic'
 
 const Studio = dynamic(() => import('./Studio'), { ssr: false })
