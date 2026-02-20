@@ -12,7 +12,7 @@ export const metadata: Metadata = { title: "Platform" };
 
 export default async function PlatformPage() {
   const [page, policyPages, settings] = await Promise.all([
-    client.fetch(pageBySlugQuery, { slug: "platform-overview" }, { next: { revalidate: 60 } }),
+    client.fetch(pageBySlugQuery, { slug: "platform" }, { next: { revalidate: 60 } }),
     client.fetch(allPolicyPagesQuery, {}, { next: { revalidate: 60 } }),
     client.fetch(siteSettingsQuery, {}, { next: { revalidate: 60 } }),
   ]);
