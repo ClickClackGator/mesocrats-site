@@ -52,7 +52,7 @@ export default async function ConventionRegisterPage() {
       {hasBodyContent && (
         <section className="py-16 sm:py-20 px-4 sm:px-6 lg:px-8">
           <div className="max-w-3xl mx-auto">
-            <PortableTextRenderer value={content.bodyContent} />
+            <PortableTextRenderer value={content.bodyContent} className="text-lg [&_p]:text-lg [&_p]:leading-relaxed [&_p]:mb-6" />
           </div>
         </section>
       )}
