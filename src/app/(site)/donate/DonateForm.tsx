@@ -13,7 +13,7 @@ export default function DonateForm() {
       />
       <button
         type="submit"
-        className="bg-accent hover:bg-accent-light text-white font-bold px-6 py-3 rounded transition-colors whitespace-nowrap"
+        className="bg-secondary hover:bg-secondary-light text-white font-bold px-6 py-3 rounded transition-colors whitespace-nowrap"
       >
         NOTIFY ME
       </button>

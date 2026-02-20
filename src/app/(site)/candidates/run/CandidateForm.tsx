@@ -39,7 +39,7 @@ export default function CandidateForm() {
       />
       <button
         type="submit"
-        className="w-full bg-accent hover:bg-accent-light text-white font-bold py-3 rounded transition-colors"
+        className="w-full bg-secondary hover:bg-secondary-light text-white font-bold py-3 rounded transition-colors"
       >
         SUBMIT MY INTEREST
       </button>

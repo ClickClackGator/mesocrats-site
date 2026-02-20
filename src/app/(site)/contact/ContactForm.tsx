@@ -37,7 +37,7 @@ export default function ContactForm() {
       />
       <button
         type="submit"
-        className="w-full bg-accent hover:bg-accent-light text-white font-bold py-3 rounded transition-colors"
+        className="w-full bg-cta hover:bg-cta-light text-white font-bold py-3 rounded transition-colors"
       >
         SEND MESSAGE
       </button>

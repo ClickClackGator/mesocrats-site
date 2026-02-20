@@ -83,7 +83,7 @@ export default function Header() {
                   href={item.href!}
                   className={`px-3 py-2 text-sm font-medium transition-colors ${
                     item.label === "Donate"
-                      ? "bg-cta hover:bg-cta-light text-white rounded ml-2"
+                      ? "bg-accent hover:bg-accent-light text-white rounded ml-2"
                       : "hover:text-accent-light"
                   }`}
                 >
@@ -151,7 +151,7 @@ export default function Header() {
                 href={item.href!}
                 className={`block px-2 py-2 text-sm transition-colors ${
                   item.label === "Donate"
-                    ? "bg-cta hover:bg-cta-light text-white rounded mt-2 text-center"
+                    ? "bg-accent hover:bg-accent-light text-white rounded mt-2 text-center"
                     : "hover:text-accent-light"
                 }`}
                 onClick={() => setMobileOpen(false)}

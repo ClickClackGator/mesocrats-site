@@ -163,7 +163,7 @@ export default async function ConventionPage() {
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <a
               href={page?.heroCta1Link || F.heroCta1Link}
-              className="bg-cta hover:bg-cta-light text-white font-bold px-8 py-3 rounded transition-colors text-center"
+              className="bg-secondary hover:bg-secondary-light text-white font-bold px-8 py-3 rounded transition-colors text-center"
             >
               {page?.heroCta1Label || F.heroCta1Label}
             </a>
