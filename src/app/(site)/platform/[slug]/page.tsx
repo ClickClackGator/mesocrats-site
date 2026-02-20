@@ -1,8 +1,4 @@
 // app/platform/[slug]/page.tsx
-//
-// EXAMPLE: Dynamic policy page that fetches content from Sanity.
-// This replaces hardcoded policy page content with CMS-driven content.
-// Adapt this pattern to your existing page structure.
 
 import { notFound } from 'next/navigation'
 import Image from 'next/image'
@@ -84,9 +80,8 @@ export async function generateMetadata({
   const page = await getPolicyPage(params.slug)
   if (!page) return {}
   return {
-    title: page.seo?.metaTitle || `${page.title} | Mesocratic Party`,
-    description:
-      page.seo?.metaDescription || page.tagline || `The Mesocratic Party's position on ${page.title}`,
+    title: page.seo?.metaTitle || undefined,
+    description: page.seo?.metaDescription || undefined,
   }
 }
 
@@ -124,9 +119,11 @@ export default async function PolicyPage({
           <p className="text-xs font-bold tracking-widest text-gray-400 uppercase mb-4">
             THE MESOCRATIC POSITION
           </p>
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-4">
-            {page.headline}
-          </h1>
+          {page.headline && (
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-4">
+              {page.headline}
+            </h1>
+          )}
           {page.tagline && (
             <p className="text-lg md:text-xl text-gray-300 max-w-2xl mx-auto">
               {page.tagline}
@@ -195,10 +192,11 @@ export default async function PolicyPage({
         />
 
         {/* ── FEC Disclaimer ────────────────────── */}
-        <p className="text-xs text-gray-400 text-center mt-12">
-          {siteSettings.fecDisclaimer ||
-            'Paid for by the Mesocratic National Committee. Not authorized by any candidate or candidate\'s committee.'}
-        </p>
+        {siteSettings.fecDisclaimer && (
+          <p className="text-xs text-gray-400 text-center mt-12">
+            {siteSettings.fecDisclaimer}
+          </p>
+        )}
       </article>
     </main>
   )

@@ -56,7 +56,7 @@ export async function generateMetadata({
 
   return {
     title: post.seo?.metaTitle || post.title,
-    description: post.seo?.metaDescription || post.excerpt,
+    description: post.seo?.metaDescription || post.excerpt || undefined,
   };
 }
 
@@ -82,9 +82,11 @@ export default async function NewsPostPage({
       {/* Hero */}
       <section className="bg-accent text-white py-16 sm:py-20 px-4 sm:px-6 lg:px-8">
         <div className="max-w-3xl mx-auto text-center">
-          <p className="text-sm uppercase tracking-[0.2em] font-semibold mb-4 text-white/60">
-            {categoryLabel(post.category)}
-          </p>
+          {post.category && (
+            <p className="text-sm uppercase tracking-[0.2em] font-semibold mb-4 text-white/60">
+              {categoryLabel(post.category)}
+            </p>
+          )}
           <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-4">
             {post.title}
           </h1>
@@ -119,12 +121,8 @@ export default async function NewsPostPage({
           </p>
         )}
 
-        {hasBody ? (
+        {hasBody && (
           <PortableTextRenderer value={post.body!} />
-        ) : (
-          <p className="text-primary/50 italic">
-            Full article coming soon.
-          </p>
         )}
 
         {/* Author Bio */}

@@ -4,13 +4,6 @@ import { client } from "@/sanity/lib/client";
 import { formPageContentQuery } from "@/sanity/lib/queries";
 import IdeaForm from "./IdeaForm";
 
-/* ── Fallbacks ── */
-const F = {
-  heroHeadline: "Submit a Policy Idea",
-  heroSubheadline:
-    "Have an idea that should be part of the Mesocratic platform? Submit it here. The best ideas will be brought to the CCX convention floor.",
-};
-
 export async function generateMetadata(): Promise<Metadata> {
   const content = await client.fetch(
     formPageContentQuery,
@@ -18,8 +11,8 @@ export async function generateMetadata(): Promise<Metadata> {
     { next: { revalidate: 60 } }
   );
   return {
-    title: content?.heroHeadline || "Submit a Policy Idea",
-    description: content?.heroSubheadline || F.heroSubheadline,
+    title: content?.heroHeadline || undefined,
+    description: content?.heroSubheadline || undefined,
   };
 }
 
@@ -41,12 +34,16 @@ export default async function SubmitIdeaPage() {
       {/* Hero */}
       <section className="bg-accent text-white py-16 sm:py-20 px-4 sm:px-6 lg:px-8">
         <div className="max-w-3xl mx-auto text-center">
-          <h1 className="text-4xl sm:text-5xl font-bold mb-4">
-            {content?.heroHeadline || F.heroHeadline}
-          </h1>
-          <p className="text-lg text-white/80 max-w-xl mx-auto">
-            {content?.heroSubheadline || F.heroSubheadline}
-          </p>
+          {content?.heroHeadline && (
+            <h1 className="text-4xl sm:text-5xl font-bold mb-4">
+              {content.heroHeadline}
+            </h1>
+          )}
+          {content?.heroSubheadline && (
+            <p className="text-lg text-white/80 max-w-xl mx-auto">
+              {content.heroSubheadline}
+            </p>
+          )}
         </div>
       </section>
 
@@ -67,12 +64,16 @@ export default async function SubmitIdeaPage() {
               {cmsCards.map(
                 (c: { headline?: string; body?: string }, i: number) => (
                   <div key={c.headline || i} className="bg-gray-light rounded-lg p-8">
-                    <h3 className="text-xl font-bold mb-3">
-                      {c.headline || ""}
-                    </h3>
-                    <p className="text-sm text-primary/70 leading-relaxed">
-                      {c.body || ""}
-                    </p>
+                    {c.headline && (
+                      <h3 className="text-xl font-bold mb-3">
+                        {c.headline}
+                      </h3>
+                    )}
+                    {c.body && (
+                      <p className="text-sm text-primary/70 leading-relaxed">
+                        {c.body}
+                      </p>
+                    )}
                   </div>
                 )
               )}
@@ -84,13 +85,6 @@ export default async function SubmitIdeaPage() {
       {/* Idea Submission Form */}
       <section className="bg-gray-light py-16 sm:py-20 px-4 sm:px-6 lg:px-8">
         <div className="max-w-md mx-auto">
-          <h2 className="text-3xl font-bold mb-3 text-center">
-            Your Idea
-          </h2>
-          <p className="text-primary/60 text-center mb-8">
-            Describe your policy idea below. Good ideas are specific, practical,
-            and focused on helping the middle class.
-          </p>
           <IdeaForm />
         </div>
       </section>
