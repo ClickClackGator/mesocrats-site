@@ -43,7 +43,7 @@ const navItems: NavItem[] = [
     label: "CCX",
     children: [
       { label: "What To Know", href: "/convention" },
-      { label: "Attend", href: "/convention/register" },
+      { label: "Participation", href: "/convention/register" },
       { label: "Submit Ideas", href: "/convention/ideas" },
     ],
   },
