@@ -1,7 +1,4 @@
 // app/studio/[[...tool]]/page.tsx
-//
-// This embeds Sanity Studio at mesocrats.org/studio
-// Access the CMS by visiting: https://mesocrats.org/studio
 
 'use client'
 

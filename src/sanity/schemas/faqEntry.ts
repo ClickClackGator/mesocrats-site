@@ -50,7 +50,7 @@ export default defineType({
         list: [
           { title: 'General', value: 'general' },
           { title: 'Membership', value: 'membership' },
-          { title: 'Convention X', value: 'ccx' },
+          { title: 'CCX', value: 'ccx' },
           { title: 'Platform', value: 'platform' },
           { title: 'Donations', value: 'donations' },
           { title: 'Candidates', value: 'candidates' },
