@@ -14,7 +14,7 @@ const navItems = [
     ],
   },
   { label: "Platform", href: "/platform" },
-  { label: "Convention", href: "/convention" },
+  { label: "CCX", href: "/convention" },
   {
     label: "Get Involved",
     children: [
