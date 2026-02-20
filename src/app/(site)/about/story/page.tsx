@@ -59,7 +59,7 @@ export default async function StoryPage() {
   return (
     <div>
       {/* Hero */}
-      <section className="bg-accent text-white py-16 sm:py-20 px-4 sm:px-6 lg:px-8">
+      <section className="relative bg-accent text-white py-16 sm:py-20 px-4 sm:px-6 lg:px-8">
         <div className="max-w-3xl mx-auto text-center">
           <p className="text-sm uppercase tracking-[0.2em] font-semibold mb-4 text-white/60">
             {page?.heroEyebrow || F.eyebrow}
@@ -71,6 +71,11 @@ export default async function StoryPage() {
             {page?.heroSubheadline || F.subheadline}
           </p>
         </div>
+        {page?.imageCredit && (
+          <span className="absolute bottom-2 right-3 text-xs text-white/50">
+            {page.imageCredit}
+          </span>
+        )}
       </section>
 
       <article className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-16 space-y-12">

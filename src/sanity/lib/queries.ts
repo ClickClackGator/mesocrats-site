@@ -47,6 +47,7 @@ export const homepageQuery = `
     heroCta2Label,
     heroCta2Link,
     "heroImage": heroImage.asset->url,
+    imageCredit,
     sections[] {
       _type,
       _key,
@@ -101,6 +102,7 @@ export const policyPageBySlugQuery = `
     icon,
     category,
     "heroImage": heroImage.asset->url,
+    imageCredit,
     realitySection,
     othersSaySection,
     whereWeStandSection,
@@ -126,6 +128,7 @@ export const pageBySlugQuery = `
     heroSubheadline,
     heroEyebrow,
     "heroImage": heroImage.asset->url,
+    imageCredit,
     content,
     sections[] {
       _type,

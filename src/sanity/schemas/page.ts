@@ -82,6 +82,13 @@ export default defineType({
       group: 'hero',
     }),
     defineField({
+      name: 'imageCredit',
+      title: 'Hero Image Credit',
+      type: 'string',
+      description: 'e.g. "Photo by Chris Henry on Unsplash"',
+      group: 'hero',
+    }),
+    defineField({
       name: 'heroCta1Label',
       title: 'Hero CTA 1 - Label',
       type: 'string',

@@ -95,6 +95,13 @@ export default defineType({
       options: { hotspot: true },
       group: 'hero',
     }),
+    defineField({
+      name: 'imageCredit',
+      title: 'Hero Image Credit',
+      type: 'string',
+      description: 'e.g. "Photo by Chris Henry on Unsplash"',
+      group: 'hero',
+    }),
 
     // ── Page Content Sections ─────────────────────
     // Each section is Portable Text for full rich-text editing

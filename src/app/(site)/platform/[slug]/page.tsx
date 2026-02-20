@@ -21,6 +21,7 @@ interface PolicyPageData {
   icon: string
   category: string
   heroImage: string | null
+  imageCredit: string | null
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   realitySection: any[]
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -130,6 +131,11 @@ export default async function PolicyPage({
             </p>
           )}
         </div>
+        {page.imageCredit && (
+          <span className="absolute bottom-2 right-3 text-xs text-white/50">
+            {page.imageCredit}
+          </span>
+        )}
       </section>
 
       {/* ── Content ─────────────────────────────── */}

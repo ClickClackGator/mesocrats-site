@@ -148,7 +148,7 @@ export default async function ConventionPage() {
   return (
     <div>
       {/* Hero */}
-      <section className="bg-primary text-white py-16 sm:py-24 px-4 sm:px-6 lg:px-8">
+      <section className="relative bg-primary text-white py-16 sm:py-24 px-4 sm:px-6 lg:px-8">
         <div className="max-w-4xl mx-auto text-center">
           <p className="text-sm uppercase tracking-[0.2em] font-semibold mb-4 text-white/60">
             {page?.heroEyebrow || F.heroEyebrow}
@@ -175,6 +175,11 @@ export default async function ConventionPage() {
             </Link>
           </div>
         </div>
+        {page?.imageCredit && (
+          <span className="absolute bottom-2 right-3 text-xs text-white/50">
+            {page.imageCredit}
+          </span>
+        )}
       </section>
 
       {/* Text sections: Why New Orleans, What Is CCX, 5000 Delegates */}
