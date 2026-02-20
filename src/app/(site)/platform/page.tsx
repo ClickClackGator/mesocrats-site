@@ -12,6 +12,7 @@ export const metadata: Metadata = { title: "Platform" };
 
 /* ── Fallbacks ── */
 const F = {
+  heroEyebrow: "Platform",
   heroHeadline: "This Is What We Stand For.",
   heroSubheadline: "Real positions. Real numbers. No hedging.",
   calloutHeadline: "A Platform Built by the People",
@@ -105,6 +106,9 @@ export default async function PlatformPage() {
           </>
         )}
         <div className="relative max-w-3xl mx-auto text-center">
+          <p className="text-sm uppercase tracking-[0.2em] font-semibold mb-4 text-white/60">
+            {page?.heroEyebrow || F.heroEyebrow}
+          </p>
           <h1 className="text-4xl sm:text-5xl font-bold mb-4">
             {page?.heroHeadline || F.heroHeadline}
           </h1>
