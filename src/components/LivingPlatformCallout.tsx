@@ -37,7 +37,7 @@ export default function LivingPlatformCallout({
   return (
     <section className="my-16 border border-gray-200 bg-gray-50 rounded-lg p-8 md:p-12">
       {/* Headline */}
-      <p className="text-xs font-bold tracking-widest text-[#2B5797] uppercase mb-4">
+      <p className="text-xs font-bold tracking-widest text-accent uppercase mb-4">
         {displayHeadline}
       </p>
 
@@ -57,7 +57,7 @@ export default function LivingPlatformCallout({
           <Link
             key={i}
             href={cta.url}
-            className="text-sm font-medium text-[#2B5797] hover:text-[#1d3d6b] underline underline-offset-2"
+            className="text-sm font-medium text-secondary hover:text-secondary-light underline underline-offset-2"
           >
             {cta.label} →
           </Link>

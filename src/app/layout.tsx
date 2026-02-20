@@ -20,6 +20,14 @@ export const metadata: Metadata = {
   },
   description:
     "The Mesocratic Party — a political party for the common-sense middle.",
+  icons: {
+    icon: "/favicon.ico",
+    apple: "/apple-touch-icon.png",
+    other: [{ rel: "icon", url: "/icon-192.png", sizes: "192x192" }],
+  },
+  openGraph: {
+    images: [{ url: "/og-image.png", width: 1667, height: 1667 }],
+  },
 };
 
 export default function RootLayout({

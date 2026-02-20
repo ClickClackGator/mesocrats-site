@@ -24,7 +24,7 @@ export default function LivingPlatform() {
             <li>
               <Link
                 href="/involved/join"
-                className="text-accent hover:underline font-medium"
+                className="text-secondary hover:underline font-medium"
               >
                 Join the Party
               </Link>{" "}
@@ -36,7 +36,7 @@ export default function LivingPlatform() {
             <li>
               <Link
                 href="/convention"
-                className="text-accent hover:underline font-medium"
+                className="text-secondary hover:underline font-medium"
               >
                 Submit an Idea
               </Link>{" "}
@@ -47,7 +47,7 @@ export default function LivingPlatform() {
             <li>
               <Link
                 href="/convention"
-                className="text-accent hover:underline font-medium"
+                className="text-secondary hover:underline font-medium"
               >
                 Learn about CCX
               </Link>{" "}
@@ -59,7 +59,7 @@ export default function LivingPlatform() {
             <li>
               <Link
                 href="/platform/how-it-works"
-                className="text-accent hover:underline font-medium"
+                className="text-secondary hover:underline font-medium"
               >
                 How Our Platform Works
               </Link>{" "}

@@ -112,7 +112,7 @@ export default async function PlatformPage() {
           </p>
           <Link
             href={calloutBlock?.linkUrl || F.calloutLinkUrl}
-            className="text-accent font-semibold hover:underline text-sm"
+            className="text-secondary font-semibold hover:underline text-sm"
           >
             {calloutBlock?.linkText || F.calloutLinkText}
           </Link>
@@ -134,7 +134,7 @@ export default async function PlatformPage() {
               <p className="text-sm text-primary/70 leading-relaxed flex-1">
                 {pos.summary}
               </p>
-              <span className="text-accent font-semibold text-sm mt-4">
+              <span className="text-secondary font-semibold text-sm mt-4">
                 Read more &rarr;
               </span>
             </Link>
@@ -155,7 +155,7 @@ export default async function PlatformPage() {
               <Link
                 key={cta.label || i}
                 href={cta.url || "#"}
-                className="text-accent font-semibold hover:underline text-sm"
+                className="text-secondary font-semibold hover:underline text-sm"
               >
                 {cta.label}
               </Link>

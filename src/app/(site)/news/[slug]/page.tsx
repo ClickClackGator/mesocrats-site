@@ -156,7 +156,7 @@ export default async function NewsPostPage({
         <div className="mt-12">
           <Link
             href="/news"
-            className="text-accent font-semibold hover:underline"
+            className="text-secondary font-semibold hover:underline"
           >
             &larr; Back to News
           </Link>

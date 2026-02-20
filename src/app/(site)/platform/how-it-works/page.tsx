@@ -242,13 +242,13 @@ export default async function HowItWorksPage() {
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link
               href={ctaSection?.secondaryLink || "/convention"}
-              className="text-accent font-semibold hover:underline"
+              className="text-secondary font-semibold hover:underline"
             >
               {ctaSection?.secondaryLabel || "Learn about Constitutional Convention X \u2192"}
             </Link>
             <Link
               href={ctaSection?.linkUrl || "/convention"}
-              className="text-accent font-semibold hover:underline"
+              className="text-secondary font-semibold hover:underline"
             >
               {ctaSection?.linkText || "Submit a Policy Idea \u2192"}
             </Link>

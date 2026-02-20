@@ -114,7 +114,7 @@ export default function DisclosuresPage() {
             requirements, contact us at{" "}
             <a
               href="mailto:info@mesocrats.org"
-              className="text-accent hover:underline"
+              className="text-secondary hover:underline"
             >
               info@mesocrats.org
             </a>

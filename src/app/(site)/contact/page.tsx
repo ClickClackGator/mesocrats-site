@@ -99,7 +99,7 @@ export default async function ContactPage() {
                   {c.email && (
                     <a
                       href={`mailto:${c.email}`}
-                      className="text-accent hover:underline text-sm"
+                      className="text-secondary hover:underline text-sm"
                     >
                       {c.email}
                     </a>

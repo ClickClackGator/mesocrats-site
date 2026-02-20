@@ -121,7 +121,7 @@ export default function PrivacyPage() {
             personal information by contacting us at{" "}
             <a
               href="mailto:info@mesocrats.org"
-              className="text-accent hover:underline"
+              className="text-secondary hover:underline"
             >
               info@mesocrats.org
             </a>
@@ -148,7 +148,7 @@ export default function PrivacyPage() {
             Questions about this Privacy Policy? Contact us at{" "}
             <a
               href="mailto:info@mesocrats.org"
-              className="text-accent hover:underline"
+              className="text-secondary hover:underline"
             >
               info@mesocrats.org
             </a>{" "}

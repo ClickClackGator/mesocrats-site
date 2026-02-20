@@ -139,7 +139,7 @@ export default function TermsPage() {
             Questions about these Terms of Service? Contact us at{" "}
             <a
               href="mailto:info@mesocrats.org"
-              className="text-accent hover:underline"
+              className="text-secondary hover:underline"
             >
               info@mesocrats.org
             </a>{" "}

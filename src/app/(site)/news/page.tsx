@@ -90,7 +90,7 @@ export default async function NewsPage() {
                     </div>
                   )}
                   <div className="p-8 flex flex-col flex-1">
-                    <span className="text-xs font-semibold uppercase tracking-wider text-accent">
+                    <span className="text-xs font-semibold uppercase tracking-wider text-secondary">
                       {categoryLabel(post.category)}
                     </span>
                     <h2 className="text-xl font-bold mt-2 mb-3">
@@ -124,7 +124,7 @@ export default async function NewsPage() {
                   key={article.title}
                   className="bg-gray-light rounded-lg p-8"
                 >
-                  <span className="text-xs font-semibold uppercase tracking-wider text-accent">
+                  <span className="text-xs font-semibold uppercase tracking-wider text-secondary">
                     {article.category}
                   </span>
                   <h2 className="text-xl font-bold mt-2 mb-3">

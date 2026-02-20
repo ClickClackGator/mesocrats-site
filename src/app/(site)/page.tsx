@@ -101,7 +101,7 @@ export default async function Home() {
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link
               href={homepage?.heroCta1Link || F.heroCta1Link}
-              className="bg-white text-accent font-bold px-8 py-3 rounded hover:bg-gray-light transition-colors text-center"
+              className="bg-cta text-white font-bold px-8 py-3 rounded hover:bg-cta-light transition-colors text-center"
             >
               {homepage?.heroCta1Label || F.heroCta1Label}
             </Link>
@@ -167,7 +167,7 @@ export default async function Home() {
           <div className="text-center mt-10">
             <Link
               href="/platform"
-              className="text-accent font-semibold hover:underline"
+              className="text-secondary font-semibold hover:underline"
             >
               We have positions on 15 issues. See our full platform &rarr;
             </Link>
@@ -200,7 +200,7 @@ export default async function Home() {
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link
               href={ctaSection?.ctaLink || F.ccxCtaLink}
-              className="bg-accent hover:bg-accent-light text-white font-bold px-8 py-3 rounded transition-colors text-center"
+              className="bg-cta hover:bg-cta-light text-white font-bold px-8 py-3 rounded transition-colors text-center"
             >
               {ctaSection?.ctaLabel || F.ccxCtaLabel}
             </Link>
@@ -240,7 +240,7 @@ export default async function Home() {
             {newsItems.map((article: any, i: number) => {
               const card = (
                 <div key={article._id || i} className="bg-white rounded-lg p-6">
-                  <span className="text-xs font-semibold uppercase tracking-wider text-accent">
+                  <span className="text-xs font-semibold uppercase tracking-wider text-secondary">
                     {categoryLabel(article.category)}
                   </span>
                   <h3 className="text-lg font-bold mt-2 mb-2">
@@ -270,7 +270,7 @@ export default async function Home() {
           <div className="mt-8 text-center">
             <Link
               href="/news"
-              className="text-accent font-semibold hover:underline"
+              className="text-secondary font-semibold hover:underline"
             >
               See all news &rarr;
             </Link>

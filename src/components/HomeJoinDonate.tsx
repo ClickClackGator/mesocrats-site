@@ -31,7 +31,7 @@ export default function HomeJoinDonate() {
             />
             <button
               type="submit"
-              className="w-full bg-accent hover:bg-accent-light text-white font-bold py-3 rounded transition-colors"
+              className="w-full bg-cta hover:bg-cta-light text-white font-bold py-3 rounded transition-colors"
             >
               I&apos;M IN
             </button>
@@ -62,7 +62,7 @@ export default function HomeJoinDonate() {
             />
             <button
               type="submit"
-              className="bg-accent hover:bg-accent-light text-white font-bold px-6 py-3 rounded transition-colors whitespace-nowrap"
+              className="bg-cta hover:bg-cta-light text-white font-bold px-6 py-3 rounded transition-colors whitespace-nowrap"
             >
               NOTIFY ME
             </button>
