@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 import { client } from "@/sanity/lib/client";
 import {
@@ -90,8 +91,20 @@ export default async function PlatformPage() {
   return (
     <div>
       {/* Hero */}
-      <section className="relative bg-accent text-white py-16 sm:py-20 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-3xl mx-auto text-center">
+      <section className="relative bg-accent text-white py-16 sm:py-20 px-4 sm:px-6 lg:px-8 overflow-hidden">
+        {page?.heroImage && (
+          <>
+            <Image
+              src={page.heroImage}
+              alt=""
+              fill
+              className="object-cover"
+              priority
+            />
+            <div className="absolute inset-0 bg-black/60" />
+          </>
+        )}
+        <div className="relative max-w-3xl mx-auto text-center">
           <h1 className="text-4xl sm:text-5xl font-bold mb-4">
             {page?.heroHeadline || F.heroHeadline}
           </h1>

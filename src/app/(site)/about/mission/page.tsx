@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import PortableTextRenderer from "@/components/PortableTextRenderer";
 import { client } from "@/sanity/lib/client";
 import { pageBySlugQuery } from "@/sanity/lib/queries";
@@ -36,8 +37,20 @@ export default async function MissionPage() {
   return (
     <div>
       {/* Hero */}
-      <section className="relative bg-accent text-white py-16 sm:py-20 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-3xl mx-auto text-center">
+      <section className="relative bg-accent text-white py-16 sm:py-20 px-4 sm:px-6 lg:px-8 overflow-hidden">
+        {page?.heroImage && (
+          <>
+            <Image
+              src={page.heroImage}
+              alt=""
+              fill
+              className="object-cover"
+              priority
+            />
+            <div className="absolute inset-0 bg-black/60" />
+          </>
+        )}
+        <div className="relative max-w-3xl mx-auto text-center">
           <p className="text-sm uppercase tracking-[0.2em] font-semibold mb-4 text-white/60">
             {page?.heroEyebrow || F.eyebrow}
           </p>

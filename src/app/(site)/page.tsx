@@ -87,8 +87,20 @@ export default async function Home() {
   return (
     <div>
       {/* ──────────── 1. Hero ──────────── */}
-      <section className="relative bg-accent text-white py-20 sm:py-28 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-4xl mx-auto text-center">
+      <section className="relative bg-accent text-white py-20 sm:py-28 px-4 sm:px-6 lg:px-8 overflow-hidden">
+        {homepage?.heroImage && (
+          <>
+            <Image
+              src={homepage.heroImage}
+              alt=""
+              fill
+              className="object-cover"
+              priority
+            />
+            <div className="absolute inset-0 bg-black/60" />
+          </>
+        )}
+        <div className="relative max-w-4xl mx-auto text-center">
           <p className="text-sm sm:text-base uppercase tracking-[0.25em] font-semibold mb-4 text-white/70">
             {homepage?.heroEyebrow || F.heroEyebrow}
           </p>

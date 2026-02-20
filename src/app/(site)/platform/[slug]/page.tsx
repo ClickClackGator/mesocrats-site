@@ -5,6 +5,7 @@
 // Adapt this pattern to your existing page structure.
 
 import { notFound } from 'next/navigation'
+import Image from 'next/image'
 import { client } from '@/sanity/lib/client'
 import { policyPageBySlugQuery, siteSettingsQuery } from '@/sanity/lib/queries'
 import PortableTextRenderer from '@/components/PortableTextRenderer'
@@ -105,19 +106,20 @@ export default async function PolicyPage({
   return (
     <main>
       {/* ── Hero ────────────────────────────────── */}
-      <section
-        className="relative py-20 md:py-32 bg-gray-900 text-white"
-        style={
-          page.heroImage
-            ? {
-                backgroundImage: `linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url(${page.heroImage})`,
-                backgroundSize: 'cover',
-                backgroundPosition: 'center',
-              }
-            : undefined
-        }
-      >
-        <div className="max-w-4xl mx-auto px-6 text-center">
+      <section className="relative py-20 md:py-32 bg-gray-900 text-white overflow-hidden">
+        {page.heroImage && (
+          <>
+            <Image
+              src={page.heroImage}
+              alt=""
+              fill
+              className="object-cover"
+              priority
+            />
+            <div className="absolute inset-0 bg-black/60" />
+          </>
+        )}
+        <div className="relative max-w-4xl mx-auto px-6 text-center">
           {/* Section label */}
           <p className="text-xs font-bold tracking-widest text-gray-400 uppercase mb-4">
             THE MESOCRATIC POSITION
