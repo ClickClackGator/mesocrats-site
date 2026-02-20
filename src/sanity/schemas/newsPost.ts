@@ -151,7 +151,8 @@ export default defineType({
     prepare({ title, date, media, authorName }: {
       title?: string
       date?: string
-      media?: unknown
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      media?: any
       authorName?: string
     }) {
       const formattedDate = date

@@ -232,6 +232,7 @@ export default defineType({
           name: 'ctaSection',
           title: 'CTA Section',
           fields: [
+            { name: 'label', title: 'Section Label / Eyebrow', type: 'string' },
             { name: 'headline', title: 'Headline', type: 'string' },
             { name: 'body', title: 'Body', type: 'text', rows: 3 },
             { name: 'ctaLabel', title: 'Button Label', type: 'string' },

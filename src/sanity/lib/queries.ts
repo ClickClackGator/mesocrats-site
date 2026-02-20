@@ -11,11 +11,24 @@ export const siteSettingsQuery = `
   *[_type == "siteSettings"][0] {
     missionStatement,
     missionStatementShort,
+    missionBarText,
     primaryTagline,
     secondaryTaglines,
     fecDisclaimer,
-    footerContent,
+    copyrightText,
+    footerColumns[] {
+      heading,
+      links[] { label, url },
+    },
+    socialLinks[] {
+      platform,
+      url,
+      handle,
+    },
     "heroImage": heroImage.asset->url,
+    livingPlatformHeadline,
+    livingPlatformBody,
+    livingPlatformCtas[] { label, url },
   }
 `
 
@@ -26,6 +39,7 @@ export const siteSettingsQuery = `
 export const homepageQuery = `
   *[_type == "page" && slug.current == "home"][0] {
     title,
+    heroEyebrow,
     heroHeadline,
     heroSubheadline,
     heroCta1Label,
@@ -33,10 +47,10 @@ export const homepageQuery = `
     heroCta2Label,
     heroCta2Link,
     "heroImage": heroImage.asset->url,
-    missionBarText,
     sections[] {
       _type,
       _key,
+      label,
       headline,
       subheadline,
       body,
@@ -49,6 +63,10 @@ export const homepageQuery = `
       },
       ctaLabel,
       ctaLink,
+      secondaryLabel,
+      secondaryLink,
+      linkText,
+      linkUrl,
     }
   }
 `
@@ -88,6 +106,10 @@ export const policyPageBySlugQuery = `
     whereWeStandSection,
     whatItMeansSection,
     livingPlatformCallout,
+    seo {
+      metaTitle,
+      metaDescription,
+    },
   }
 `
 
@@ -108,6 +130,7 @@ export const pageBySlugQuery = `
     sections[] {
       _type,
       _key,
+      label,
       headline,
       subheadline,
       body,
@@ -120,6 +143,10 @@ export const pageBySlugQuery = `
       },
       ctaLabel,
       ctaLink,
+      secondaryLabel,
+      secondaryLink,
+      linkText,
+      linkUrl,
     },
     seo {
       metaTitle,
@@ -205,8 +232,21 @@ export const allTeamMembersQuery = `
     name,
     title,
     bio,
+    shortBio,
     "image": image.asset->url,
     order,
+  }
+`
+
+// Single team member by name (for founder bio, etc.)
+export const teamMemberByNameQuery = `
+  *[_type == "teamMember" && name == $name][0] {
+    _id,
+    name,
+    title,
+    bio,
+    shortBio,
+    "image": image.asset->url,
   }
 `
 

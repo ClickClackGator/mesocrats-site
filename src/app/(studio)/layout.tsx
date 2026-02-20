@@ -3,6 +3,8 @@
 // Minimal layout for the Studio route.
 // Prevents the main site layout (nav, footer) from wrapping the Studio.
 
+import React from 'react'
+
 export const metadata = {
   title: 'Mesocratic Party CMS',
 }

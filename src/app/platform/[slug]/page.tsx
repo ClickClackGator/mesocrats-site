@@ -6,7 +6,7 @@
 
 import { notFound } from 'next/navigation'
 import { client } from '@/sanity/lib/client'
-import { policyPageBySlugQuery, allPolicyPagesQuery, siteSettingsQuery } from '@/sanity/lib/queries'
+import { policyPageBySlugQuery, siteSettingsQuery } from '@/sanity/lib/queries'
 import PortableTextRenderer from '@/components/PortableTextRenderer'
 import LivingPlatformCallout from '@/components/LivingPlatformCallout'
 import type { Metadata } from 'next'
@@ -21,9 +21,13 @@ interface PolicyPageData {
   icon: string
   category: string
   heroImage: string | null
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   realitySection: any[]
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   othersSaySection: any[]
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   whereWeStandSection: any[]
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   whatItMeansSection: any[]
   livingPlatformCallout: {
     useDefault: boolean
@@ -55,14 +59,16 @@ async function getSiteSettings(): Promise<SiteSettingsData> {
   return client.fetch(
     siteSettingsQuery,
     {},
-    { next: { revalidate: 300 } }
+    { next: { revalidate: 60 } }
   )
 }
 
 // ── Static Params (for build-time generation) ─────
 export async function generateStaticParams() {
   const pages = await client.fetch(
-    `*[_type == "policyPage"]{ "slug": slug.current }`
+    `*[_type == "policyPage"]{ "slug": slug.current }`,
+    {},
+    { next: { revalidate: 60 } }
   )
   return pages.map((page: { slug: string }) => ({ slug: page.slug }))
 }

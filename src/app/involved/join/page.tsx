@@ -1,39 +1,76 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import PortableTextRenderer from "@/components/PortableTextRenderer";
+import { client } from "@/sanity/lib/client";
+import { formPageContentQuery } from "@/sanity/lib/queries";
 import JoinForm from "./JoinForm";
 
-export const metadata: Metadata = { title: "Join" };
+/* ── Fallbacks ── */
+const F = {
+  heroHeadline: "This Is Your Party. Come Build It.",
+  heroSubheadline:
+    "Membership is free. It takes 30 seconds. And it means you\u2019re part of what comes next.",
+  cardsHeadline: "Why Join the Mesocratic Party",
+  cards: [
+    {
+      title: "Have a Voice",
+      description:
+        "Members vote on policy, elect delegates, and shape the direction of the party. This isn\u2019t a mailing list. It\u2019s a seat at the table.",
+    },
+    {
+      title: "Build Something New",
+      description:
+        "You\u2019re not joining an institution. You\u2019re helping build one. Every member who joins now is a founding member of the Mesocratic Party.",
+    },
+    {
+      title: "It\u2019s Free",
+      description:
+        "Membership costs nothing. No dues. No fees. We believe access to a political party should never be behind a paywall.",
+    },
+  ],
+};
 
-const whyJoin = [
-  {
-    title: "Have a Voice",
-    description:
-      "Members vote on policy, elect delegates, and shape the direction of the party. This isn\u2019t a mailing list. It\u2019s a seat at the table.",
-  },
-  {
-    title: "Build Something New",
-    description:
-      "You\u2019re not joining an institution. You\u2019re helping build one. Every member who joins now is a founding member of the Mesocratic Party.",
-  },
-  {
-    title: "It\u2019s Free",
-    description:
-      "Membership costs nothing. No dues. No fees. We believe access to a political party should never be behind a paywall.",
-  },
-];
+export async function generateMetadata(): Promise<Metadata> {
+  const content = await client.fetch(
+    formPageContentQuery,
+    { formType: "join" },
+    { next: { revalidate: 60 } }
+  );
+  return {
+    title: content?.heroHeadline || "Join",
+    description: content?.heroSubheadline || F.heroSubheadline,
+  };
+}
 
-export default function JoinPage() {
+export default async function JoinPage() {
+  const content = await client.fetch(
+    formPageContentQuery,
+    { formType: "join" },
+    { next: { revalidate: 60 } }
+  );
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const cmsCards = content?.cards as any[] | undefined;
+  const cards =
+    cmsCards && cmsCards.length > 0
+      ? cmsCards.map((c: { headline?: string; body?: string }) => ({
+          title: c.headline || "",
+          description: c.body || "",
+        }))
+      : F.cards;
+
+  const hasBodyContent = content?.bodyContent && content.bodyContent.length > 0;
+
   return (
     <div>
       {/* Hero */}
       <section className="bg-accent text-white py-16 sm:py-20 px-4 sm:px-6 lg:px-8">
         <div className="max-w-3xl mx-auto text-center">
           <h1 className="text-4xl sm:text-5xl font-bold mb-4">
-            This Is Your Party. Come Build It.
+            {content?.heroHeadline || F.heroHeadline}
           </h1>
           <p className="text-lg text-white/80 max-w-xl mx-auto">
-            Membership is free. It takes 30 seconds. And it means you&apos;re
-            part of what comes next.
+            {content?.heroSubheadline || F.heroSubheadline}
           </p>
         </div>
       </section>
@@ -42,10 +79,10 @@ export default function JoinPage() {
       <section className="py-16 sm:py-20 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">
           <h2 className="text-3xl font-bold mb-10 text-center">
-            Why Join the Mesocratic Party
+            {F.cardsHeadline}
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {whyJoin.map((item) => (
+            {cards.map((item) => (
               <div key={item.title} className="bg-gray-light rounded-lg p-8">
                 <h3 className="text-xl font-bold mb-3">{item.title}</h3>
                 <p className="text-sm text-primary/70 leading-relaxed">
@@ -56,6 +93,15 @@ export default function JoinPage() {
           </div>
         </div>
       </section>
+
+      {/* CMS Body Content (if present) */}
+      {hasBodyContent && (
+        <section className="py-16 sm:py-20 px-4 sm:px-6 lg:px-8">
+          <div className="max-w-3xl mx-auto">
+            <PortableTextRenderer value={content.bodyContent} />
+          </div>
+        </section>
+      )}
 
       {/* Signup Form */}
       <section className="bg-gray-light py-16 sm:py-20 px-4 sm:px-6 lg:px-8">

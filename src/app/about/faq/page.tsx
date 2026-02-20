@@ -1,13 +1,16 @@
 import type { Metadata } from "next";
 import Accordion from "@/components/Accordion";
+import PortableTextRenderer from "@/components/PortableTextRenderer";
+import { client } from "@/sanity/lib/client";
+import { allFaqEntriesQuery } from "@/sanity/lib/queries";
 
 export const metadata: Metadata = { title: "FAQ" };
 
-const faqItems = [
+const FALLBACK_ITEMS = [
   {
     question: "What is the Mesocratic Party?",
     answer:
-      "The Mesocratic Party is a new American political party built to protect the middle class and hold the political center. We take real positions on real issues — healthcare, taxes, voting, infrastructure, and more — without hedging or spin. We\u2019re not left. We\u2019re not right. We\u2019re the reason the whole thing works.",
+      "The Mesocratic Party is a new American political party built to protect the middle class and hold the political center. We take real positions on real issues \u2014 healthcare, taxes, voting, infrastructure, and more \u2014 without hedging or spin. We\u2019re not left. We\u2019re not right. We\u2019re the reason the whole thing works.",
   },
   {
     question: "What does \u201CMesocratic\u201D mean?",
@@ -32,7 +35,7 @@ const faqItems = [
   {
     question: "What is Convention X?",
     answer:
-      "Constitutional Convention X (CCX) is our founding convention, scheduled for May 2027 in New Orleans, Louisiana. Five thousand elected state delegates will gather to draft the party\u2019s core tenets, debate the platform, and elect national leadership. It\u2019s how the Mesocratic Party becomes official — built from the ground up by its members.",
+      "Constitutional Convention X (CCX) is our founding convention, scheduled for May 2027 in New Orleans, Louisiana. Five thousand elected state delegates will gather to draft the party\u2019s core tenets, debate the platform, and elect national leadership. It\u2019s how the Mesocratic Party becomes official \u2014 built from the ground up by its members.",
   },
   {
     question: "How do I become a delegate?",
@@ -61,7 +64,28 @@ const faqItems = [
   },
 ];
 
-export default function FAQPage() {
+export default async function FAQPage() {
+  const entries = await client.fetch(
+    allFaqEntriesQuery,
+    {},
+    { next: { revalidate: 60 } }
+  );
+
+  const useCms = entries && entries.length > 0;
+
+  // Build accordion items — CMS answers are Portable Text, fallbacks are strings
+  const items = useCms
+    ? // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      entries.map((entry: any) => ({
+        question: entry.question,
+        answer: entry.answer ? (
+          <PortableTextRenderer value={entry.answer} />
+        ) : (
+          ""
+        ),
+      }))
+    : FALLBACK_ITEMS;
+
   return (
     <div>
       {/* Hero */}
@@ -80,7 +104,7 @@ export default function FAQPage() {
       </section>
 
       <section className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-        <Accordion items={faqItems} />
+        <Accordion items={items} />
       </section>
     </div>
   );
