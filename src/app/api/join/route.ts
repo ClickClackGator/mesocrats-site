@@ -24,17 +24,30 @@ export async function POST(req: Request) {
 
     if (dbError) throw dbError;
 
-    await sendEmail({
-      to: "info@mesocrats.org",
-      subject: "New Member Signup",
-      html: `
-        <h2>New Member Signup</h2>
-        <p><strong>Email:</strong> ${email}</p>
-        ${firstName ? `<p><strong>First Name:</strong> ${firstName}</p>` : ""}
-        ${lastName ? `<p><strong>Last Name:</strong> ${lastName}</p>` : ""}
-        ${state ? `<p><strong>State:</strong> ${state}</p>` : ""}
-      `,
-    });
+    await Promise.all([
+      sendEmail({
+        to: "info@mesocrats.org",
+        subject: "New Member Signup",
+        html: `
+          <h2>New Member Signup</h2>
+          <p><strong>Email:</strong> ${email}</p>
+          ${firstName ? `<p><strong>First Name:</strong> ${firstName}</p>` : ""}
+          ${lastName ? `<p><strong>Last Name:</strong> ${lastName}</p>` : ""}
+          ${state ? `<p><strong>State:</strong> ${state}</p>` : ""}
+        `,
+      }),
+      sendEmail({
+        to: email,
+        subject: "Welcome to the Mesocratic Party!",
+        html: `
+          <h2>Welcome to the Mesocratic Party!</h2>
+          <p>Thank you for joining. You're now part of a movement to protect the middle class and hold the middle ground that keeps this country together.</p>
+          <p>We'll keep you updated on what's happening — from Convention X to local races to new policy positions.</p>
+          <p>In the meantime, explore the party at <a href="https://mesocrats.org">mesocrats.org</a>.</p>
+          <p>— The Mesocratic Party</p>
+        `,
+      }),
+    ]);
 
     return NextResponse.json({ success: true });
   } catch (err) {

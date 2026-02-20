@@ -26,18 +26,30 @@ export async function POST(req: Request) {
 
     if (dbError) throw dbError;
 
-    await sendEmail({
-      to: "info@mesocrats.org",
-      subject: "New Candidate Interest",
-      html: `
-        <h2>New Candidate Interest</h2>
-        <p><strong>Name:</strong> ${firstName} ${lastName}</p>
-        <p><strong>Email:</strong> ${email}</p>
-        <p><strong>State:</strong> ${state}</p>
-        <p><strong>Office Level:</strong> ${office}</p>
-        ${message ? `<p><strong>Message:</strong> ${message}</p>` : ""}
-      `,
-    });
+    await Promise.all([
+      sendEmail({
+        to: "info@mesocrats.org",
+        subject: "New Candidate Interest",
+        html: `
+          <h2>New Candidate Interest</h2>
+          <p><strong>Name:</strong> ${firstName} ${lastName}</p>
+          <p><strong>Email:</strong> ${email}</p>
+          <p><strong>State:</strong> ${state}</p>
+          <p><strong>Office Level:</strong> ${office}</p>
+          ${message ? `<p><strong>Message:</strong> ${message}</p>` : ""}
+        `,
+      }),
+      sendEmail({
+        to: email,
+        subject: "Thanks for Your Interest in Running",
+        html: `
+          <h2>Thanks for Your Interest in Running</h2>
+          <p>Thank you for considering a run for office as a Mesocrat, ${firstName}. It takes courage to step up, and we're glad you're thinking about it.</p>
+          <p>A member of our team will reach out to discuss how we can support you.</p>
+          <p>— The Mesocratic Party</p>
+        `,
+      }),
+    ]);
 
     return NextResponse.json({ success: true });
   } catch (err) {

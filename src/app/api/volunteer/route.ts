@@ -28,18 +28,30 @@ export async function POST(req: Request) {
 
     if (dbError) throw dbError;
 
-    await sendEmail({
-      to: "info@mesocrats.org",
-      subject: "New Volunteer Signup",
-      html: `
-        <h2>New Volunteer Signup</h2>
-        <p><strong>Name:</strong> ${firstName} ${lastName}</p>
-        <p><strong>Email:</strong> ${email}</p>
-        <p><strong>State:</strong> ${state}</p>
-        <p><strong>Track:</strong> ${track}</p>
-        ${message ? `<p><strong>Message:</strong> ${message}</p>` : ""}
-      `,
-    });
+    await Promise.all([
+      sendEmail({
+        to: "info@mesocrats.org",
+        subject: "New Volunteer Signup",
+        html: `
+          <h2>New Volunteer Signup</h2>
+          <p><strong>Name:</strong> ${firstName} ${lastName}</p>
+          <p><strong>Email:</strong> ${email}</p>
+          <p><strong>State:</strong> ${state}</p>
+          <p><strong>Track:</strong> ${track}</p>
+          ${message ? `<p><strong>Message:</strong> ${message}</p>` : ""}
+        `,
+      }),
+      sendEmail({
+        to: email,
+        subject: "Thanks for Volunteering!",
+        html: `
+          <h2>Thanks for Volunteering!</h2>
+          <p>We appreciate you stepping up, ${firstName}. You signed up for the <strong>${track}</strong> volunteer track, and we'll be in touch soon with next steps.</p>
+          <p>The Mesocratic Party is built by people like you. Thank you for being part of it.</p>
+          <p>— The Mesocratic Party</p>
+        `,
+      }),
+    ]);
 
     return NextResponse.json({ success: true });
   } catch (err) {

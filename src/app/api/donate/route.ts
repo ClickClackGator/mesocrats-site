@@ -20,14 +20,26 @@ export async function POST(req: Request) {
 
     if (dbError) throw dbError;
 
-    await sendEmail({
-      to: "info@mesocrats.org",
-      subject: "Donate Notification Signup",
-      html: `
-        <h2>Donate Notification Signup</h2>
-        <p><strong>Email:</strong> ${email}</p>
-      `,
-    });
+    await Promise.all([
+      sendEmail({
+        to: "info@mesocrats.org",
+        subject: "Donate Notification Signup",
+        html: `
+          <h2>Donate Notification Signup</h2>
+          <p><strong>Email:</strong> ${email}</p>
+        `,
+      }),
+      sendEmail({
+        to: email,
+        subject: "You're on the Donate List!",
+        html: `
+          <h2>You're on the Donate List!</h2>
+          <p>Thank you for your interest in supporting the Mesocratic Party. We're building the donation platform now, and you'll be the first to know when it's ready.</p>
+          <p>Every dollar will go directly to building this party and getting Mesocrats on ballots.</p>
+          <p>— The Mesocratic Party</p>
+        `,
+      }),
+    ]);
 
     return NextResponse.json({ success: true });
   } catch (err) {

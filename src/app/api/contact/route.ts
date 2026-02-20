@@ -19,18 +19,29 @@ export async function POST(req: Request) {
 
     if (dbError) throw dbError;
 
-    await sendEmail({
-      to: "info@mesocrats.org",
-      subject: `Contact Form: ${subject}`,
-      html: `
-        <h2>New Contact Form Submission</h2>
-        <p><strong>Name:</strong> ${name}</p>
-        <p><strong>Email:</strong> ${email}</p>
-        <p><strong>Subject:</strong> ${subject}</p>
-        <p><strong>Message:</strong></p>
-        <p>${message}</p>
-      `,
-    });
+    await Promise.all([
+      sendEmail({
+        to: "info@mesocrats.org",
+        subject: `Contact Form: ${subject}`,
+        html: `
+          <h2>New Contact Form Submission</h2>
+          <p><strong>Name:</strong> ${name}</p>
+          <p><strong>Email:</strong> ${email}</p>
+          <p><strong>Subject:</strong> ${subject}</p>
+          <p><strong>Message:</strong></p>
+          <p>${message}</p>
+        `,
+      }),
+      sendEmail({
+        to: email,
+        subject: "We Received Your Message",
+        html: `
+          <h2>We Received Your Message</h2>
+          <p>Thanks for reaching out to the Mesocratic Party. We've received your message and will get back to you as soon as we can.</p>
+          <p>— The Mesocratic Party</p>
+        `,
+      }),
+    ]);
 
     return NextResponse.json({ success: true });
   } catch (err) {

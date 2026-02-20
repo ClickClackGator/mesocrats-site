@@ -32,19 +32,31 @@ export async function POST(req: Request) {
 
     if (dbError) throw dbError;
 
-    await sendEmail({
-      to: "info@mesocrats.org",
-      subject: `New Policy Idea: ${title}`,
-      html: `
-        <h2>New Policy Idea Submission</h2>
-        <p><strong>Name:</strong> ${firstName} ${lastName}</p>
-        <p><strong>Email:</strong> ${email}</p>
-        <p><strong>Policy Area:</strong> ${policyArea}</p>
-        <p><strong>Title:</strong> ${title}</p>
-        <p><strong>Description:</strong></p>
-        <p>${description}</p>
-      `,
-    });
+    await Promise.all([
+      sendEmail({
+        to: "info@mesocrats.org",
+        subject: `New Policy Idea: ${title}`,
+        html: `
+          <h2>New Policy Idea Submission</h2>
+          <p><strong>Name:</strong> ${firstName} ${lastName}</p>
+          <p><strong>Email:</strong> ${email}</p>
+          <p><strong>Policy Area:</strong> ${policyArea}</p>
+          <p><strong>Title:</strong> ${title}</p>
+          <p><strong>Description:</strong></p>
+          <p>${description}</p>
+        `,
+      }),
+      sendEmail({
+        to: email,
+        subject: "Policy Idea Received!",
+        html: `
+          <h2>Policy Idea Received!</h2>
+          <p>Thank you for submitting your policy idea, ${firstName}. It's been logged and will be reviewed as we build the Mesocratic platform.</p>
+          <p>The best ideas come from the people — and that's exactly how we're building this party.</p>
+          <p>— The Mesocratic Party</p>
+        `,
+      }),
+    ]);
 
     return NextResponse.json({ success: true });
   } catch (err) {
