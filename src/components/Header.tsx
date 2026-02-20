@@ -4,7 +4,26 @@ import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
 
-const navItems = [
+interface NavChild {
+  label: string;
+  href: string;
+}
+
+interface NavItemWithChildren {
+  label: string;
+  href?: undefined;
+  children: NavChild[];
+}
+
+interface NavItemDirect {
+  label: string;
+  href: string;
+  children?: undefined;
+}
+
+type NavItem = NavItemWithChildren | NavItemDirect;
+
+const navItems: NavItem[] = [
   {
     label: "About",
     children: [
@@ -13,16 +32,29 @@ const navItems = [
       { label: "FAQ", href: "/about/faq" },
     ],
   },
-  { label: "Platform", href: "/platform" },
-  { label: "CCX", href: "/convention" },
+  {
+    label: "Platform",
+    children: [
+      { label: "Overview", href: "/platform" },
+      { label: "How It Works", href: "/platform/how-it-works" },
+    ],
+  },
+  {
+    label: "CCX",
+    children: [
+      { label: "Convention X", href: "/convention" },
+      { label: "Register", href: "/convention/register" },
+      { label: "Submit Ideas", href: "/convention/ideas" },
+    ],
+  },
   {
     label: "Get Involved",
     children: [
       { label: "Join", href: "/involved/join" },
       { label: "Volunteer", href: "/involved/volunteer" },
+      { label: "Run for Office", href: "/candidates/run" },
     ],
   },
-  { label: "Candidates", href: "/candidates/run" },
   { label: "News", href: "/news" },
   { label: "Contact", href: "/contact" },
   { label: "Donate", href: "/donate" },
@@ -31,6 +63,11 @@ const navItems = [
 export default function Header() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
+  const [openAccordion, setOpenAccordion] = useState<string | null>(null);
+
+  const toggleAccordion = (label: string) => {
+    setOpenAccordion(openAccordion === label ? null : label);
+  };
 
   return (
     <header className="bg-primary text-white sticky top-0 z-50">
@@ -60,32 +97,46 @@ export default function Header() {
                   onMouseEnter={() => setOpenDropdown(item.label)}
                   onMouseLeave={() => setOpenDropdown(null)}
                 >
-                  <button className="px-3 py-2 text-sm font-medium hover:text-accent-light transition-colors">
+                  <button className="flex items-center gap-1 px-3 py-2 text-sm font-medium hover:text-accent-light transition-colors">
                     {item.label}
+                    <svg
+                      className={`w-3.5 h-3.5 transition-transform ${openDropdown === item.label ? "rotate-180" : ""}`}
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                    </svg>
                   </button>
                   {openDropdown === item.label && (
-                    <div className="absolute left-0 top-full bg-white text-primary rounded shadow-lg min-w-[180px] py-1">
-                      {item.children.map((child) => (
-                        <Link
-                          key={child.href}
-                          href={child.href}
-                          className="block px-4 py-2 text-sm hover:bg-gray-light transition-colors"
-                        >
-                          {child.label}
-                        </Link>
-                      ))}
+                    <div className="absolute left-0 top-full pt-1">
+                      <div className="bg-white text-primary rounded-md shadow-lg ring-1 ring-black/5 min-w-[200px] py-1">
+                        {item.children.map((child) => (
+                          <Link
+                            key={child.href}
+                            href={child.href}
+                            className="block px-4 py-2.5 text-sm hover:bg-gray-light transition-colors"
+                          >
+                            {child.label}
+                          </Link>
+                        ))}
+                      </div>
                     </div>
                   )}
                 </div>
+              ) : item.label === "Donate" ? (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  className="bg-accent hover:bg-accent-light text-white text-sm font-medium px-4 py-2 rounded ml-2 transition-colors"
+                >
+                  {item.label}
+                </Link>
               ) : (
                 <Link
                   key={item.href}
-                  href={item.href!}
-                  className={`px-3 py-2 text-sm font-medium transition-colors ${
-                    item.label === "Donate"
-                      ? "bg-accent hover:bg-accent-light text-white rounded ml-2"
-                      : "hover:text-accent-light"
-                  }`}
+                  href={item.href}
+                  className="px-3 py-2 text-sm font-medium hover:text-accent-light transition-colors"
                 >
                   {item.label}
                 </Link>
@@ -96,7 +147,10 @@ export default function Header() {
           {/* Mobile menu button */}
           <button
             className="lg:hidden p-2"
-            onClick={() => setMobileOpen(!mobileOpen)}
+            onClick={() => {
+              setMobileOpen(!mobileOpen);
+              if (mobileOpen) setOpenAccordion(null);
+            }}
             aria-label="Toggle navigation menu"
           >
             <svg
@@ -130,30 +184,50 @@ export default function Header() {
         <nav className="lg:hidden border-t border-white/10 px-4 pb-4">
           {navItems.map((item) =>
             item.children ? (
-              <div key={item.label}>
-                <p className="px-2 pt-3 pb-1 text-xs font-semibold uppercase tracking-wider text-white/60">
+              <div key={item.label} className="border-b border-white/5">
+                <button
+                  className="flex items-center justify-between w-full px-2 py-3 text-sm font-medium hover:text-accent-light transition-colors"
+                  onClick={() => toggleAccordion(item.label)}
+                >
                   {item.label}
-                </p>
-                {item.children.map((child) => (
-                  <Link
-                    key={child.href}
-                    href={child.href}
-                    className="block px-2 py-2 text-sm hover:text-accent-light transition-colors"
-                    onClick={() => setMobileOpen(false)}
+                  <svg
+                    className={`w-4 h-4 transition-transform ${openAccordion === item.label ? "rotate-180" : ""}`}
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
                   >
-                    {child.label}
-                  </Link>
-                ))}
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                  </svg>
+                </button>
+                {openAccordion === item.label && (
+                  <div className="pb-2 pl-4">
+                    {item.children.map((child) => (
+                      <Link
+                        key={child.href}
+                        href={child.href}
+                        className="block px-2 py-2 text-sm text-white/70 hover:text-accent-light transition-colors"
+                        onClick={() => setMobileOpen(false)}
+                      >
+                        {child.label}
+                      </Link>
+                    ))}
+                  </div>
+                )}
               </div>
+            ) : item.label === "Donate" ? (
+              <Link
+                key={item.href}
+                href={item.href}
+                className="block bg-accent hover:bg-accent-light text-white text-sm font-medium rounded mt-3 py-2.5 text-center transition-colors"
+                onClick={() => setMobileOpen(false)}
+              >
+                {item.label}
+              </Link>
             ) : (
               <Link
                 key={item.href}
-                href={item.href!}
-                className={`block px-2 py-2 text-sm transition-colors ${
-                  item.label === "Donate"
-                    ? "bg-accent hover:bg-accent-light text-white rounded mt-2 text-center"
-                    : "hover:text-accent-light"
-                }`}
+                href={item.href}
+                className="block px-2 py-3 text-sm font-medium border-b border-white/5 hover:text-accent-light transition-colors"
                 onClick={() => setMobileOpen(false)}
               >
                 {item.label}
