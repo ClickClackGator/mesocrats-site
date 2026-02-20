@@ -1,22 +1,19 @@
-// app/studio/[[...tool]]/layout.tsx
-//
-// Minimal layout for the Studio route.
-// Prevents the main site layout (nav, footer) from wrapping the Studio.
+import type { Metadata } from "next";
 
-import React from 'react'
-
-export const metadata = {
-  title: 'Mesocratic Party CMS',
-}
+export const metadata: Metadata = {
+  title: "Mesocratic Party CMS",
+};
 
 export default function StudioLayout({
   children,
 }: {
-  children: React.ReactNode
+  children: React.ReactNode;
 }) {
   return (
     <html lang="en">
-      <body style={{ margin: 0, padding: 0 }}>{children}</body>
+      <body style={{ margin: 0, padding: 0, minHeight: "100vh" }}>
+        {children}
+      </body>
     </html>
-  )
+  );
 }
