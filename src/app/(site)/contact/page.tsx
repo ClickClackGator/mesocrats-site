@@ -55,46 +55,39 @@ export default async function ContactPage() {
         </div>
       </section>
 
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
-          {/* Contact Form */}
-          <div>
-            {hasBodyContent && (
-              <div className="mb-6">
-                <PortableTextRenderer value={content.bodyContent} />
-              </div>
-            )}
-            <ContactForm />
+      <section className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+        {hasBodyContent && (
+          <div className="mb-6">
+            <PortableTextRenderer value={content.bodyContent} />
           </div>
+        )}
+        <ContactForm />
 
-          {/* Contact Info */}
-          <div>
-            {contacts.length > 0 && (
-              <div className="space-y-6 mb-10">
-                {contacts.map((c) => (
-                  <div key={c.email || c.label} className="bg-gray-light rounded-lg p-6">
-                    {c.label && (
-                      <h3 className="font-bold mb-1">{c.label}</h3>
-                    )}
-                    {c.email && (
-                      <a
-                        href={`mailto:${c.email}`}
-                        className="text-secondary hover:underline text-sm"
-                      >
-                        {c.email}
-                      </a>
-                    )}
-                    {c.description && (
-                      <p className="text-xs text-primary/50 mt-2">
-                        {c.description}
-                      </p>
-                    )}
-                  </div>
-                ))}
+        {/* Contact Info */}
+        {contacts.length > 0 && (
+          <div className="space-y-6 mt-12">
+            {contacts.map((c) => (
+              <div key={c.email || c.label} className="bg-gray-light rounded-lg p-6">
+                {c.label && (
+                  <h3 className="font-bold mb-1">{c.label}</h3>
+                )}
+                {c.email && (
+                  <a
+                    href={`mailto:${c.email}`}
+                    className="text-secondary hover:underline text-sm"
+                  >
+                    {c.email}
+                  </a>
+                )}
+                {c.description && (
+                  <p className="text-xs text-primary/50 mt-2">
+                    {c.description}
+                  </p>
+                )}
               </div>
-            )}
+            ))}
           </div>
-        </div>
+        )}
       </section>
     </div>
   );
