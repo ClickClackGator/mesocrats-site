@@ -25,16 +25,22 @@ export default async function PlatformPage() {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const ctaSection = sections?.find((s: any) => s._type === "ctaSection");
 
-  // Map CMS policy pages to card data
+  // Featured policy slugs for overview page
+  const featuredSlugs = ["healthcare", "tax-reform", "digital-voting"];
+
+  // Map CMS policy pages to card data — only featured ones
   const positions =
     policyPages && policyPages.length > 0
-      ? // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        policyPages.map((p: any) => ({
-          title: p.title,
-          tagline: p.headline || p.tagline || p.title,
-          summary: p.summaryDescription || "",
-          href: `/platform/${p.slug?.current || ""}`,
-        }))
+      ? policyPages
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          .filter((p: any) => featuredSlugs.includes(p.slug?.current))
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          .map((p: any) => ({
+            title: p.title,
+            tagline: p.headline || p.tagline || p.title,
+            summary: p.summaryDescription || "",
+            href: `/platform/${p.slug?.current || ""}`,
+          }))
       : [];
 
   // Living platform callout from site settings
@@ -110,9 +116,9 @@ export default async function PlatformPage() {
           </div>
         )}
 
-        {/* All policy cards */}
+        {/* Featured policy cards */}
         {positions.length > 0 && (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-8">
             {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
             {positions.map((pos: any, i: number) => (
               <Link
@@ -136,6 +142,15 @@ export default async function PlatformPage() {
             ))}
           </div>
         )}
+
+        <div className="mb-16">
+          <Link
+            href="/platform/policies"
+            className="text-secondary font-semibold hover:underline text-sm"
+          >
+            Explore all 15 policy positions &rarr;
+          </Link>
+        </div>
 
         {/* Living Platform callout */}
         {(livingHeadline || livingBody) && (

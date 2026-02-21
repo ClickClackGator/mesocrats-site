@@ -36,19 +36,23 @@ export default function LivingPlatformCallout({
       )}
 
       {/* CTAs */}
-      {ctas && ctas.length > 0 && (
-        <div className="flex flex-wrap gap-4">
-          {ctas.map((cta, i) => (
-            <Link
-              key={i}
-              href={cta.url}
-              className="text-sm font-medium text-secondary hover:text-secondary-light underline underline-offset-2"
-            >
-              {cta.label} →
-            </Link>
-          ))}
-        </div>
-      )}
+      <div className="flex flex-wrap gap-4">
+        {ctas?.map((cta, i) => (
+          <Link
+            key={i}
+            href={cta.url}
+            className="text-sm font-medium text-secondary hover:text-secondary-light underline underline-offset-2"
+          >
+            {cta.label} →
+          </Link>
+        ))}
+        <Link
+          href="/platform/policies"
+          className="text-sm font-medium text-secondary hover:text-secondary-light underline underline-offset-2"
+        >
+          Explore Our Policies →
+        </Link>
+      </div>
     </section>
   )
 }

@@ -28,6 +28,7 @@ const F = {
       heading: "Resources",
       links: [
         { label: "Platform", url: "/platform" },
+        { label: "Policy Positions", url: "/platform/policies" },
         { label: "Convention", url: "/convention" },
         { label: "News", url: "/news" },
         { label: "Contact", url: "/contact" },

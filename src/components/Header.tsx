@@ -39,6 +39,7 @@ const navItems: NavItem[] = [
     children: [
       { label: "Overview", href: "/platform" },
       { label: "How It Works", href: "/platform/how-it-works" },
+      { label: "Policy Positions", href: "/platform/policies" },
     ],
   },
   {
