@@ -242,6 +242,7 @@ export const allTeamMembersQuery = `
     shortBio,
     "image": image.asset->url,
     order,
+    socialLinks,
   }
 `
 

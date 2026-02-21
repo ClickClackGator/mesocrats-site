@@ -57,6 +57,21 @@ export default defineType({
       title: 'Display Order',
       type: 'number',
     }),
+    defineField({
+      name: 'socialLinks',
+      title: 'Social Links',
+      type: 'object',
+      fields: [
+        defineField({ name: 'twitter', title: 'Twitter / X', type: 'url' }),
+        defineField({ name: 'instagram', title: 'Instagram', type: 'url' }),
+        defineField({ name: 'youtube', title: 'YouTube', type: 'url' }),
+        defineField({ name: 'tiktok', title: 'TikTok', type: 'url' }),
+        defineField({ name: 'pinterest', title: 'Pinterest', type: 'url' }),
+        defineField({ name: 'linkedin', title: 'LinkedIn', type: 'url' }),
+        defineField({ name: 'facebook', title: 'Facebook', type: 'url' }),
+        defineField({ name: 'website', title: 'Website', type: 'url' }),
+      ],
+    }),
   ],
 
   preview: {
