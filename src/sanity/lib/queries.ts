@@ -205,7 +205,7 @@ export const newsPostBySlugQuery = `
     body,
     publishedAt,
     category,
-    "author": author->{ name, title, bio, "image": image.asset->url },
+    "author": author->{ name, title, "image": image.asset->url },
     "coverImage": coverImage.asset->url,
     seo {
       metaTitle,

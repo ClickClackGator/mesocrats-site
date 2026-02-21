@@ -18,7 +18,6 @@ interface NewsPostData {
   author: {
     name: string;
     title: string;
-    bio: unknown[] | null;
     image: string | null;
   } | null;
   coverImage: string | null;
