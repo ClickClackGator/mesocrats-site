@@ -86,7 +86,7 @@ export default async function RunPage() {
 
       {/* Interest Form */}
       <section className="py-16 sm:py-20 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-md mx-auto">
+        <div className="max-w-2xl mx-auto">
           <CandidateForm />
         </div>
       </section>

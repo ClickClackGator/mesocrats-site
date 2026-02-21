@@ -84,7 +84,7 @@ export default async function SubmitIdeaPage() {
 
       {/* Idea Submission Form */}
       <section className="bg-gray-light py-16 sm:py-20 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-md mx-auto">
+        <div className="max-w-2xl mx-auto">
           <IdeaForm />
         </div>
       </section>

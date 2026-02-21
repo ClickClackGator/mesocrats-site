@@ -290,7 +290,7 @@ export default async function ConventionRegisterPage() {
 
       {/* Registration Form */}
       <section className="bg-gray-light py-16 sm:py-20 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-xl mx-auto">
+        <div className="max-w-2xl mx-auto">
           <ConventionForm />
         </div>
       </section>
