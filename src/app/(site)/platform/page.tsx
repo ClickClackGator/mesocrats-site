@@ -73,7 +73,7 @@ export default async function PlatformPage() {
             </h1>
           )}
           {page?.heroSubheadline && (
-            <p className="text-lg font-semibold text-white/80">
+            <p className="text-lg font-semibold text-white/90">
               {page.heroSubheadline}
             </p>
           )}

@@ -62,7 +62,7 @@ export default async function Home() {
             </h1>
           )}
           {homepage?.heroSubheadline && (
-            <p className="text-lg sm:text-xl font-semibold text-white/80 mb-10 max-w-2xl mx-auto leading-relaxed">
+            <p className="text-lg sm:text-xl font-semibold text-white/90 mb-10 max-w-2xl mx-auto leading-relaxed">
               {homepage.heroSubheadline}
             </p>
           )}

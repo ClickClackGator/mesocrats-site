@@ -54,7 +54,7 @@ export default async function HowItWorksPage() {
             </h1>
           )}
           {page?.heroSubheadline && (
-            <p className="text-lg font-semibold text-white/80 leading-relaxed">
+            <p className="text-lg font-semibold text-white/90 leading-relaxed">
               {page.heroSubheadline}
             </p>
           )}
