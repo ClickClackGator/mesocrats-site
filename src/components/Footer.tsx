@@ -8,6 +8,7 @@ const F = {
     {
       heading: "About",
       links: [
+        { label: "Our Idea", url: "/about/idea" },
         { label: "Our Mission", url: "/about/mission" },
         { label: "Our Story", url: "/about/story" },
         { label: "FAQ", url: "/about/faq" },
