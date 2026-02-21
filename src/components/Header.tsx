@@ -76,11 +76,11 @@ export default function Header() {
           {/* Logo / site name */}
           <Link href="/" className="flex items-center gap-2">
             <Image
-              src="/mp-logo.png"
+              src="/images/mp-logo-m.png"
               alt="Mesocratic Party logo"
-              width={36}
-              height={29}
-              className="h-8 w-auto"
+              width={48}
+              height={48}
+              className="h-12 w-auto"
             />
             <span className="hidden sm:inline text-xl font-bold tracking-tight">
               The Mesocratic Party
