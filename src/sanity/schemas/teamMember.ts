@@ -30,29 +30,6 @@ export default defineType({
       description: 'Professional but approachable. 400x500 portrait recommended.',
     }),
     defineField({
-      name: 'bio',
-      title: 'Biography',
-      type: 'array',
-      of: [
-        {
-          type: 'block',
-          marks: {
-            decorators: [
-              { title: 'Bold', value: 'strong' },
-              { title: 'Italic', value: 'em' },
-            ],
-          },
-        },
-      ],
-    }),
-    defineField({
-      name: 'shortBio',
-      title: 'Short Bio',
-      type: 'text',
-      rows: 2,
-      description: 'One-line bio for author cards on news posts',
-    }),
-    defineField({
       name: 'order',
       title: 'Display Order',
       type: 'number',

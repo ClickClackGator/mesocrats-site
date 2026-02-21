@@ -238,22 +238,18 @@ export const allTeamMembersQuery = `
     _id,
     name,
     title,
-    bio,
-    shortBio,
     "image": image.asset->url,
     order,
     socialLinks,
   }
 `
 
-// Single team member by name (for founder bio, etc.)
+// Single team member by name
 export const teamMemberByNameQuery = `
   *[_type == "teamMember" && name == $name][0] {
     _id,
     name,
     title,
-    bio,
-    shortBio,
     "image": image.asset->url,
   }
 `
