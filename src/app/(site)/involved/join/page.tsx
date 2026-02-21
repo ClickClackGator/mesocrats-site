@@ -47,7 +47,7 @@ export default async function JoinPage() {
             </h1>
           )}
           {content?.heroSubheadline && (
-            <p className="text-lg font-medium text-white/80 max-w-xl mx-auto">
+            <p className="text-lg font-semibold text-white/80 max-w-xl mx-auto">
               {content.heroSubheadline}
             </p>
           )}

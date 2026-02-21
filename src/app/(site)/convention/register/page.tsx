@@ -41,7 +41,7 @@ export default async function ConventionRegisterPage() {
             </h1>
           )}
           {content?.heroSubheadline && (
-            <p className="text-lg font-medium text-white/70 max-w-xl mx-auto">
+            <p className="text-lg font-semibold text-white/70 max-w-xl mx-auto">
               {content.heroSubheadline}
             </p>
           )}
