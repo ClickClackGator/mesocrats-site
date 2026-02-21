@@ -7,6 +7,7 @@ import newsPost from './newsPost'
 import siteSettings from './siteSettings'
 import teamMember from './teamMember'
 import formPageContent from './formPageContent'
+import leader from './leader'
 
 export const schemaTypes = [
   // Content types
@@ -17,6 +18,7 @@ export const schemaTypes = [
 
   // People
   teamMember,
+  leader,
 
   // Settings & config
   siteSettings,

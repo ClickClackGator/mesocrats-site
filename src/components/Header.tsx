@@ -30,6 +30,7 @@ const navItems: NavItem[] = [
       { label: "Our Idea", href: "/about/idea" },
       { label: "Our Mission", href: "/about/mission" },
       { label: "Our Story", href: "/about/story" },
+      { label: "Leadership", href: "/about/leadership" },
       { label: "FAQ", href: "/about/faq" },
     ],
   },
