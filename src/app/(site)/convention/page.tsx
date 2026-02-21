@@ -71,7 +71,7 @@ export default async function ConventionPage() {
             </h1>
           )}
           {page?.heroSubheadline && (
-            <p className="text-lg text-white/70 max-w-2xl mx-auto mb-10">
+            <p className="text-lg font-medium text-white/70 max-w-2xl mx-auto mb-10">
               {page.heroSubheadline}
             </p>
           )}

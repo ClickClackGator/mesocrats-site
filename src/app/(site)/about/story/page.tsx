@@ -68,7 +68,7 @@ export default async function StoryPage() {
             </h1>
           )}
           {page?.heroSubheadline && (
-            <p className="text-lg text-white/80">
+            <p className="text-lg font-medium text-white/80">
               {page.heroSubheadline}
             </p>
           )}

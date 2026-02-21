@@ -48,7 +48,7 @@ export default async function ContactPage() {
             </h1>
           )}
           {content?.heroSubheadline && (
-            <p className="text-lg text-white/80">
+            <p className="text-lg font-medium text-white/80">
               {content.heroSubheadline}
             </p>
           )}
