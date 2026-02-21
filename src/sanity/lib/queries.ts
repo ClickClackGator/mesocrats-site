@@ -258,20 +258,6 @@ export const teamMemberByNameQuery = `
 `
 
 // ============================================================
-// LEADERS (Leadership page)
-// ============================================================
-
-export const leadersQuery = `
-  *[_type == "leader"] | order(order asc) {
-    _id,
-    name,
-    title,
-    "photo": photo.asset->url,
-    socialLinks,
-  }
-`
-
-// ============================================================
 // FORM PAGE CONTENT
 // ============================================================
 

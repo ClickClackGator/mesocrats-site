@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import PortableTextRenderer from "@/components/PortableTextRenderer";
 import { client } from "@/sanity/lib/client";
-import { pageBySlugQuery, teamMemberByNameQuery } from "@/sanity/lib/queries";
+import { pageBySlugQuery } from "@/sanity/lib/queries";
 
 export async function generateMetadata(): Promise<Metadata> {
   const page = await client.fetch(
@@ -17,10 +17,11 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function StoryPage() {
-  const [page, founder] = await Promise.all([
-    client.fetch(pageBySlugQuery, { slug: "story" }, { next: { revalidate: 60 } }),
-    client.fetch(teamMemberByNameQuery, { name: "Jack Karavich" }, { next: { revalidate: 60 } }),
-  ]);
+  const page = await client.fetch(
+    pageBySlugQuery,
+    { slug: "story" },
+    { next: { revalidate: 60 } }
+  );
 
   const hasCmsContent = page?.content && page.content.length > 0;
 
@@ -83,26 +84,6 @@ export default async function StoryPage() {
       <article className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-16 space-y-12">
         {hasCmsContent && (
           <PortableTextRenderer value={page.content} />
-        )}
-
-        {/* The Founder — CMS bio */}
-        {(founder?.image || founder?.bio) && (
-          <section>
-            {founder.image && (
-              <div className="mb-6">
-                <Image
-                  src={founder.image}
-                  alt={founder.name || "Founder"}
-                  width={400}
-                  height={500}
-                  className="rounded-lg w-48 h-auto"
-                />
-              </div>
-            )}
-            {founder.bio && (
-              <PortableTextRenderer value={founder.bio} />
-            )}
-          </section>
         )}
 
         {/* Timeline */}

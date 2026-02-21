@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { client } from "@/sanity/lib/client";
-import { leadersQuery } from "@/sanity/lib/queries";
+import { allTeamMembersQuery } from "@/sanity/lib/queries";
 import {
   Twitter,
   Instagram,
@@ -32,7 +32,7 @@ interface Leader {
   _id: string;
   name: string;
   title: string;
-  photo?: string;
+  image?: string;
   socialLinks?: SocialLinks;
 }
 
@@ -61,7 +61,7 @@ const socialConfig: {
 
 export default async function LeadershipPage() {
   const leaders: Leader[] = await client.fetch(
-    leadersQuery,
+    allTeamMembersQuery,
     {},
     { next: { revalidate: 60 } }
   );
@@ -84,10 +84,10 @@ export default async function LeadershipPage() {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
             {leaders.map((leader) => (
               <div key={leader._id} className="text-center">
-                {leader.photo ? (
+                {leader.image ? (
                   <div className="relative w-full aspect-square mb-4 overflow-hidden rounded-lg">
                     <Image
-                      src={leader.photo}
+                      src={leader.image}
                       alt={leader.name}
                       fill
                       className="object-cover"
