@@ -2,13 +2,20 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { client } from "@/sanity/lib/client";
-import { allTeamMembersQuery } from "@/sanity/lib/queries";
+import { pageBySlugQuery, allTeamMembersQuery } from "@/sanity/lib/queries";
 import { Globe } from "lucide-react";
 
-export const metadata: Metadata = {
-  title: "Leadership | The Mesocratic Party",
-  description: "Meet the leadership of the Mesocratic Party.",
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const page = await client.fetch(
+    pageBySlugQuery,
+    { slug: "leadership" },
+    { next: { revalidate: 60 } }
+  );
+  return {
+    title: page?.seo?.metaTitle || "Leadership | The Mesocratic Party",
+    description: page?.seo?.metaDescription || "Meet the leadership of the Mesocratic Party.",
+  };
+}
 
 interface SocialLinks {
   twitter?: string;
@@ -87,22 +94,45 @@ const socialConfig: {
 ];
 
 export default async function LeadershipPage() {
-  const leaders: Leader[] = await client.fetch(
-    allTeamMembersQuery,
-    {},
-    { next: { revalidate: 60 } }
-  );
+  const [page, leaders] = await Promise.all([
+    client.fetch(pageBySlugQuery, { slug: "leadership" }, { next: { revalidate: 60 } }),
+    client.fetch(allTeamMembersQuery, {}, { next: { revalidate: 60 } }) as Promise<Leader[]>,
+  ]);
 
   return (
     <div>
       {/* Hero */}
       <section className="relative bg-accent text-white py-16 sm:py-20 px-4 sm:px-6 lg:px-8 overflow-hidden">
+        {page?.heroImage && (
+          <>
+            <Image
+              src={page.heroImage}
+              alt=""
+              fill
+              className="object-cover"
+              priority
+            />
+            <div className="absolute inset-0 bg-black/60" />
+          </>
+        )}
         <div className="relative max-w-3xl mx-auto text-center">
           <p className="text-sm uppercase tracking-[0.2em] font-semibold mb-4 text-white/60">
-            ABOUT THE MESOCRATIC PARTY
+            {page?.heroEyebrow || "ABOUT THE MESOCRATIC PARTY"}
           </p>
-          <h1 className="text-5xl sm:text-7xl font-bold mb-4">Leadership</h1>
+          <h1 className="text-5xl sm:text-7xl font-bold mb-4">
+            {page?.heroHeadline || "Leadership"}
+          </h1>
+          {(page?.heroSubheadline) && (
+            <p className="text-lg font-semibold text-white/90">
+              {page.heroSubheadline}
+            </p>
+          )}
         </div>
+        {page?.imageCredit && (
+          <span className="absolute bottom-2 right-3 text-[9px] text-white/50">
+            {page.imageCredit}
+          </span>
+        )}
       </section>
 
       {/* Leaders Grid */}
