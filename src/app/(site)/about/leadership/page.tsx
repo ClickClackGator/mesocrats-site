@@ -12,8 +12,8 @@ export async function generateMetadata(): Promise<Metadata> {
     { next: { revalidate: 60 } }
   );
   return {
-    title: page?.seo?.metaTitle || "Leadership | The Mesocratic Party",
-    description: page?.seo?.metaDescription || "Meet the leadership of the Mesocratic Party.",
+    title: page?.seo?.metaTitle || undefined,
+    description: page?.seo?.metaDescription || undefined,
   };
 }
 
@@ -116,13 +116,17 @@ export default async function LeadershipPage() {
           </>
         )}
         <div className="relative max-w-3xl mx-auto text-center">
-          <p className="text-sm uppercase tracking-[0.2em] font-semibold mb-4 text-white/60">
-            {page?.heroEyebrow || "ABOUT THE MESOCRATIC PARTY"}
-          </p>
-          <h1 className="text-5xl sm:text-7xl font-bold mb-4">
-            {page?.heroHeadline || "Leadership"}
-          </h1>
-          {(page?.heroSubheadline) && (
+          {page?.heroEyebrow && (
+            <p className="text-sm uppercase tracking-[0.2em] font-semibold mb-4 text-white/60">
+              {page.heroEyebrow}
+            </p>
+          )}
+          {page?.heroHeadline && (
+            <h1 className="text-5xl sm:text-7xl font-bold mb-4">
+              {page.heroHeadline}
+            </h1>
+          )}
+          {page?.heroSubheadline && (
             <p className="text-lg font-semibold text-white/90">
               {page.heroSubheadline}
             </p>
