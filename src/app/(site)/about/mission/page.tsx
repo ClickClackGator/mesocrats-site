@@ -48,7 +48,7 @@ export default async function MissionPage() {
             </p>
           )}
           {page?.heroHeadline && (
-            <h1 className="text-4xl sm:text-5xl font-bold mb-4">
+            <h1 className="text-5xl sm:text-7xl font-bold mb-4">
               {page.heroHeadline}
             </h1>
           )}
@@ -59,7 +59,7 @@ export default async function MissionPage() {
           )}
         </div>
         {page?.imageCredit && (
-          <span className="absolute bottom-2 right-3 text-xs text-white/50">
+          <span className="absolute bottom-2 right-3 text-[9px] text-white/50">
             {page.imageCredit}
           </span>
         )}

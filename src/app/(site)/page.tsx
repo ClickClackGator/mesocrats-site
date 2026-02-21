@@ -57,7 +57,7 @@ export default async function Home() {
             </p>
           )}
           {homepage?.heroHeadline && (
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold mb-6">
+            <h1 className="text-5xl sm:text-7xl lg:text-8xl font-bold mb-6">
               {homepage.heroHeadline}
             </h1>
           )}
@@ -86,7 +86,7 @@ export default async function Home() {
           </div>
         </div>
         {homepage?.imageCredit && (
-          <span className="absolute bottom-2 right-3 text-xs text-white/50">
+          <span className="absolute bottom-2 right-3 text-[9px] text-white/50">
             {homepage.imageCredit}
           </span>
         )}

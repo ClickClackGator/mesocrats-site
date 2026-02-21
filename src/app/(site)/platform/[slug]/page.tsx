@@ -120,7 +120,7 @@ export default async function PolicyPage({
             THE MESOCRATIC POSITION
           </p>
           {page.headline && (
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-4">
+            <h1 className="text-5xl md:text-7xl lg:text-8xl font-bold mb-4">
               {page.headline}
             </h1>
           )}
@@ -131,7 +131,7 @@ export default async function PolicyPage({
           )}
         </div>
         {page.imageCredit && (
-          <span className="absolute bottom-2 right-3 text-xs text-white/50">
+          <span className="absolute bottom-2 right-3 text-[9px] text-white/50">
             {page.imageCredit}
           </span>
         )}

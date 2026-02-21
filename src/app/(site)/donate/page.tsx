@@ -31,7 +31,7 @@ export default async function DonatePage() {
       <section className="bg-accent text-white py-16 sm:py-20 px-4 sm:px-6 lg:px-8">
         <div className="max-w-3xl mx-auto text-center">
           {content?.heroHeadline && (
-            <h1 className="text-4xl sm:text-5xl font-bold mb-4">
+            <h1 className="text-5xl sm:text-7xl font-bold mb-4">
               {content.heroHeadline}
             </h1>
           )}
