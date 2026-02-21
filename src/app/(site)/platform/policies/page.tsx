@@ -1,19 +1,26 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 import { client } from "@/sanity/lib/client";
-import { allPolicyPagesQuery } from "@/sanity/lib/queries";
+import { pageBySlugQuery, allPolicyPagesQuery } from "@/sanity/lib/queries";
 
-export const metadata: Metadata = {
-  title: "Policy Positions | The Mesocratic Party",
-  description: "Real positions. Real numbers. No hedging.",
-};
-
-export default async function PolicyPositionsPage() {
-  const policyPages = await client.fetch(
-    allPolicyPagesQuery,
-    {},
+export async function generateMetadata(): Promise<Metadata> {
+  const page = await client.fetch(
+    pageBySlugQuery,
+    { slug: "policies" },
     { next: { revalidate: 60 } }
   );
+  return {
+    title: page?.seo?.metaTitle || "Policy Positions | The Mesocratic Party",
+    description: page?.seo?.metaDescription || "Real positions. Real numbers. No hedging.",
+  };
+}
+
+export default async function PolicyPositionsPage() {
+  const [page, policyPages] = await Promise.all([
+    client.fetch(pageBySlugQuery, { slug: "policies" }, { next: { revalidate: 60 } }),
+    client.fetch(allPolicyPagesQuery, {}, { next: { revalidate: 60 } }),
+  ]);
 
   const positions =
     policyPages && policyPages.length > 0
@@ -30,17 +37,36 @@ export default async function PolicyPositionsPage() {
     <div>
       {/* Hero */}
       <section className="relative bg-accent text-white py-16 sm:py-20 px-4 sm:px-6 lg:px-8 overflow-hidden">
+        {page?.heroImage && (
+          <>
+            <Image
+              src={page.heroImage}
+              alt=""
+              fill
+              className="object-cover"
+              priority
+            />
+            <div className="absolute inset-0 bg-black/60" />
+          </>
+        )}
         <div className="relative max-w-3xl mx-auto text-center">
           <p className="text-sm uppercase tracking-[0.2em] font-semibold mb-4 text-white/60">
-            THE MESOCRATIC PLATFORM
+            {page?.heroEyebrow || "THE MESOCRATIC PLATFORM"}
           </p>
           <h1 className="text-5xl sm:text-7xl font-bold mb-4">
-            Policy Positions
+            {page?.heroHeadline || "Policy Positions"}
           </h1>
-          <p className="text-lg font-semibold text-white/90">
-            Real positions. Real numbers. No hedging.
-          </p>
+          {(page?.heroSubheadline || !page) && (
+            <p className="text-lg font-semibold text-white/90">
+              {page?.heroSubheadline || "Real positions. Real numbers. No hedging."}
+            </p>
+          )}
         </div>
+        {page?.imageCredit && (
+          <span className="absolute bottom-2 right-3 text-[9px] text-white/50">
+            {page.imageCredit}
+          </span>
+        )}
       </section>
 
       {/* All policy cards */}
