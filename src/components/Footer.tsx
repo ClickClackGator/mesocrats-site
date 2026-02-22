@@ -1,6 +1,37 @@
 import Link from "next/link";
+import {
+  Twitter,
+  Facebook,
+  Instagram,
+  Youtube,
+  Linkedin,
+  type LucideIcon,
+} from "lucide-react";
 import { client } from "@/sanity/lib/client";
 import { siteSettingsQuery } from "@/sanity/lib/queries";
+
+/* ── Platform → icon mapping ── */
+const socialIcons: Record<string, LucideIcon> = {
+  twitter: Twitter,
+  facebook: Facebook,
+  instagram: Instagram,
+  youtube: Youtube,
+  linkedin: Linkedin,
+};
+
+/* TikTok isn't in Lucide, so we use an inline SVG */
+function TikTokIcon({ className }: { className?: string }) {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      fill="currentColor"
+      className={className}
+      aria-hidden="true"
+    >
+      <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1v-3.5a6.37 6.37 0 0 0-.79-.05A6.34 6.34 0 0 0 3.15 15a6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.34-6.34V8.75a8.18 8.18 0 0 0 4.76 1.52V6.83a4.84 4.84 0 0 1-1-.14Z" />
+    </svg>
+  );
+}
 
 /* ── Fallbacks ── */
 const F = {
@@ -102,18 +133,28 @@ export default async function Footer() {
 
         {/* Social Links */}
         {socialLinks.length > 0 && (
-          <div className="flex gap-4 mb-8">
-            {socialLinks.map((social) => (
-              <a
-                key={social.platform}
-                href={social.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-sm text-white/70 hover:text-white transition-colors"
-              >
-                {social.handle || social.platform}
-              </a>
-            ))}
+          <div className="flex gap-5 mb-8">
+            {socialLinks.map((social) => {
+              const Icon = socialIcons[social.platform];
+              return (
+                <a
+                  key={social.platform}
+                  href={social.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={social.platform}
+                  className="text-white/60 hover:text-white transition-colors"
+                >
+                  {social.platform === "tiktok" ? (
+                    <TikTokIcon className="h-5 w-5" />
+                  ) : Icon ? (
+                    <Icon className="h-5 w-5" />
+                  ) : (
+                    <span className="text-sm">{social.handle || social.platform}</span>
+                  )}
+                </a>
+              );
+            })}
           </div>
         )}
 
