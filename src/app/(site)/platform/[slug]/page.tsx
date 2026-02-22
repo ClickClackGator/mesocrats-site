@@ -143,7 +143,7 @@ export default async function PolicyPage({
         {/* THE REALITY */}
         {page.realitySection && (
           <section className="mb-16">
-            <p className="text-sm font-bold tracking-widest text-accent uppercase mb-6">
+            <p className="text-base font-bold tracking-widest text-accent uppercase mb-6">
               THE REALITY
             </p>
             <PortableTextRenderer value={page.realitySection} />
@@ -153,7 +153,7 @@ export default async function PolicyPage({
         {/* WHAT OTHERS SAY */}
         {page.othersSaySection && (
           <section className="mb-16">
-            <p className="text-sm font-bold tracking-widest text-accent uppercase mb-6">
+            <p className="text-base font-bold tracking-widest text-accent uppercase mb-6">
               WHAT OTHERS SAY
             </p>
             <PortableTextRenderer value={page.othersSaySection} />
@@ -163,7 +163,7 @@ export default async function PolicyPage({
         {/* WHERE WE STAND */}
         {page.whereWeStandSection && (
           <section className="mb-16">
-            <p className="text-sm font-bold tracking-widest text-accent uppercase mb-6">
+            <p className="text-base font-bold tracking-widest text-accent uppercase mb-6">
               WHERE WE STAND
             </p>
             <PortableTextRenderer value={page.whereWeStandSection} />
@@ -173,7 +173,7 @@ export default async function PolicyPage({
         {/* WHAT IT MEANS FOR YOU */}
         {page.whatItMeansSection && (
           <section className="mb-16">
-            <p className="text-sm font-bold tracking-widest text-accent uppercase mb-6">
+            <p className="text-base font-bold tracking-widest text-accent uppercase mb-6">
               WHAT IT MEANS FOR YOU
             </p>
             <PortableTextRenderer value={page.whatItMeansSection} />
