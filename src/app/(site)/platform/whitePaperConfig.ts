@@ -47,7 +47,7 @@ export const whitePaperConfig: Record<string, { eyebrow: string; headline: strin
     subheadline: "Evidence-Based Criminal Justice Reform That Reduces Crime and Saves Money",
     pdfPath: "/documents/safe-and-fair.pdf",
   },
-  "energy-environment": {
+  "energy-and-environment": {
     eyebrow: "ENERGY & ENVIRONMENT WHITE PAPER",
     headline: "The Energy Race",
     subheadline: "A National Innovation Strategy for Next-Generation Energy Dominance",
