@@ -56,7 +56,7 @@ export default async function RunPage() {
       {/* Body Content */}
       {hasBodyContent && (
         <section className="py-10 sm:py-14 px-4 sm:px-6 lg:px-8">
-          <div className="max-w-3xl mx-auto border-l-4 border-[#2B5797] border-r-4 border-r-red-600 bg-gray-100 rounded-lg p-8 sm:p-10 text-center">
+          <div className="max-w-3xl mx-auto border-l-4 border-[#4374BA] border-r-4 border-r-[#EE2C24] bg-gray-100 rounded-lg p-8 sm:p-10 text-center">
             <PortableTextRenderer value={content.bodyContent} className="text-lg leading-relaxed" />
           </div>
         </section>

@@ -94,7 +94,7 @@ export default async function Home() {
 
       {/* ──────────── 2. Mission Callout ──────────── */}
       {settings?.missionBarText && (
-        <section className="bg-[#2B5797] py-10 sm:py-12 md:py-14 px-6 md:px-12">
+        <section className="bg-[#4374BA] py-10 sm:py-12 md:py-14 px-6 md:px-12">
           <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center md:items-center gap-6 md:gap-10">
             <Image
               src="/images/mp-gorilla-logo.png"

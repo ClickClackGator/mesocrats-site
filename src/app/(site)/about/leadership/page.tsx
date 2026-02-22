@@ -177,7 +177,7 @@ export default async function LeadershipPage() {
                           target="_blank"
                           rel="noopener noreferrer"
                           aria-label={`${leader.name} on ${label}`}
-                          className="text-[#1A1A1A] hover:text-[#2B5797] transition-colors"
+                          className="text-[#1A1A1A] hover:text-[#4374BA] transition-colors"
                         >
                           <Icon className="w-5 h-5" />
                         </Link>
