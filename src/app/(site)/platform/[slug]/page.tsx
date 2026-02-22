@@ -144,7 +144,7 @@ export default async function PolicyPage({
       <article className="max-w-4xl mx-auto px-6 py-16">
         {/* THE REALITY */}
         {page.realitySection && (
-          <section className="mb-16">
+          <section className="mb-12">
             <p className="text-base font-extrabold tracking-widest text-accent uppercase mb-6">
               THE REALITY
             </p>
@@ -154,7 +154,7 @@ export default async function PolicyPage({
 
         {/* WHAT OTHERS SAY */}
         {page.othersSaySection && (
-          <section className="mb-16">
+          <section className="mb-12">
             <p className="text-base font-extrabold tracking-widest text-accent uppercase mb-6">
               WHAT OTHERS SAY
             </p>
@@ -164,7 +164,7 @@ export default async function PolicyPage({
 
         {/* WHERE WE STAND */}
         {page.whereWeStandSection && (
-          <section className="mb-16">
+          <section className="mb-12">
             <p className="text-base font-extrabold tracking-widest text-accent uppercase mb-6">
               WHERE WE STAND
             </p>
@@ -174,7 +174,7 @@ export default async function PolicyPage({
 
         {/* THE THROUGH LINE */}
         {page.throughLineSection && (
-          <section className="mb-16">
+          <section className="mb-12">
             <p className="text-base font-extrabold tracking-widest text-accent uppercase mb-6">
               THE THROUGH LINE
             </p>
@@ -184,7 +184,7 @@ export default async function PolicyPage({
 
         {/* WHAT IT MEANS FOR YOU */}
         {page.whatItMeansSection && (
-          <section className="mb-16">
+          <section className="mb-12">
             <p className="text-base font-extrabold tracking-widest text-accent uppercase mb-6">
               WHAT IT MEANS FOR YOU
             </p>
