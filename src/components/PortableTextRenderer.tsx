@@ -20,7 +20,7 @@ const components: PortableTextComponents = {
       </h1>
     ),
     h2: ({ children }) => (
-      <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mt-10 mb-4">
+      <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mt-16 mb-6 pt-10 border-t border-gray-200">
         {children}
       </h2>
     ),
@@ -35,8 +35,11 @@ const components: PortableTextComponents = {
       </h4>
     ),
     blockquote: ({ children }) => (
-      <blockquote className="border-l-4 border-accent pl-6 py-2 my-6 text-gray-700 italic">
-        {children}
+      <blockquote className="relative border-l-4 border-secondary pl-8 pr-4 py-6 my-10 bg-gray-50 rounded-r-lg">
+        <span className="absolute top-3 left-3 text-4xl leading-none text-secondary/20 font-serif">&ldquo;</span>
+        <div className="text-lg md:text-xl font-semibold text-gray-900 leading-relaxed italic">
+          {children}
+        </div>
       </blockquote>
     ),
   },
