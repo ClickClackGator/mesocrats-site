@@ -54,7 +54,7 @@ export const metadata: Metadata = {
       "A new political party for the common-sense middle. Pragmatic, evidence-based policy that puts people over partisanship.",
     images: [
       {
-        url: "/images/og-default.jpg",
+        url: "/images/og-default.png",
         width: 1200,
         height: 630,
         alt: "The Mesocratic Party — Where America Meets",
@@ -67,7 +67,7 @@ export const metadata: Metadata = {
     title: "The Mesocratic Party — Where America Meets",
     description:
       "A new political party for the common-sense middle. Pragmatic, evidence-based policy that puts people over partisanship.",
-    images: ["/images/og-default.jpg"],
+    images: ["/images/og-default.png"],
   },
 };
 
