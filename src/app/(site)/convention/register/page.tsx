@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import PortableTextRenderer from "@/components/PortableTextRenderer";
 import { client } from "@/sanity/lib/client";
 import { formPageContentQuery } from "@/sanity/lib/queries";
 import ConventionForm from "../ConventionForm";
@@ -24,12 +23,6 @@ export default async function ConventionRegisterPage() {
     { next: { revalidate: 60 } }
   );
 
-  const hasBodyContent = content?.bodyContent && content.bodyContent.length > 0;
-
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const cmsCards = content?.cards as any[] | undefined;
-  const hasCards = cmsCards && cmsCards.length > 0;
-
   return (
     <div>
       {/* Hero */}
@@ -47,41 +40,6 @@ export default async function ConventionRegisterPage() {
           )}
         </div>
       </section>
-
-      {/* CMS Body Content */}
-      {hasBodyContent && (
-        <section className="bg-gray-light py-10 sm:py-14 px-4 sm:px-6 lg:px-8">
-          <div className="max-w-3xl mx-auto text-center [&_p]:text-xl [&_p]:sm:text-2xl [&_p]:font-semibold [&_p]:leading-relaxed [&_p]:text-gray-900 [&_p]:mb-4 [&_ul]:grid [&_ul]:grid-cols-1 [&_ul]:sm:grid-cols-2 [&_ul]:gap-3 [&_ul]:my-6 [&_ul]:list-none [&_ul]:pl-0 [&_li]:bg-white [&_li]:rounded-lg [&_li]:px-5 [&_li]:py-4 [&_li]:text-base [&_li]:font-medium [&_li]:text-gray-800 [&_li]:shadow-sm [&_li]:text-left">
-            <PortableTextRenderer value={content.bodyContent} />
-          </div>
-        </section>
-      )}
-
-      {/* CMS Cards */}
-      {hasCards && (
-        <section className="py-16 sm:py-20 px-4 sm:px-6 lg:px-8">
-          <div className="max-w-7xl mx-auto">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              {cmsCards.map(
-                (c: { headline?: string; body?: string }, i: number) => (
-                  <div key={c.headline || i} className="bg-gray-light rounded-lg p-8">
-                    {c.headline && (
-                      <h3 className="text-xl font-bold mb-3">
-                        {c.headline}
-                      </h3>
-                    )}
-                    {c.body && (
-                      <p className="text-sm text-primary/70 leading-relaxed">
-                        {c.body}
-                      </p>
-                    )}
-                  </div>
-                )
-              )}
-            </div>
-          </div>
-        </section>
-      )}
 
       {/* ──────────── The CCX Process — Timeline ──────────── */}
       <section className="bg-primary text-white py-20 sm:py-28 px-4 sm:px-6 lg:px-8">
