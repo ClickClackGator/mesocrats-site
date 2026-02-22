@@ -50,9 +50,9 @@ export default async function ConventionRegisterPage() {
 
       {/* CMS Body Content */}
       {hasBodyContent && (
-        <section className="py-16 sm:py-20 px-4 sm:px-6 lg:px-8">
-          <div className="max-w-3xl mx-auto">
-            <PortableTextRenderer value={content.bodyContent} className="text-lg [&_p]:text-lg [&_p]:leading-relaxed [&_p]:mb-6" />
+        <section className="bg-gray-light py-10 sm:py-14 px-4 sm:px-6 lg:px-8">
+          <div className="max-w-3xl mx-auto text-center [&_p]:text-xl [&_p]:sm:text-2xl [&_p]:font-semibold [&_p]:leading-relaxed [&_p]:text-gray-900 [&_p]:mb-4 [&_ul]:grid [&_ul]:grid-cols-1 [&_ul]:sm:grid-cols-2 [&_ul]:gap-3 [&_ul]:my-6 [&_ul]:list-none [&_ul]:pl-0 [&_li]:bg-white [&_li]:rounded-lg [&_li]:px-5 [&_li]:py-4 [&_li]:text-base [&_li]:font-medium [&_li]:text-gray-800 [&_li]:shadow-sm [&_li]:text-left">
+            <PortableTextRenderer value={content.bodyContent} />
           </div>
         </section>
       )}
