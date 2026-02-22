@@ -106,6 +106,7 @@ export const policyPageBySlugQuery = `
     realitySection,
     othersSaySection,
     whereWeStandSection,
+    throughLineSection,
     whatItMeansSection,
     livingPlatformCallout,
     seo {

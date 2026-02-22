@@ -27,6 +27,8 @@ interface PolicyPageData {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   whereWeStandSection: any[]
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  throughLineSection: any[]
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   whatItMeansSection: any[]
   livingPlatformCallout: {
     useDefault: boolean
@@ -167,6 +169,16 @@ export default async function PolicyPage({
               WHERE WE STAND
             </p>
             <PortableTextRenderer value={page.whereWeStandSection} />
+          </section>
+        )}
+
+        {/* THE THROUGH LINE */}
+        {page.throughLineSection && (
+          <section className="mb-16">
+            <p className="text-base font-extrabold tracking-widest text-accent uppercase mb-6">
+              THE THROUGH LINE
+            </p>
+            <PortableTextRenderer value={page.throughLineSection} />
           </section>
         )}
 

@@ -188,6 +188,30 @@ export default defineType({
       group: 'content',
     }),
     defineField({
+      name: 'throughLineSection',
+      title: 'THE THROUGH LINE',
+      type: 'array',
+      of: [
+        {
+          type: 'block',
+          styles: [
+            { title: 'Normal', value: 'normal' },
+            { title: 'H3', value: 'h3' },
+            { title: 'H4', value: 'h4' },
+            { title: 'Quote', value: 'blockquote' },
+          ],
+          marks: {
+            decorators: [
+              { title: 'Bold', value: 'strong' },
+              { title: 'Italic', value: 'em' },
+            ],
+          },
+        },
+      ],
+      description: 'Connect this issue to a broader Mesocratic principle or pattern across the platform.',
+      group: 'content',
+    }),
+    defineField({
       name: 'whatItMeansSection',
       title: 'WHAT IT MEANS FOR YOU',
       type: 'array',
