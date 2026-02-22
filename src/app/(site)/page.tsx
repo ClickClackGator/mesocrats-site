@@ -94,16 +94,16 @@ export default async function Home() {
 
       {/* ──────────── 2. Mission Callout ──────────── */}
       {settings?.missionBarText && (
-        <section className="bg-[#2B5797] py-16 sm:py-20 md:py-24 px-4 sm:px-6 lg:px-8">
-          <div className="max-w-3xl mx-auto flex flex-col items-center text-center">
+        <section className="bg-[#2B5797] py-16 sm:py-20 md:py-24 px-6 md:px-12">
+          <div className="max-w-5xl mx-auto flex flex-col md:flex-row items-center md:items-center gap-6 md:gap-10">
             <Image
               src="/images/mp-gorilla-logo.png"
               alt="Mesocratic Party gorilla logo"
-              width={80}
-              height={80}
-              className="h-[60px] w-auto sm:h-[80px] mb-8 brightness-0 invert opacity-90"
+              width={100}
+              height={100}
+              className="h-[60px] w-auto md:h-[100px] shrink-0"
             />
-            <p className="text-2xl sm:text-3xl md:text-4xl font-bold text-white leading-snug">
+            <p className="text-2xl sm:text-3xl md:text-4xl font-bold text-white leading-snug text-center md:text-left">
               {settings.missionBarText}
             </p>
           </div>
