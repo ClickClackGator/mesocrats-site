@@ -8,6 +8,7 @@ import PortableTextRenderer from '@/components/PortableTextRenderer'
 import LivingPlatformCallout from '@/components/LivingPlatformCallout'
 import Link from 'next/link'
 import type { Metadata } from 'next'
+import { whitePaperConfig } from '../whitePaperConfig'
 
 // ── Types ─────────────────────────────────────────
 interface PolicyPageData {
@@ -192,8 +193,8 @@ export default async function PolicyPage({
           </section>
         )}
 
-        {/* ── White Paper Callout (Tax Reform only) ── */}
-        {page.slug.current === 'tax-reform' && (
+        {/* ── White Paper Callout ── */}
+        {whitePaperConfig[page.slug.current] && (
           <section className="mb-16 bg-accent rounded-lg p-8 sm:p-10 text-white">
             <p className="text-xs font-bold tracking-widest uppercase mb-3 text-white/60">
               WHITE PAPER
@@ -202,10 +203,10 @@ export default async function PolicyPage({
               Read the Full White Paper
             </h3>
             <p className="text-white/80 leading-relaxed mb-6">
-              The 12.5% Plan — a data-driven proposal grounded in six years of IRS data.
+              {whitePaperConfig[page.slug.current].headline} — {whitePaperConfig[page.slug.current].subheadline}
             </p>
             <Link
-              href="/platform/tax-reform/white-paper"
+              href={`/platform/${page.slug.current}/white-paper`}
               className="inline-block bg-white text-accent font-bold px-6 py-3 rounded hover:bg-gray-100 transition-colors"
             >
               Read the White Paper

@@ -1,0 +1,92 @@
+export const whitePaperConfig: Record<string, { eyebrow: string; headline: string; subheadline: string; pdfPath: string }> = {
+  "tax-reform": {
+    eyebrow: "TAX REFORM WHITE PAPER",
+    headline: "The 12.5% Plan",
+    subheadline: "A Unified Flat Tax for Federal Income and Capital Gains",
+    pdfPath: "/documents/the-12-5-percent-plan.pdf",
+  },
+  "digital-voting": {
+    eyebrow: "DIGITAL VOTING WHITE PAPER",
+    headline: "The Civic Platform",
+    subheadline: "A Secure, Accessible, and Verifiable Digital Voting System for American Democracy",
+    pdfPath: "/documents/the-civic-platform.pdf",
+  },
+  "healthcare": {
+    eyebrow: "HEALTHCARE WHITE PAPER",
+    headline: "The Two-Tier Plan",
+    subheadline: "Universal Baseline Coverage with a Private Supplemental Market",
+    pdfPath: "/documents/the-two-tier-plan.pdf",
+  },
+  "education": {
+    eyebrow: "EDUCATION WHITE PAPER",
+    headline: "The Education Baseline",
+    subheadline: "Free Public Education Through a Bachelor's Degree — and the Math to Pay for It",
+    pdfPath: "/documents/the-education-baseline.pdf",
+  },
+  "government-reform": {
+    eyebrow: "GOVERNMENT REFORM WHITE PAPER",
+    headline: "The Accountability Framework",
+    subheadline: "Six Interlocking Reforms to Fix the Broken Incentive Structure of American Government",
+    pdfPath: "/documents/the-accountability-framework.pdf",
+  },
+  "housing": {
+    eyebrow: "HOUSING WHITE PAPER",
+    headline: "Build More Homes",
+    subheadline: "A National Strategy to End the Housing Shortage, Ban Institutional Buyers, and Restore Affordability",
+    pdfPath: "/documents/build-more-homes.pdf",
+  },
+  "term-limits": {
+    eyebrow: "TERM LIMITS WHITE PAPER",
+    headline: "12 Years and Out",
+    subheadline: "The Case for Congressional Term Limits and the End of the Permanent Political Class",
+    pdfPath: "/documents/12-years-and-out.pdf",
+  },
+  "criminal-justice": {
+    eyebrow: "CRIMINAL JUSTICE WHITE PAPER",
+    headline: "Safe and Fair",
+    subheadline: "Evidence-Based Criminal Justice Reform That Reduces Crime and Saves Money",
+    pdfPath: "/documents/safe-and-fair.pdf",
+  },
+  "energy-environment": {
+    eyebrow: "ENERGY & ENVIRONMENT WHITE PAPER",
+    headline: "The Energy Race",
+    subheadline: "A National Innovation Strategy for Next-Generation Energy Dominance",
+    pdfPath: "/documents/the-energy-race.pdf",
+  },
+  "immigration": {
+    eyebrow: "IMMIGRATION WHITE PAPER",
+    headline: "Secure and Streamlined",
+    subheadline: "A Border Security and Legal Immigration Framework That Actually Works",
+    pdfPath: "/documents/secure-and-streamlined.pdf",
+  },
+  "national-security": {
+    eyebrow: "NATIONAL SECURITY WHITE PAPER",
+    headline: "Strong and Accountable",
+    subheadline: "A Modern Defense Strategy Built on Audit, Innovation, and Allied Burden-Sharing",
+    pdfPath: "/documents/strong-and-accountable.pdf",
+  },
+  "gun-reform": {
+    eyebrow: "GUN REFORM WHITE PAPER",
+    headline: "Responsible and Protected",
+    subheadline: "Universal Background Checks, Due-Process Red-Flag Laws, and a Second Amendment That Works for Everyone",
+    pdfPath: "/documents/responsible-and-protected.pdf",
+  },
+  "polis-doctorate": {
+    eyebrow: "POLIS DOCTORATE WHITE PAPER",
+    headline: "Qualified to Govern",
+    subheadline: "The Case for a Professional Credential for Federal Office",
+    pdfPath: "/documents/qualified-to-govern.pdf",
+  },
+  "veterans": {
+    eyebrow: "VETERANS WHITE PAPER",
+    headline: "The Service Standard",
+    subheadline: "7-Day Access, Digital Modernization, and a Veterans System Built on Outcomes",
+    pdfPath: "/documents/the-service-standard.pdf",
+  },
+  "lgb-rights": {
+    eyebrow: "LGB RIGHTS WHITE PAPER",
+    headline: "Equal Under the Law",
+    subheadline: "Marriage, Family, Anti-Discrimination Protections, and Religious Liberty — Without Contradiction",
+    pdfPath: "/documents/equal-under-the-law.pdf",
+  },
+};

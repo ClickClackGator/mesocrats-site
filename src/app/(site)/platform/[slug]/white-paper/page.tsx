@@ -1,28 +1,40 @@
-import type { Metadata } from "next";
+import { notFound } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
 import PortableTextRenderer from "@/components/PortableTextRenderer";
 import { client } from "@/sanity/lib/client";
 import { pageBySlugQuery } from "@/sanity/lib/queries";
+import { whitePaperConfig } from "../../whitePaperConfig";
+import type { Metadata } from "next";
 
-export async function generateMetadata(): Promise<Metadata> {
-  const page = await client.fetch(
-    pageBySlugQuery,
-    { slug: "12-5-percent-plan" },
-    { next: { revalidate: 60 } }
-  );
+export async function generateStaticParams() {
+  return Object.keys(whitePaperConfig).map((slug) => ({ slug }));
+}
+
+export async function generateMetadata({
+  params,
+}: {
+  params: { slug: string };
+}): Promise<Metadata> {
+  const config = whitePaperConfig[params.slug];
+  if (!config) return {};
   return {
-    title: page?.seo?.metaTitle || "The 12.5% Plan | The Mesocratic Party",
-    description:
-      page?.seo?.metaDescription ||
-      "A Unified Flat Tax for Federal Income and Capital Gains",
+    title: `${config.headline} | The Mesocratic Party`,
+    description: config.subheadline,
   };
 }
 
-export default async function WhitePaperPage() {
+export default async function WhitePaperPage({
+  params,
+}: {
+  params: { slug: string };
+}) {
+  const config = whitePaperConfig[params.slug];
+  if (!config) notFound();
+
   const page = await client.fetch(
     pageBySlugQuery,
-    { slug: "12-5-percent-plan" },
+    { slug: `${params.slug}-white-paper` },
     { next: { revalidate: 60 } }
   );
 
@@ -46,14 +58,13 @@ export default async function WhitePaperPage() {
         )}
         <div className="relative max-w-3xl mx-auto text-center">
           <p className="text-sm uppercase tracking-[0.2em] font-semibold mb-4 text-white/60">
-            {page?.heroEyebrow || "TAX REFORM WHITE PAPER"}
+            {page?.heroEyebrow || config.eyebrow}
           </p>
           <h1 className="text-5xl sm:text-7xl font-bold mb-4">
-            {page?.heroHeadline || "The 12.5% Plan"}
+            {page?.heroHeadline || config.headline}
           </h1>
           <p className="text-lg font-semibold text-white/90">
-            {page?.heroSubheadline ||
-              "A Unified Flat Tax for Federal Income and Capital Gains"}
+            {page?.heroSubheadline || config.subheadline}
           </p>
         </div>
         {page?.imageCredit && (
@@ -67,7 +78,7 @@ export default async function WhitePaperPage() {
         {/* Download Button */}
         <div className="text-center mb-12">
           <Link
-            href="/documents/the-12-5-percent-plan.pdf"
+            href={config.pdfPath}
             target="_blank"
             rel="noopener noreferrer"
             className="inline-block bg-accent hover:bg-accent-light text-white font-bold px-8 py-4 rounded transition-colors text-lg"
