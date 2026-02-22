@@ -52,7 +52,7 @@ export default async function Home() {
         )}
         <div className="relative max-w-4xl mx-auto text-center">
           {homepage?.heroEyebrow && (
-            <p className="text-sm sm:text-base uppercase tracking-[0.25em] font-semibold mb-4 text-white/70">
+            <p className="text-sm sm:text-base uppercase tracking-[0.25em] font-semibold mb-4 text-accent-light">
               {homepage.heroEyebrow}
             </p>
           )}

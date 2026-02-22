@@ -57,7 +57,7 @@ export default async function WhitePaperPage({
           </>
         )}
         <div className="relative max-w-3xl mx-auto text-center">
-          <p className="text-sm uppercase tracking-[0.2em] font-semibold mb-4 text-white/60">
+          <p className="text-sm uppercase tracking-[0.2em] font-semibold mb-4 text-accent-light">
             {page?.heroEyebrow || config.eyebrow}
           </p>
           <h1 className="text-5xl sm:text-7xl font-bold mb-4">
