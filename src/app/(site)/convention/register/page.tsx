@@ -41,78 +41,6 @@ export default async function ConventionRegisterPage() {
         </div>
       </section>
 
-      {/* ──────────── The CCX Process — Timeline ──────────── */}
-      <section className="bg-primary text-white py-20 sm:py-28 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-3xl mx-auto">
-          <p className="text-xs font-bold tracking-widest text-accent-light uppercase mb-4 text-center">
-            How It Works
-          </p>
-          <h2 className="text-3xl sm:text-4xl font-bold mb-16 text-center">
-            The CCX Process
-          </h2>
-
-          <div className="relative">
-            {/* Connecting line */}
-            <div className="absolute left-7 top-0 bottom-0 w-0.5 bg-accent/40 hidden sm:block" />
-
-            {/* Step 1 */}
-            <div className="relative flex gap-6 sm:gap-8 mb-14">
-              <div className="relative z-10 w-14 h-14 rounded-full bg-accent text-white flex items-center justify-center text-xl font-bold shrink-0 ring-4 ring-primary">
-                1
-              </div>
-              <div className="pt-1">
-                <p className="text-xs font-bold tracking-widest text-accent-light uppercase mb-2">
-                  Join
-                </p>
-                <p className="text-white/80 leading-relaxed">
-                  Become a registered Mesocrat. It&apos;s free and takes 30 seconds.
-                </p>
-                <Link
-                  href="/involved/join"
-                  className="inline-block mt-3 text-sm font-semibold text-secondary hover:text-secondary-light underline underline-offset-2"
-                >
-                  Join the Party &rarr;
-                </Link>
-              </div>
-            </div>
-
-            {/* Step 2 */}
-            <div className="relative flex gap-6 sm:gap-8 mb-14">
-              <div className="relative z-10 w-14 h-14 rounded-full bg-accent text-white flex items-center justify-center text-xl font-bold shrink-0 ring-4 ring-primary">
-                2
-              </div>
-              <div className="pt-1">
-                <p className="text-xs font-bold tracking-widest text-accent-light uppercase mb-2">
-                  Run or Vote &mdash; November
-                </p>
-                <p className="text-white/80 leading-relaxed">
-                  Every November, each state elects 100 CCX State Representatives
-                  through the Mesocratic digital voting platform. You can run as a
-                  candidate or vote for who represents your state.
-                </p>
-              </div>
-            </div>
-
-            {/* Step 3 */}
-            <div className="relative flex gap-6 sm:gap-8">
-              <div className="relative z-10 w-14 h-14 rounded-full bg-accent text-white flex items-center justify-center text-xl font-bold shrink-0 ring-4 ring-primary">
-                3
-              </div>
-              <div className="pt-1">
-                <p className="text-xs font-bold tracking-widest text-accent-light uppercase mb-2">
-                  Convention &mdash; May, New Orleans
-                </p>
-                <p className="text-white/80 leading-relaxed">
-                  5,000 elected State Reps from all 50 states convene in New
-                  Orleans to draft tenets, debate the platform, and elect party
-                  leadership.
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
       {/* ──────────── Ways to Participate ──────────── */}
       <section className="py-20 sm:py-28 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">
@@ -186,6 +114,78 @@ export default async function ConventionRegisterPage() {
               >
                 Register for Updates &rarr;
               </Link>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ──────────── The CCX Process — Timeline ──────────── */}
+      <section className="bg-primary text-white py-20 sm:py-28 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-3xl mx-auto">
+          <p className="text-xs font-bold tracking-widest text-accent-light uppercase mb-4 text-center">
+            How It Works
+          </p>
+          <h2 className="text-3xl sm:text-4xl font-bold mb-16 text-center">
+            The CCX Process
+          </h2>
+
+          <div className="relative">
+            {/* Connecting line */}
+            <div className="absolute left-7 top-0 bottom-0 w-0.5 bg-accent/40 hidden sm:block" />
+
+            {/* Step 1 */}
+            <div className="relative flex gap-6 sm:gap-8 mb-14">
+              <div className="relative z-10 w-14 h-14 rounded-full bg-accent text-white flex items-center justify-center text-xl font-bold shrink-0 ring-4 ring-primary">
+                1
+              </div>
+              <div className="pt-1">
+                <p className="text-xs font-bold tracking-widest text-accent-light uppercase mb-2">
+                  Join
+                </p>
+                <p className="text-white/80 leading-relaxed">
+                  Become a registered Mesocrat. It&apos;s free and takes 30 seconds.
+                </p>
+                <Link
+                  href="/involved/join"
+                  className="inline-block mt-3 text-sm font-semibold text-secondary hover:text-secondary-light underline underline-offset-2"
+                >
+                  Join the Party &rarr;
+                </Link>
+              </div>
+            </div>
+
+            {/* Step 2 */}
+            <div className="relative flex gap-6 sm:gap-8 mb-14">
+              <div className="relative z-10 w-14 h-14 rounded-full bg-accent text-white flex items-center justify-center text-xl font-bold shrink-0 ring-4 ring-primary">
+                2
+              </div>
+              <div className="pt-1">
+                <p className="text-xs font-bold tracking-widest text-accent-light uppercase mb-2">
+                  Run or Vote &mdash; November
+                </p>
+                <p className="text-white/80 leading-relaxed">
+                  Every November, each state elects 100 CCX State Representatives
+                  through the Mesocratic digital voting platform. You can run as a
+                  candidate or vote for who represents your state.
+                </p>
+              </div>
+            </div>
+
+            {/* Step 3 */}
+            <div className="relative flex gap-6 sm:gap-8">
+              <div className="relative z-10 w-14 h-14 rounded-full bg-accent text-white flex items-center justify-center text-xl font-bold shrink-0 ring-4 ring-primary">
+                3
+              </div>
+              <div className="pt-1">
+                <p className="text-xs font-bold tracking-widest text-accent-light uppercase mb-2">
+                  Convention &mdash; May, New Orleans
+                </p>
+                <p className="text-white/80 leading-relaxed">
+                  5,000 elected State Reps from all 50 states convene in New
+                  Orleans to draft tenets, debate the platform, and elect party
+                  leadership.
+                </p>
+              </div>
             </div>
           </div>
         </div>
