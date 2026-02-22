@@ -262,9 +262,9 @@ export default async function ConventionRegisterPage() {
             <div className="bg-white/10 rounded-lg p-8 sm:p-10">
               <h3 className="text-xl font-bold mb-3">Elect Leadership</h3>
               <p className="text-white/70 leading-relaxed text-sm">
-                Chair, Vice Chair, Treasurer, Secretary &mdash; the people who run
+                Chair, Vice Chair, Treasurer, Secretary, et al &mdash; all the people who run
                 the MNC and represent the party nationally. Your delegates decide
-                who leads. Every year.
+                who leads. Every four years at CCX.
               </p>
             </div>
           </div>
