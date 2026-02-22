@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import PortableTextRenderer from "@/components/PortableTextRenderer";
 import { client } from "@/sanity/lib/client";
 import { formPageContentQuery } from "@/sanity/lib/queries";
 import IdeaForm from "./IdeaForm";
@@ -23,12 +22,6 @@ export default async function SubmitIdeaPage() {
     { next: { revalidate: 60 } }
   );
 
-  const hasBodyContent = content?.bodyContent && content.bodyContent.length > 0;
-
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const cmsCards = content?.cards as any[] | undefined;
-  const hasCards = cmsCards && cmsCards.length > 0;
-
   return (
     <div>
       {/* Hero */}
@@ -47,40 +40,76 @@ export default async function SubmitIdeaPage() {
         </div>
       </section>
 
-      {/* CMS Body Content */}
-      {hasBodyContent && (
-        <section className="py-16 sm:py-20 px-4 sm:px-6 lg:px-8">
-          <div className="max-w-3xl mx-auto">
-            <PortableTextRenderer value={content.bodyContent} />
-          </div>
-        </section>
-      )}
+      {/* ──────────── How It Works — Timeline ──────────── */}
+      <section className="bg-primary text-white py-20 sm:py-28 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-3xl mx-auto">
+          <p className="text-xs font-bold tracking-widest text-accent-light uppercase mb-4 text-center">
+            How It Works
+          </p>
+          <h2 className="text-3xl sm:text-4xl font-bold mb-16 text-center">
+            From Idea to Convention Floor
+          </h2>
 
-      {/* CMS Cards */}
-      {hasCards && (
-        <section className="py-16 sm:py-20 px-4 sm:px-6 lg:px-8">
-          <div className="max-w-7xl mx-auto">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              {cmsCards.map(
-                (c: { headline?: string; body?: string }, i: number) => (
-                  <div key={c.headline || i} className="bg-gray-light rounded-lg p-8">
-                    {c.headline && (
-                      <h3 className="text-xl font-bold mb-3">
-                        {c.headline}
-                      </h3>
-                    )}
-                    {c.body && (
-                      <p className="text-sm text-primary/70 leading-relaxed">
-                        {c.body}
-                      </p>
-                    )}
-                  </div>
-                )
-              )}
+          <div className="relative">
+            {/* Connecting line */}
+            <div className="absolute left-7 top-0 bottom-0 w-0.5 bg-accent/40 hidden sm:block" />
+
+            {/* Step 1 */}
+            <div className="relative flex gap-6 sm:gap-8 mb-14">
+              <div className="relative z-10 w-14 h-14 rounded-full bg-accent text-white flex items-center justify-center text-xl font-bold shrink-0 ring-4 ring-primary">
+                1
+              </div>
+              <div className="pt-1">
+                <p className="text-xs font-bold tracking-widest text-accent-light uppercase mb-2">
+                  Submit Your Idea
+                </p>
+                <p className="text-white/80 leading-relaxed">
+                  Tell us what policy position, platform plank, or foundational
+                  tenet you think the Mesocratic Party should consider. Be specific.
+                </p>
+              </div>
+            </div>
+
+            {/* Step 2 */}
+            <div className="relative flex gap-6 sm:gap-8 mb-14">
+              <div className="relative z-10 w-14 h-14 rounded-full bg-accent text-white flex items-center justify-center text-xl font-bold shrink-0 ring-4 ring-primary">
+                2
+              </div>
+              <div className="pt-1">
+                <p className="text-xs font-bold tracking-widest text-accent-light uppercase mb-2">
+                  The Community Weighs In
+                </p>
+                <p className="text-white/80 leading-relaxed">
+                  Other Mesocrats can upvote and comment on submissions. The best
+                  ideas rise to the top. Common themes are aggregated using AI
+                  tools, so that nearly every voice is truly heard.
+                </p>
+              </div>
+            </div>
+
+            {/* Step 3 */}
+            <div className="relative flex gap-6 sm:gap-8">
+              <div className="relative z-10 w-14 h-14 rounded-full bg-accent text-white flex items-center justify-center text-xl font-bold shrink-0 ring-4 ring-primary">
+                3
+              </div>
+              <div className="pt-1">
+                <p className="text-xs font-bold tracking-widest text-accent-light uppercase mb-2">
+                  Top Ideas Go to CCX
+                </p>
+                <p className="text-white/80 leading-relaxed">
+                  The highest-rated submissions will be formally introduced at the
+                  convention for debate and potential ratification.
+                </p>
+              </div>
             </div>
           </div>
-        </section>
-      )}
+
+          {/* Closing callout */}
+          <p className="text-xl sm:text-2xl font-bold text-white text-center mt-16">
+            This isn&apos;t a suggestion box. It&apos;s a pipeline to the convention floor.
+          </p>
+        </div>
+      </section>
 
       {/* Idea Submission Form */}
       <section className="bg-gray-light py-16 sm:py-20 px-4 sm:px-6 lg:px-8">
