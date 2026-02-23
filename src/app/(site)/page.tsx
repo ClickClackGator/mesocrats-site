@@ -70,7 +70,7 @@ export default async function Home() {
             {homepage?.heroCta1Link && homepage?.heroCta1Label && (
               <Link
                 href={homepage.heroCta1Link}
-                className="bg-cta text-white font-bold px-8 py-3 rounded hover:bg-cta-light transition-colors text-center"
+                className="border-2 border-white text-white font-bold px-8 py-3 rounded hover:bg-secondary hover:border-secondary transition-colors text-center"
               >
                 {homepage.heroCta1Label}
               </Link>
@@ -78,7 +78,7 @@ export default async function Home() {
             {homepage?.heroCta2Link && homepage?.heroCta2Label && (
               <Link
                 href={homepage.heroCta2Link}
-                className="border-2 border-white text-white font-bold px-8 py-3 rounded hover:bg-white/10 transition-colors text-center"
+                className="border-2 border-white text-white font-bold px-8 py-3 rounded hover:bg-cta hover:border-cta transition-colors text-center"
               >
                 {homepage.heroCta2Label}
               </Link>
