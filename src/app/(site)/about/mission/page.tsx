@@ -28,7 +28,7 @@ export default async function MissionPage() {
   return (
     <div>
       {/* Hero */}
-      <section className="relative bg-accent text-white py-18 sm:py-24 px-4 sm:px-6 lg:px-8 overflow-hidden">
+      <section className="relative bg-accent text-white py-24 sm:py-32 px-4 sm:px-6 lg:px-8 overflow-hidden">
         {page?.heroImage && (
           <>
             <Image
@@ -69,7 +69,7 @@ export default async function MissionPage() {
       <div className="h-1 bg-secondary" />
 
       {hasCmsContent && (
-        <article className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-20">
+        <article className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-20 sm:py-24">
           <div className="space-y-6 text-lg leading-relaxed text-gray-800">
             <PortableTextRenderer value={page.content} />
           </div>

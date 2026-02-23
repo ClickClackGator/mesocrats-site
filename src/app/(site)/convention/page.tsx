@@ -46,7 +46,7 @@ export default async function ConventionPage() {
   return (
     <div>
       {/* Hero */}
-      <section className="relative bg-primary text-white py-16 sm:py-20 px-4 sm:px-6 lg:px-8 overflow-hidden">
+      <section className="relative bg-primary text-white py-16 sm:py-24 px-4 sm:px-6 lg:px-8 overflow-hidden">
         {page?.heroImage && (
           <>
             <Image

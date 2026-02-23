@@ -42,7 +42,7 @@ export default async function ConventionRegisterPage() {
       </section>
 
       {/* ──────────── Ways to Participate ──────────── */}
-      <section className="py-16 sm:py-20 px-4 sm:px-6 lg:px-8">
+      <section className="py-20 sm:py-28 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">
           <p className="text-xs font-bold tracking-widest text-accent uppercase mb-4 text-center">
             Get Involved
@@ -120,7 +120,7 @@ export default async function ConventionRegisterPage() {
       </section>
 
       {/* ──────────── The CCX Process — Timeline ──────────── */}
-      <section className="bg-primary text-white py-16 sm:py-20 px-4 sm:px-6 lg:px-8">
+      <section className="bg-primary text-white py-20 sm:py-28 px-4 sm:px-6 lg:px-8">
         <div className="max-w-3xl mx-auto">
           <p className="text-xs font-bold tracking-widest text-accent-light uppercase mb-4 text-center">
             How It Works
@@ -192,7 +192,7 @@ export default async function ConventionRegisterPage() {
       </section>
 
       {/* ──────────── What Happens at CCX ──────────── */}
-      <section className="bg-accent text-white py-16 sm:py-20 px-4 sm:px-6 lg:px-8">
+      <section className="bg-accent text-white py-20 sm:py-28 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">
           <h2 className="text-3xl sm:text-4xl font-bold mb-14 text-center">
             What Happens at CCX
