@@ -69,7 +69,7 @@ export default async function HowItWorksPage() {
       {/* Accent divider bar */}
       <div className="h-1 bg-accent" />
 
-      <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16 space-y-16">
+      <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-10 space-y-16">
         {hasCmsContent && (
           <PortableTextRenderer value={page.content} />
         )}
