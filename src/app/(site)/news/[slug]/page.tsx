@@ -82,7 +82,7 @@ export default async function NewsPostPage({
       <section className="bg-accent text-white py-16 sm:py-20 px-4 sm:px-6 lg:px-8">
         <div className="max-w-3xl mx-auto text-center">
           {post.category && (
-            <p className="inline-block bg-white text-accent rounded-full px-3 py-1 text-sm uppercase tracking-[0.2em] font-semibold mb-4">
+            <p className="inline-block bg-white text-accent rounded-full px-3 py-1 text-sm uppercase tracking-[0.2em] font-extrabold mb-4">
               {categoryLabel(post.category)}
             </p>
           )}
