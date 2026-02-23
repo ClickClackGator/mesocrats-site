@@ -105,7 +105,7 @@ export default async function PolicyPage({
   return (
     <main>
       {/* ── Hero ────────────────────────────────── */}
-      <section className="relative py-20 md:py-32 bg-gray-900 text-white overflow-hidden">
+      <section className="relative py-16 sm:py-24 bg-gray-900 text-white overflow-hidden">
         {page.heroImage && (
           <>
             <Image

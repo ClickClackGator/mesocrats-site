@@ -41,7 +41,7 @@ export default async function SubmitIdeaPage() {
       </section>
 
       {/* ──────────── How It Works — Timeline ──────────── */}
-      <section className="bg-primary text-white py-20 sm:py-28 px-4 sm:px-6 lg:px-8">
+      <section className="bg-primary text-white py-16 sm:py-20 px-4 sm:px-6 lg:px-8">
         <div className="max-w-3xl mx-auto">
           <p className="text-xs font-bold tracking-widest text-accent-light uppercase mb-4 text-center">
             How It Works
