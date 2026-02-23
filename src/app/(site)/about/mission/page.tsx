@@ -43,7 +43,7 @@ export default async function MissionPage() {
         )}
         <div className="relative max-w-3xl mx-auto text-center">
           {page?.heroEyebrow && (
-            <p className="text-xs uppercase tracking-[0.25em] font-bold mb-5 text-accent-light">
+            <p className="inline-block bg-white text-accent rounded-full px-3 py-1 text-xs uppercase tracking-[0.25em] font-bold mb-5">
               {page.heroEyebrow}
             </p>
           )}

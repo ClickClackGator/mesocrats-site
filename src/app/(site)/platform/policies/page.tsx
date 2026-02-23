@@ -51,7 +51,7 @@ export default async function PolicyPositionsPage() {
         )}
         <div className="relative max-w-3xl mx-auto text-center">
           {page?.heroEyebrow && (
-            <p className="text-sm uppercase tracking-[0.2em] font-semibold mb-4 text-accent-light">
+            <p className="inline-block bg-white text-accent rounded-full px-3 py-1 text-sm uppercase tracking-[0.2em] font-semibold mb-4">
               {page.heroEyebrow}
             </p>
           )}
