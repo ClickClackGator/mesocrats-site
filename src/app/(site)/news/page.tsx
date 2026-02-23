@@ -38,7 +38,10 @@ export default async function NewsPage() {
         </div>
       </section>
 
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+      {/* Accent divider bar */}
+      <div className="h-1 bg-accent" />
+
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
         {hasPosts ? (
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {posts.map((post) => {

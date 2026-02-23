@@ -43,7 +43,10 @@ export default async function DonatePage() {
         </div>
       </section>
 
-      <section className="py-16 sm:py-20 px-4 sm:px-6 lg:px-8">
+      {/* Accent divider bar */}
+      <div className="h-1 bg-accent" />
+
+      <section className="py-10 sm:py-14 px-4 sm:px-6 lg:px-8">
         <div className="max-w-xl mx-auto text-center">
           {hasBodyContent && (
             <div className="mb-8 text-left">

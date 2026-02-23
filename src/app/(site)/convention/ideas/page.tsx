@@ -40,8 +40,11 @@ export default async function SubmitIdeaPage() {
         </div>
       </section>
 
+      {/* Accent divider bar */}
+      <div className="h-1 bg-accent" />
+
       {/* ──────────── How It Works — Timeline ──────────── */}
-      <section className="bg-primary text-white py-20 sm:py-28 px-4 sm:px-6 lg:px-8">
+      <section className="bg-primary text-white py-12 sm:py-16 px-4 sm:px-6 lg:px-8">
         <div className="max-w-3xl mx-auto">
           <p className="text-xs font-bold tracking-widest text-accent-light uppercase mb-4 text-center">
             How It Works
@@ -112,7 +115,7 @@ export default async function SubmitIdeaPage() {
       </section>
 
       {/* Idea Submission Form */}
-      <section className="bg-gray-light py-16 sm:py-20 px-4 sm:px-6 lg:px-8">
+      <section className="bg-gray-light py-12 sm:py-16 px-4 sm:px-6 lg:px-8">
         <div className="max-w-2xl mx-auto">
           <IdeaForm />
         </div>

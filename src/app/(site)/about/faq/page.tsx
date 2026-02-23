@@ -39,8 +39,11 @@ export default async function FAQPage() {
         </div>
       </section>
 
+      {/* Accent divider bar */}
+      <div className="h-1 bg-accent" />
+
       {items.length > 0 && (
-        <section className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+        <section className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
           <Accordion items={items} />
         </section>
       )}

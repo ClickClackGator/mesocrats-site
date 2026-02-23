@@ -74,7 +74,10 @@ export default async function WhitePaperPage({
         )}
       </section>
 
-      <section className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+      {/* Accent divider bar */}
+      <div className="h-1 bg-accent" />
+
+      <section className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
         {/* Download Button */}
         <div className="text-center mb-12">
           <Link

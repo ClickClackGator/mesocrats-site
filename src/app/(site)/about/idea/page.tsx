@@ -60,8 +60,12 @@ export default async function IdeaPage() {
           </span>
         )}
       </section>
+
+      {/* Accent divider bar */}
+      <div className="h-1 bg-accent" />
+
       {hasCmsContent && (
-        <article className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-16 space-y-12">
+        <article className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-12 space-y-12">
           <PortableTextRenderer value={page.content} />
         </article>
       )}

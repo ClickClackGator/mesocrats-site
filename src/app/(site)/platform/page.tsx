@@ -91,7 +91,10 @@ export default async function PlatformPage() {
         )}
       </section>
 
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+      {/* Accent divider bar */}
+      <div className="h-1 bg-accent" />
+
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
         {/* Platform Built by the People callout */}
         {calloutBlock && (
           <div className="bg-gray-light rounded-lg p-8 sm:p-10 mb-16">

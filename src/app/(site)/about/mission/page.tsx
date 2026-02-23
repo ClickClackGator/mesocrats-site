@@ -66,7 +66,7 @@ export default async function MissionPage() {
       </section>
 
       {/* Accent divider bar */}
-      <div className="h-1 bg-secondary" />
+      <div className="h-1 bg-accent" />
 
       {hasCmsContent && (
         <article className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-12">

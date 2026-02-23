@@ -102,9 +102,12 @@ export default async function ConventionPage() {
         )}
       </section>
 
+      {/* Accent divider bar */}
+      <div className="h-1 bg-accent" />
+
       {/* Body content (rich text) */}
       {page?.content && page.content.length > 0 && (
-        <section className="py-16 sm:py-20 px-4 sm:px-6 lg:px-8">
+        <section className="py-12 sm:py-16 px-4 sm:px-6 lg:px-8">
           <div className="max-w-3xl mx-auto">
             <PortableTextRenderer value={page.content} />
           </div>
@@ -121,7 +124,7 @@ export default async function ConventionPage() {
           return (
             <section
               key={section._key || i}
-              className={`py-16 sm:py-20 px-4 sm:px-6 lg:px-8 ${bg}`}
+              className={`py-12 sm:py-16 px-4 sm:px-6 lg:px-8 ${bg}`}
             >
               <div className="max-w-3xl mx-auto">
                 {section.headline && (
@@ -153,7 +156,7 @@ export default async function ConventionPage() {
       {/* ──────────── Registration Form ──────────── */}
       <section
         id="register"
-        className="bg-gray-light py-16 sm:py-20 px-4 sm:px-6 lg:px-8"
+        className="bg-gray-light py-12 sm:py-16 px-4 sm:px-6 lg:px-8"
       >
         <div className="max-w-xl mx-auto">
           {ctaSection?.headline && (

@@ -54,9 +54,12 @@ export default async function JoinPage() {
         </div>
       </section>
 
+      {/* Accent divider bar */}
+      <div className="h-1 bg-accent" />
+
       {/* Why Join */}
       {cards.length > 0 && (
-        <section className="py-16 sm:py-20 px-4 sm:px-6 lg:px-8">
+        <section className="py-10 sm:py-14 px-4 sm:px-6 lg:px-8">
           <div className="max-w-7xl mx-auto">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
               {cards.map((item) => (
@@ -86,14 +89,14 @@ export default async function JoinPage() {
       )}
 
       {/* Signup Form */}
-      <section className="bg-gray-light py-16 sm:py-20 px-4 sm:px-6 lg:px-8">
+      <section className="bg-gray-light py-10 sm:py-14 px-4 sm:px-6 lg:px-8">
         <div className="max-w-2xl mx-auto">
           <JoinForm />
         </div>
       </section>
 
       {/* Spread the Word */}
-      <section className="py-16 sm:py-20 px-4 sm:px-6 lg:px-8">
+      <section className="py-10 sm:py-14 px-4 sm:px-6 lg:px-8">
         <div className="max-w-3xl mx-auto text-center">
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link

@@ -81,7 +81,10 @@ export default async function StoryPage() {
         )}
       </section>
 
-      <article className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-16 space-y-12">
+      {/* Accent divider bar */}
+      <div className="h-1 bg-accent" />
+
+      <article className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-12 space-y-12">
         {hasCmsContent && (
           <PortableTextRenderer value={page.content} />
         )}

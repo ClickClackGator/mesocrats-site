@@ -38,7 +38,7 @@ export default async function RunPage() {
   return (
     <div>
       {/* Hero */}
-      <section className="bg-accent text-white py-16 sm:py-20 px-4 sm:px-6 lg:px-8">
+      <section className="bg-accent text-white py-10 sm:py-14 px-4 sm:px-6 lg:px-8">
         <div className="max-w-3xl mx-auto text-center">
           {content?.heroHeadline && (
             <h1 className="text-5xl sm:text-7xl font-bold mb-4">
@@ -53,6 +53,9 @@ export default async function RunPage() {
         </div>
       </section>
 
+      {/* Accent divider bar */}
+      <div className="h-1 bg-accent" />
+
       {/* Body Content */}
       {hasBodyContent && (
         <section className="py-10 sm:py-14 px-4 sm:px-6 lg:px-8">
@@ -64,7 +67,7 @@ export default async function RunPage() {
 
       {/* What We Offer */}
       {cards.length > 0 && (
-        <section className="bg-gray-light py-16 sm:py-20 px-4 sm:px-6 lg:px-8">
+        <section className="bg-gray-light py-10 sm:py-14 px-4 sm:px-6 lg:px-8">
           <div className="max-w-7xl mx-auto">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
               {cards.map((item) => (
@@ -85,7 +88,7 @@ export default async function RunPage() {
       )}
 
       {/* Interest Form */}
-      <section className="py-16 sm:py-20 px-4 sm:px-6 lg:px-8">
+      <section className="py-10 sm:py-14 px-4 sm:px-6 lg:px-8">
         <div className="max-w-2xl mx-auto">
           <CandidateForm />
         </div>

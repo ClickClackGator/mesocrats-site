@@ -14,7 +14,10 @@ export default function TermsPage() {
         </div>
       </section>
 
-      <article className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-16 prose-sm space-y-8 text-primary/70 leading-relaxed">
+      {/* Accent divider bar */}
+      <div className="h-1 bg-accent" />
+
+      <article className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-14 prose-sm space-y-8 text-primary/70 leading-relaxed">
         <section>
           <h2 className="text-xl font-bold text-primary mb-3">
             Acceptance of Terms

@@ -73,9 +73,12 @@ export default async function PolicyPositionsPage() {
         )}
       </section>
 
+      {/* Accent divider bar */}
+      <div className="h-1 bg-accent" />
+
       {/* All policy cards */}
       {positions.length > 0 && (
-        <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+        <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
             {positions.map((pos: any, i: number) => (

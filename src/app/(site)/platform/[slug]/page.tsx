@@ -141,8 +141,11 @@ export default async function PolicyPage({
         )}
       </section>
 
+      {/* Accent divider bar */}
+      <div className="h-1 bg-accent" />
+
       {/* ── Content ─────────────────────────────── */}
-      <article className="max-w-4xl mx-auto px-6 py-16">
+      <article className="max-w-4xl mx-auto px-6 py-10 sm:py-12">
         {/* THE REALITY */}
         {page.realitySection && (
           <section className="mb-12">

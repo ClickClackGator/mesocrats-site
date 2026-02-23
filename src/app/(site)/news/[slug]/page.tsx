@@ -96,6 +96,9 @@ export default async function NewsPostPage({
         </div>
       </section>
 
+      {/* Accent divider bar */}
+      <div className="h-1 bg-accent" />
+
       {/* Cover Image */}
       {post.coverImage && (
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 -mt-8">
@@ -112,7 +115,7 @@ export default async function NewsPostPage({
       )}
 
       {/* Article Body */}
-      <article className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+      <article className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
         {/* Excerpt as lead paragraph */}
         {post.excerpt && (
           <p className="text-lg text-primary/70 leading-relaxed mb-8 font-medium">
