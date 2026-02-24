@@ -136,7 +136,7 @@ export default async function PolicyPage({
           {whitePaperConfig[page.slug.current]?.length > 0 && (
             <a
               href="#white-papers"
-              className="inline-block mt-6 bg-white text-gray-900 font-bold px-5 py-2.5 text-sm rounded transition-colors hover:bg-[#6C3393] hover:text-white"
+              className="inline-block mt-6 border-2 border-white text-white bg-transparent font-bold px-5 py-2.5 text-sm rounded transition-colors hover:bg-[#6C3393] hover:border-[#6C3393] hover:text-white"
             >
               {whitePaperConfig[page.slug.current].length === 1
                 ? 'Read the White Paper'
