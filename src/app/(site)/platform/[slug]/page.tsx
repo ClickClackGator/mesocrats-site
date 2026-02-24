@@ -8,7 +8,7 @@ import PortableTextRenderer from '@/components/PortableTextRenderer'
 import LivingPlatformCallout from '@/components/LivingPlatformCallout'
 import Link from 'next/link'
 import type { Metadata } from 'next'
-import { whitePaperConfig } from '../whitePaperConfig'
+import { whitePaperConfig, type WhitePaperEntry } from '../whitePaperConfig'
 
 // ── Types ─────────────────────────────────────────
 interface PolicyPageData {
@@ -197,7 +197,7 @@ export default async function PolicyPage({
         )}
 
         {/* ── White Paper Callout ── */}
-        {whitePaperConfig[page.slug.current] && (
+        {whitePaperConfig[page.slug.current]?.length === 1 && (
           <section className="mb-16 bg-accent rounded-lg p-8 sm:p-10 text-white">
             <p className="text-xs font-bold tracking-widest uppercase mb-3 text-white/60">
               WHITE PAPER
@@ -206,16 +206,55 @@ export default async function PolicyPage({
               Read the Full White Paper
             </h3>
             <p className="text-white/80 leading-relaxed mb-6">
-              {whitePaperConfig[page.slug.current].headline} — {whitePaperConfig[page.slug.current].subheadline}
+              {whitePaperConfig[page.slug.current][0].headline} — {whitePaperConfig[page.slug.current][0].subheadline}
             </p>
             <Link
-              href={`/platform/${page.slug.current}/white-paper`}
+              href={`/platform/${page.slug.current}/white-paper/${whitePaperConfig[page.slug.current][0].id}`}
               className="inline-block bg-white text-accent font-bold px-6 py-3 rounded hover:bg-gray-100 transition-colors"
             >
               Read the White Paper
             </Link>
           </section>
         )}
+        {whitePaperConfig[page.slug.current]?.length > 1 && (() => {
+          const papers = whitePaperConfig[page.slug.current];
+          const countWords: Record<number, string> = { 2: 'Two', 3: 'Three', 4: 'Four', 5: 'Five', 6: 'Six', 7: 'Seven', 8: 'Eight', 9: 'Nine', 10: 'Ten' };
+          const countWord = countWords[papers.length] || String(papers.length);
+          return (
+            <section className="mb-16 bg-accent rounded-lg p-8 sm:p-10 text-white">
+              <p className="text-xs font-bold tracking-widest uppercase mb-3 text-white/60">
+                WHITE PAPERS
+              </p>
+              <h3 className="text-2xl font-bold mb-2">
+                Dive Deeper
+              </h3>
+              <p className="text-white/80 leading-relaxed mb-6">
+                {countWord} white papers support this policy position.
+              </p>
+              <div className="flex flex-col gap-4">
+                {papers.map((paper: WhitePaperEntry) => (
+                  <div key={paper.id} className="bg-white rounded-lg p-6 sm:p-8">
+                    <p className="text-xs font-bold tracking-widest uppercase text-accent/60 mb-2">
+                      {paper.eyebrow}
+                    </p>
+                    <h4 className="text-xl font-bold text-gray-900 mb-1">
+                      {paper.headline}
+                    </h4>
+                    <p className="text-gray-600 leading-relaxed mb-4">
+                      {paper.subheadline}
+                    </p>
+                    <Link
+                      href={`/platform/${page.slug.current}/white-paper/${paper.id}`}
+                      className="inline-block bg-accent text-white font-bold px-6 py-3 rounded hover:bg-accent-light transition-colors"
+                    >
+                      Read the White Paper
+                    </Link>
+                  </div>
+                ))}
+              </div>
+            </section>
+          );
+        })()}
 
         {/* ── Living Platform Callout ───────────── */}
         <LivingPlatformCallout
