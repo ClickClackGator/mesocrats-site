@@ -103,7 +103,7 @@ export default async function PolicyPage({
   if (!page) notFound()
 
   return (
-    <main>
+    <main className="scroll-smooth">
       {/* ── Hero ────────────────────────────────── */}
       <section className="relative py-20 md:py-32 bg-gray-900 text-white overflow-hidden">
         {page.heroImage && (
@@ -132,6 +132,16 @@ export default async function PolicyPage({
             <p className="text-lg md:text-xl text-gray-300 max-w-2xl mx-auto">
               {page.tagline}
             </p>
+          )}
+          {whitePaperConfig[page.slug.current]?.length > 0 && (
+            <a
+              href="#white-papers"
+              className="inline-block mt-6 bg-white text-gray-900 font-bold px-5 py-2.5 text-sm rounded transition-colors hover:bg-[#6C3393] hover:text-white"
+            >
+              {whitePaperConfig[page.slug.current].length === 1
+                ? 'Read the White Paper'
+                : 'Read the White Papers'}
+            </a>
           )}
         </div>
         {page.imageCredit && (
@@ -198,7 +208,7 @@ export default async function PolicyPage({
 
         {/* ── White Paper Callout ── */}
         {whitePaperConfig[page.slug.current]?.length === 1 && (
-          <section className="mb-16 bg-accent rounded-lg p-8 sm:p-10 text-white">
+          <section id="white-papers" className="mb-16 bg-accent rounded-lg p-8 sm:p-10 text-white">
             <p className="text-xs font-bold tracking-widest uppercase mb-3 text-white/60">
               WHITE PAPER
             </p>
@@ -221,7 +231,7 @@ export default async function PolicyPage({
           const countWords: Record<number, string> = { 2: 'Two', 3: 'Three', 4: 'Four', 5: 'Five', 6: 'Six', 7: 'Seven', 8: 'Eight', 9: 'Nine', 10: 'Ten' };
           const countWord = countWords[papers.length] || String(papers.length);
           return (
-            <section className="mb-16 bg-accent rounded-lg p-8 sm:p-10 text-white">
+            <section id="white-papers" className="mb-16 bg-accent rounded-lg p-8 sm:p-10 text-white">
               <p className="text-xs font-bold tracking-widest uppercase mb-3 text-white/60">
                 WHITE PAPERS
               </p>
