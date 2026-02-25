@@ -144,7 +144,7 @@ export default async function PolicyPage({
             </a>
           )}
           <Link
-            href="/platform"
+            href="/platform/policies"
             className="block mt-4 text-sm font-normal text-white no-underline hover:text-gray-300 transition-colors"
           >
             Explore Our Policies →
