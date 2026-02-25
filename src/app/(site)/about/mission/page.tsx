@@ -70,9 +70,7 @@ export default async function MissionPage() {
 
       {hasCmsContent && (
         <article className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
-          <div className="space-y-6 text-lg leading-relaxed text-gray-800">
-            <PortableTextRenderer value={page.content} />
-          </div>
+          <PortableTextRenderer value={page.content} />
         </article>
       )}
     </div>
