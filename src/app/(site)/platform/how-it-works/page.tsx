@@ -33,7 +33,7 @@ export default async function HowItWorksPage() {
   const ctaSection = sections?.find((s: any) => s._type === "ctaSection");
 
   return (
-    <div>
+    <div className="scroll-smooth">
       {/* Hero */}
       <section className="relative bg-accent text-white py-16 sm:py-20 px-4 sm:px-6 lg:px-8 overflow-hidden">
         {page?.heroImage && (
@@ -60,9 +60,7 @@ export default async function HowItWorksPage() {
             </p>
           )}
           <a
-            href="/documents/MP_How_We_Built_the_Platform_v1.pdf"
-            target="_blank"
-            rel="noopener noreferrer"
+            href="#white-paper"
             className="inline-block mt-6 border-2 border-white text-white bg-transparent font-bold px-5 py-2.5 text-sm rounded transition-colors hover:bg-[#6C3393] hover:border-[#6C3393] hover:text-white"
           >
             Read the White Paper
@@ -122,7 +120,7 @@ export default async function HowItWorksPage() {
         )}
 
         {/* ── White Paper Callout ── */}
-        <section className="mb-16 bg-accent rounded-lg p-8 sm:p-10 text-white">
+        <section id="white-paper" className="mb-16 bg-accent rounded-lg p-8 sm:p-10 text-white">
           <p className="text-xs font-bold tracking-widest uppercase mb-3 text-white/60">
             WHITE PAPER
           </p>
