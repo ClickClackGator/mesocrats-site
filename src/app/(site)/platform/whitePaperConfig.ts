@@ -9,7 +9,7 @@ export interface WhitePaperEntry {
 export const whitePaperConfig: Record<string, WhitePaperEntry[]> = {
   "tax-reform": [
     {
-      id: "the-12-percent-plan",
+      id: "the-15-percent-plan",
       eyebrow: "TAX REFORM WHITE PAPER",
       headline: "The 15% Plan",
       subheadline: "A Unified Flat Tax for All American Income",
