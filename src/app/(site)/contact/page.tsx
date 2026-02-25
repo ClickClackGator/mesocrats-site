@@ -61,7 +61,7 @@ export default async function ContactPage() {
       <section className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-14">
         {hasBodyContent && (
           <div className="mb-6">
-            <PortableTextRenderer value={content.bodyContent} />
+            <PortableTextRenderer value={content.bodyContent} className="text-lg leading-relaxed" />
           </div>
         )}
         <ContactForm />

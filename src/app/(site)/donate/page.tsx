@@ -50,7 +50,7 @@ export default async function DonatePage() {
         <div className="max-w-xl mx-auto text-center">
           {hasBodyContent && (
             <div className="mb-8 text-left">
-              <PortableTextRenderer value={content.bodyContent} />
+              <PortableTextRenderer value={content.bodyContent} className="text-lg leading-relaxed" />
             </div>
           )}
 
