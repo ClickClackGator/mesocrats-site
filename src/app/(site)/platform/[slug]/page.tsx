@@ -143,6 +143,12 @@ export default async function PolicyPage({
                 : 'Read the White Papers'}
             </a>
           )}
+          <Link
+            href="/platform"
+            className="block mt-4 text-base font-bold text-white no-underline hover:text-gray-300 transition-colors"
+          >
+            Explore Our Policies →
+          </Link>
         </div>
         {page.imageCredit && (
           <span className="absolute bottom-2 right-3 text-[9px] text-white/50">

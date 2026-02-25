@@ -11,23 +11,23 @@ export const whitePaperConfig: Record<string, WhitePaperEntry[]> = {
     {
       id: "the-12-percent-plan",
       eyebrow: "TAX REFORM WHITE PAPER",
-      headline: "The 12% Plan",
+      headline: "The 15% Plan",
       subheadline: "A Unified Flat Tax for All American Income",
-      pdfPath: "/documents/the-12-percent-plan.pdf",
+      pdfPath: "/documents/MP_The_15_Percent_Plan_v1.pdf",
     },
     {
       id: "american-family-growth-credit",
       eyebrow: "FAMILY TAX CREDIT WHITE PAPER",
       headline: "The American Family Growth Credit",
       subheadline: "The Most Aggressive Pro-Family Tax Policy in the Developed World",
-      pdfPath: "/documents/american-family-growth-credit.pdf",
+      pdfPath: "/documents/MP_American_Family_Growth_Credit_v1.pdf",
     },
     {
       id: "corporate-codetermination-act",
       eyebrow: "WORKERS' RIGHTS WHITE PAPER",
       headline: "The Corporate Codetermination Act",
       subheadline: "Worker Representation on Corporate Boards — Modeled on Germany's Proven System",
-      pdfPath: "/documents/corporate-codetermination-act.pdf",
+      pdfPath: "/documents/MP_Corporate_Codetermination_Act_v2.pdf",
     },
   ],
   "digital-voting": [
@@ -36,7 +36,7 @@ export const whitePaperConfig: Record<string, WhitePaperEntry[]> = {
       eyebrow: "DIGITAL VOTING WHITE PAPER",
       headline: "The Civic Platform",
       subheadline: "A Secure, Accessible, and Verifiable Digital Voting System for American Democracy",
-      pdfPath: "/documents/the-civic-platform.pdf",
+      pdfPath: "/documents/MP_The_Civic_Platform_v2.pdf",
     },
   ],
   "healthcare": [
@@ -45,7 +45,7 @@ export const whitePaperConfig: Record<string, WhitePaperEntry[]> = {
       eyebrow: "HEALTHCARE WHITE PAPER",
       headline: "The Two-Tier Plan",
       subheadline: "Universal Baseline Coverage with a Private Supplemental Market",
-      pdfPath: "/documents/the-two-tier-plan.pdf",
+      pdfPath: "/documents/MP_The_Two_Tier_Plan_v1.pdf",
     },
   ],
   "education": [
@@ -54,7 +54,7 @@ export const whitePaperConfig: Record<string, WhitePaperEntry[]> = {
       eyebrow: "EDUCATION WHITE PAPER",
       headline: "The Education Baseline",
       subheadline: "Free Public Education Through a Bachelor's Degree — and the Math to Pay for It",
-      pdfPath: "/documents/the-education-baseline.pdf",
+      pdfPath: "/documents/MP_The_Education_Baseline_v2.pdf",
     },
   ],
   "government-reform": [
@@ -63,14 +63,14 @@ export const whitePaperConfig: Record<string, WhitePaperEntry[]> = {
       eyebrow: "GOVERNMENT REFORM WHITE PAPER",
       headline: "The Accountability Framework",
       subheadline: "Six Interlocking Reforms to Fix the Broken Incentive Structure of American Government",
-      pdfPath: "/documents/the-accountability-framework.pdf",
+      pdfPath: "/documents/MP_The_Accountability_Framework_v1.pdf",
     },
     {
       id: "corporate-codetermination-act",
       eyebrow: "WORKERS' RIGHTS WHITE PAPER",
       headline: "The Corporate Codetermination Act",
       subheadline: "Worker Representation on Corporate Boards — Modeled on Germany's Proven System",
-      pdfPath: "/documents/corporate-codetermination-act.pdf",
+      pdfPath: "/documents/MP_Corporate_Codetermination_Act_v2.pdf",
     },
   ],
   "housing": [
@@ -79,7 +79,7 @@ export const whitePaperConfig: Record<string, WhitePaperEntry[]> = {
       eyebrow: "HOUSING WHITE PAPER",
       headline: "Build More Homes",
       subheadline: "A National Strategy to End the Housing Shortage, Ban Institutional Buyers, and Restore Affordability",
-      pdfPath: "/documents/build-more-homes.pdf",
+      pdfPath: "/documents/MP_Build_More_Homes_v1.pdf",
     },
   ],
   "term-limits": [
@@ -88,7 +88,7 @@ export const whitePaperConfig: Record<string, WhitePaperEntry[]> = {
       eyebrow: "TERM LIMITS WHITE PAPER",
       headline: "12 Years and Out",
       subheadline: "The Case for Congressional Term Limits and the End of the Permanent Political Class",
-      pdfPath: "/documents/12-years-and-out.pdf",
+      pdfPath: "/documents/MP_12_Years_and_Out_v1.pdf",
     },
   ],
   "criminal-justice": [
@@ -97,7 +97,7 @@ export const whitePaperConfig: Record<string, WhitePaperEntry[]> = {
       eyebrow: "CRIMINAL JUSTICE WHITE PAPER",
       headline: "Safe and Fair",
       subheadline: "Evidence-Based Criminal Justice Reform That Reduces Crime and Saves Money",
-      pdfPath: "/documents/safe-and-fair.pdf",
+      pdfPath: "/documents/MP_Safe_and_Fair_v1.pdf",
     },
   ],
   "energy-and-environment": [
@@ -106,7 +106,7 @@ export const whitePaperConfig: Record<string, WhitePaperEntry[]> = {
       eyebrow: "ENERGY & ENVIRONMENT WHITE PAPER",
       headline: "The Energy Race",
       subheadline: "A National Innovation Strategy for Next-Generation Energy Dominance",
-      pdfPath: "/documents/the-energy-race.pdf",
+      pdfPath: "/documents/MP_The_Energy_Race_v1.pdf",
     },
   ],
   "immigration": [
@@ -115,7 +115,7 @@ export const whitePaperConfig: Record<string, WhitePaperEntry[]> = {
       eyebrow: "IMMIGRATION WHITE PAPER",
       headline: "Secure and Streamlined",
       subheadline: "A Border Security and Legal Immigration Framework That Actually Works",
-      pdfPath: "/documents/secure-and-streamlined.pdf",
+      pdfPath: "/documents/MP_Secure_and_Streamlined_v1.pdf",
     },
   ],
   "national-security": [
@@ -124,7 +124,7 @@ export const whitePaperConfig: Record<string, WhitePaperEntry[]> = {
       eyebrow: "NATIONAL SECURITY WHITE PAPER",
       headline: "Strong and Accountable",
       subheadline: "A Modern Defense Strategy Built on Audit, Innovation, and Allied Burden-Sharing",
-      pdfPath: "/documents/strong-and-accountable.pdf",
+      pdfPath: "/documents/MP_Strong_and_Accountable_v1.pdf",
     },
   ],
   "gun-reform": [
@@ -133,7 +133,7 @@ export const whitePaperConfig: Record<string, WhitePaperEntry[]> = {
       eyebrow: "GUN REFORM WHITE PAPER",
       headline: "Responsible and Protected",
       subheadline: "Universal Background Checks, Due-Process Red-Flag Laws, and a Second Amendment That Works for Everyone",
-      pdfPath: "/documents/responsible-and-protected.pdf",
+      pdfPath: "/documents/MP_Responsible_and_Protected_v1.pdf",
     },
   ],
   "polis-doctorate": [
@@ -142,7 +142,7 @@ export const whitePaperConfig: Record<string, WhitePaperEntry[]> = {
       eyebrow: "POLIS DOCTORATE WHITE PAPER",
       headline: "Qualified to Govern",
       subheadline: "The Case for a Professional Credential for Federal Office",
-      pdfPath: "/documents/qualified-to-govern.pdf",
+      pdfPath: "/documents/MP_Qualified_to_Govern_v1.pdf",
     },
   ],
   "veterans": [
@@ -151,7 +151,7 @@ export const whitePaperConfig: Record<string, WhitePaperEntry[]> = {
       eyebrow: "VETERANS WHITE PAPER",
       headline: "The Service Standard",
       subheadline: "7-Day Access, Digital Modernization, and a Veterans System Built on Outcomes",
-      pdfPath: "/documents/the-service-standard.pdf",
+      pdfPath: "/documents/MP_The_Service_Standard_v1.pdf",
     },
   ],
   "lgb-rights": [
@@ -160,7 +160,7 @@ export const whitePaperConfig: Record<string, WhitePaperEntry[]> = {
       eyebrow: "LGB RIGHTS WHITE PAPER",
       headline: "Equal Under the Law",
       subheadline: "Marriage, Family, Anti-Discrimination Protections, and Religious Liberty — Without Contradiction",
-      pdfPath: "/documents/equal-under-the-law.pdf",
+      pdfPath: "/documents/MP_Equal_Under_the_Law_v1.pdf",
     },
   ],
 };
