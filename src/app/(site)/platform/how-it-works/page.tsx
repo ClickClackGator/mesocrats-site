@@ -59,6 +59,20 @@ export default async function HowItWorksPage() {
               {page.heroSubheadline}
             </p>
           )}
+          <a
+            href="/documents/MP_How_We_Built_the_Platform_v1.pdf"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-block mt-6 border-2 border-white text-white bg-transparent font-bold px-5 py-2.5 text-sm rounded transition-colors hover:bg-[#6C3393] hover:border-[#6C3393] hover:text-white"
+          >
+            Read the White Paper
+          </a>
+          <Link
+            href="/platform"
+            className="block mt-4 text-base font-bold text-white no-underline hover:text-gray-300 transition-colors"
+          >
+            Explore Our Policies →
+          </Link>
         </div>
         {page?.imageCredit && (
           <span className="absolute bottom-2 right-3 text-[9px] text-white/50">
