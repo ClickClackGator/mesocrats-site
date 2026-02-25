@@ -69,7 +69,7 @@ export default async function HowItWorksPage() {
           </a>
           <Link
             href="/platform"
-            className="block mt-4 text-base font-bold text-white no-underline hover:text-gray-300 transition-colors"
+            className="block mt-4 text-sm font-normal text-white no-underline hover:text-gray-300 transition-colors"
           >
             Explore Our Policies →
           </Link>
