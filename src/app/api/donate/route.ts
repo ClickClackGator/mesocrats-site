@@ -15,11 +15,13 @@ import {
   type DonationInfo,
 } from '@/lib/fec-compliance';
 
-// Supabase service role client (server-side only)
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY!
-);
+// Supabase service role client (lazy to avoid build-time errors)
+function getSupabase() {
+  return createClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.SUPABASE_SERVICE_ROLE_KEY!
+  );
+}
 
 interface DonateRequestBody {
   // Stripe
@@ -48,6 +50,7 @@ interface DonateRequestBody {
 }
 
 export async function POST(request: NextRequest) {
+  const supabase = getSupabase();
   try {
     const body: DonateRequestBody = await request.json();
 
@@ -183,21 +186,20 @@ export async function POST(request: NextRequest) {
     let stripeSubscriptionId: string | null = null;
 
     if (body.frequency === 'monthly') {
+      // Create a price for the recurring donation amount
+      const price = await stripe.prices.create({
+        currency: 'usd',
+        unit_amount: body.amountCents,
+        recurring: { interval: 'month' },
+        product_data: {
+          name: 'Monthly Donation — Mesocratic National Committee',
+        },
+      });
+
       // Create subscription for recurring donations
       const subscription = await stripe.subscriptions.create({
         customer: stripeCustomerId,
-        items: [
-          {
-            price_data: {
-              currency: 'usd',
-              product_data: {
-                name: 'Monthly Donation — Mesocratic National Committee',
-              },
-              unit_amount: body.amountCents,
-              recurring: { interval: 'month' },
-            },
-          },
-        ],
+        items: [{ price: price.id }],
         default_payment_method: body.paymentMethodId,
         metadata: {
           donor_email: body.email,
@@ -212,6 +214,7 @@ export async function POST(request: NextRequest) {
         typeof invoice === 'string'
           ? await stripe.invoices.retrieve(invoice)
           : invoice;
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       stripeChargeId = (invoiceObj as any)?.payment_intent || subscription.id;
     } else {
       // One-time payment via PaymentIntent
@@ -296,9 +299,10 @@ export async function POST(request: NextRequest) {
       }
 
       // Refresh materialized view
-      await supabase.rpc('refresh_donation_totals').catch((err: unknown) => {
-        console.error('[Supabase] Failed to refresh donation totals:', err);
-      });
+      const { error: refreshError } = await supabase.rpc('refresh_donation_totals');
+      if (refreshError) {
+        console.error('[Supabase] Failed to refresh donation totals:', refreshError);
+      }
     }
 
     // === 5. SYNC TO ISPOLITICAL (fire-and-forget) ===
@@ -322,14 +326,16 @@ export async function POST(request: NextRequest) {
 
     // Update ISPolitical sync status in Supabase
     if (donor) {
-      await supabase
+      const { error: syncUpdateError } = await supabase
         .from('donations')
         .update({
           ispolitical_synced: ispResult.success,
           ispolitical_sync_error: ispResult.error || null,
         })
-        .eq('stripe_charge_id', stripeChargeId)
-        .catch(() => {});
+        .eq('stripe_charge_id', stripeChargeId);
+      if (syncUpdateError) {
+        console.error('[Supabase] ISPolitical sync status update error:', syncUpdateError);
+      }
     }
 
     // === 6. SEND RECEIPT EMAIL ===
@@ -361,6 +367,7 @@ export async function POST(request: NextRequest) {
 
     // Stripe-specific errors
     if (error instanceof Error && 'type' in error) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const stripeError = error as any;
       if (stripeError.type === 'StripeCardError') {
         return NextResponse.json(

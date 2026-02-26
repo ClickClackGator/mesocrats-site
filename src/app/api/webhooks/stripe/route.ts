@@ -7,14 +7,16 @@ import { stripe } from '@/lib/stripe';
 import { createClient } from '@supabase/supabase-js';
 import Stripe from 'stripe';
 
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY!
-);
-
-const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET!;
+function getSupabase() {
+  return createClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.SUPABASE_SERVICE_ROLE_KEY!
+  );
+}
 
 export async function POST(request: NextRequest) {
+  const supabase = getSupabase();
+  const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET!;
   const body = await request.text();
   const signature = request.headers.get('stripe-signature');
 
@@ -94,19 +96,22 @@ export async function POST(request: NextRequest) {
 
       // === Subscription events ===
       case 'invoice.payment_succeeded': {
-        const invoice = event.data.object as Stripe.Invoice;
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const invoice = event.data.object as any;
         console.log(`[Stripe Webhook] Invoice paid: ${invoice.id}`);
+
+        const subscriptionId = invoice.subscription as string | null;
 
         // For recurring donations after the first one, create a new donation record
         if (
-          invoice.subscription &&
+          subscriptionId &&
           invoice.billing_reason === 'subscription_cycle'
         ) {
           // Find donor by subscription
           const { data: existingDonation } = await supabase
             .from('donations')
             .select('donor_id, amount_cents')
-            .eq('stripe_subscription_id', invoice.subscription)
+            .eq('stripe_subscription_id', subscriptionId)
             .limit(1)
             .single();
 
@@ -114,7 +119,7 @@ export async function POST(request: NextRequest) {
             await supabase.from('donations').insert({
               donor_id: existingDonation.donor_id,
               stripe_charge_id: invoice.payment_intent as string,
-              stripe_subscription_id: invoice.subscription as string,
+              stripe_subscription_id: subscriptionId,
               amount_cents: existingDonation.amount_cents,
               frequency: 'monthly',
               status: 'succeeded',
@@ -122,7 +127,8 @@ export async function POST(request: NextRequest) {
             });
 
             // Refresh totals
-            await supabase.rpc('refresh_donation_totals').catch(() => {});
+            const { error: refreshErr } = await supabase.rpc('refresh_donation_totals');
+            if (refreshErr) console.error('[Stripe Webhook] Failed to refresh donation totals:', refreshErr);
           }
         }
 
@@ -130,9 +136,10 @@ export async function POST(request: NextRequest) {
       }
 
       case 'invoice.payment_failed': {
-        const invoice = event.data.object as Stripe.Invoice;
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const failedInvoice = event.data.object as any;
         console.log(
-          `[Stripe Webhook] Invoice payment failed: ${invoice.id} (subscription: ${invoice.subscription})`
+          `[Stripe Webhook] Invoice payment failed: ${failedInvoice.id} (subscription: ${failedInvoice.subscription})`
         );
         // Stripe handles retry logic for subscriptions automatically
         break;

@@ -4,7 +4,7 @@
 
 'use client';
 
-import { useState, useEffect, FormEvent } from 'react';
+import { useState, FormEvent } from 'react';
 import { loadStripe, StripeElementsOptions } from '@stripe/stripe-js';
 import {
   Elements,
@@ -17,7 +17,6 @@ import {
   validateDonationInfo,
   US_STATES,
   formatCents,
-  FEC_ANNUAL_LIMIT_CENTS,
 } from '@/lib/fec-compliance';
 
 const stripePromise = loadStripe(
@@ -198,7 +197,7 @@ function DonationForm() {
       setSuccess(true);
       setSuccessData({ amount: data.amount, chargeId: data.chargeId });
       if (data.warnings) setWarnings(data.warnings);
-    } catch (err) {
+    } catch {
       setErrors(['An unexpected error occurred. Please try again.']);
     } finally {
       setLoading(false);
