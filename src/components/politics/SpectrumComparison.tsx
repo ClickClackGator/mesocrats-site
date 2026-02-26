@@ -50,19 +50,25 @@ export default function SpectrumComparison() {
             <div className="px-4">
               <div className="flex items-center justify-between mb-2">
                 <span className="text-blue-500 font-bold text-sm">DEM</span>
+                <span className="inline-block bg-brand-purple/20 text-brand-purple border border-brand-purple/40 rounded-full px-3 py-1 text-xs font-semibold">
+                  Unrepresented
+                </span>
                 <span className="text-red-500 font-bold text-sm">GOP</span>
               </div>
               <div className="relative h-4 rounded-full bg-gradient-to-r from-blue-600 via-gray-500 to-red-600">
                 <div className="absolute inset-y-0 left-1/4 right-1/4 bg-brand-purple/60 border-x-2 border-brand-purple rounded" />
               </div>
-              <div className="text-center mt-3">
-                <span className="inline-block bg-brand-purple/20 text-brand-purple border border-brand-purple/40 rounded-full px-3 py-1 text-xs font-semibold">
-                  Unrepresented
-                </span>
-                <p className="text-gray-400 text-xs mt-2">
-                  This is where most Americans actually are.
-                </p>
+              <div className="flex justify-between mt-2 px-1">
+                <span className="text-blue-500 font-bold text-sm w-1/4 text-center">27%</span>
+                <span className="text-brand-purple font-bold text-sm w-1/2 text-center">45%</span>
+                <span className="text-red-500 font-bold text-sm w-1/4 text-center">27%</span>
               </div>
+              <p className="text-gray-500 text-[10px] text-center mt-1">
+                Gallup 2025 Party Identification
+              </p>
+              <p className="text-gray-400 text-xs text-center mt-2">
+                This is where most Americans actually are.
+              </p>
             </div>
           </div>
 
@@ -100,8 +106,9 @@ export default function SpectrumComparison() {
                     <Label
                       value="Libertarian / Authoritarian"
                       angle={-90}
-                      position="center"
-                      dx={-20}
+                      position="insideLeft"
+                      dy={0}
+                      style={{ textAnchor: "middle" }}
                       fill="#9CA3AF"
                       fontSize={11}
                     />
@@ -113,9 +120,6 @@ export default function SpectrumComparison() {
                 </ScatterChart>
               </ResponsiveContainer>
             </div>
-            <p className="text-brand-purple text-xs font-semibold text-center mt-1">
-              Purple cluster = Mesocrats
-            </p>
           </div>
         </div>
         <p className="text-gray-400 text-sm text-center mt-6 max-w-2xl mx-auto">
