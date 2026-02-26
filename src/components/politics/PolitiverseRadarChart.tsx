@@ -11,13 +11,13 @@ import {
 } from "recharts";
 
 const radarData = [
-  { axis: "Economic Policy", republican: 80, democrat: 25, american: 52 },
-  { axis: "Governance", republican: 75, democrat: 35, american: 48 },
-  { axis: "Personal Liberty", republican: 30, democrat: 70, american: 65 },
-  { axis: "Cultural Identity", republican: 85, democrat: 20, american: 55 },
-  { axis: "Foreign Policy", republican: 80, democrat: 35, american: 45 },
-  { axis: "Fiscal Approach", republican: 80, democrat: 25, american: 50 },
-  { axis: "Social Structure", republican: 75, democrat: 25, american: 42 },
+  { axis: "Economic Policy (free market -> regulated)", republican: 25, democrat: 80, american: 55 },
+  { axis: "Governance (distributed -> centralized)", republican: 35, democrat: 75, american: 50 },
+  { axis: "Personal Liberty (collective -> individual)", republican: 40, democrat: 45, american: 65 },
+  { axis: "Cultural Identity (evolution -> tradition)", republican: 85, democrat: 25, american: 55 },
+  { axis: "Foreign Policy (non-interventionist -> interventionist)", republican: 65, democrat: 60, american: 35 },
+  { axis: "Fiscal Approach (investment -> austerity)", republican: 80, democrat: 20, american: 45 },
+  { axis: "Social Structure (egalitarian -> hierarchical)", republican: 70, democrat: 25, american: 45 },
 ];
 
 export default function PolitiverseRadarChart() {
@@ -30,7 +30,7 @@ export default function PolitiverseRadarChart() {
               <PolarGrid stroke="#374151" />
               <PolarAngleAxis
                 dataKey="axis"
-                tick={{ fill: "#9CA3AF", fontSize: 11 }}
+                tick={{ fill: "#9CA3AF", fontSize: 9 }}
               />
               <PolarRadiusAxis
                 tick={false}
