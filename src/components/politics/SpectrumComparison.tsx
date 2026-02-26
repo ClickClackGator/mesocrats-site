@@ -100,8 +100,8 @@ export default function SpectrumComparison() {
                     <Label
                       value="Libertarian / Authoritarian"
                       angle={-90}
-                      position="left"
-                      offset={10}
+                      position="insideLeft"
+                      offset={0}
                       fill="#9CA3AF"
                       fontSize={11}
                     />
