@@ -57,7 +57,7 @@ export default async function Home() {
             </p>
           )}
           {homepage?.heroHeadline && (
-            <h1 className="text-5xl sm:text-7xl lg:text-8xl font-bold mb-6">
+            <h1 className="text-5xl sm:text-7xl lg:text-8xl font-extrabold mb-6">
               {homepage.heroHeadline}
             </h1>
           )}
