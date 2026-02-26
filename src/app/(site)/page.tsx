@@ -47,7 +47,7 @@ export default async function Home() {
               className="object-cover"
               priority
             />
-            <div className="absolute inset-0 bg-black/85" />
+            <div className="absolute inset-0 bg-black/75" />
           </>
         )}
         <div className="relative max-w-4xl mx-auto text-center">
