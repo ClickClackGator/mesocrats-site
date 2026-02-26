@@ -25,11 +25,17 @@ type NavItem = NavItemWithChildren | NavItemDirect;
 
 const navItems: NavItem[] = [
   {
-    label: "About",
+    label: "Party",
     children: [
       { label: "Declaration", href: "/about/declaration" },
-      { label: "Our Idea", href: "/about/idea" },
       { label: "Our Mission", href: "/about/mission" },
+      { label: "Our Politics", href: "/about/politics" },
+    ],
+  },
+  {
+    label: "About",
+    children: [
+      { label: "Our Idea", href: "/about/idea" },
       { label: "Our Story", href: "/about/story" },
       { label: "Leadership", href: "/about/leadership" },
       { label: "FAQ", href: "/about/faq" },

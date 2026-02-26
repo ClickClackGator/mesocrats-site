@@ -37,11 +37,17 @@ function TikTokIcon({ className }: { className?: string }) {
 const F = {
   footerColumns: [
     {
-      heading: "About",
+      heading: "Party",
       links: [
         { label: "Declaration", url: "/about/declaration" },
-        { label: "Our Idea", url: "/about/idea" },
         { label: "Our Mission", url: "/about/mission" },
+        { label: "Our Politics", url: "/about/politics" },
+      ],
+    },
+    {
+      heading: "About",
+      links: [
+        { label: "Our Idea", url: "/about/idea" },
         { label: "Our Story", url: "/about/story" },
         { label: "Leadership", url: "/about/leadership" },
         { label: "FAQ", url: "/about/faq" },
