@@ -116,7 +116,7 @@ export default async function Footer() {
     <footer className="bg-primary text-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         {/* Footer link columns */}
-        <div className="grid grid-cols-2 md:grid-cols-5 gap-4 mb-10">
+        <div className="grid grid-cols-2 md:grid-cols-5 gap-1 mb-10">
           {columns.map((section) => (
             <div key={section.heading}>
               <h3 className="text-xs font-semibold uppercase tracking-wider mb-3">
