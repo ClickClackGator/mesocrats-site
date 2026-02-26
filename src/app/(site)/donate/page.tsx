@@ -48,11 +48,11 @@ export default async function DonatePage() {
 
       <section className="py-10 sm:py-14 px-4 sm:px-6 lg:px-8">
         <div className="max-w-xl mx-auto text-center">
-          {hasBodyContent && (
-            <div className="mb-8 text-left">
-              <PortableTextRenderer value={content.bodyContent} className="text-lg leading-relaxed" />
-            </div>
-          )}
+          <div className="mb-8 text-left">
+            <p className="text-gray-800 leading-relaxed text-lg">
+              Donations are not yet available. We&rsquo;re building the infrastructure to do this right &mdash; legally, transparently, and with full FEC compliance. Check back soon.
+            </p>
+          </div>
 
           <DonateForm />
 
