@@ -3,6 +3,11 @@ import Image from "next/image";
 import PortableTextRenderer from "@/components/PortableTextRenderer";
 import { client } from "@/sanity/lib/client";
 import { pageBySlugQuery } from "@/sanity/lib/queries";
+import { splitContentByVisualMarkers } from "@/lib/splitContentByVisualMarkers";
+import PolitiverseRadarChart from "@/components/politics/PolitiverseRadarChart";
+import SpectrumComparison from "@/components/politics/SpectrumComparison";
+import PositionMap from "@/components/politics/PositionMap";
+
 export async function generateMetadata(): Promise<Metadata> {
   const page = await client.fetch(
     pageBySlugQuery,
@@ -21,6 +26,17 @@ export default async function PoliticsPage() {
     { next: { revalidate: 60 } }
   );
   const hasCmsContent = page?.content && page.content.length > 0;
+
+  const segments = hasCmsContent
+    ? splitContentByVisualMarkers(page.content)
+    : [];
+
+  const visualComponents = [
+    <PolitiverseRadarChart key="radar" />,
+    <SpectrumComparison key="spectrum" />,
+    <PositionMap key="position-map" />,
+  ];
+
   return (
     <div>
       {/* Hero */}
@@ -66,7 +82,15 @@ export default async function PoliticsPage() {
 
       {hasCmsContent && (
         <article className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 space-y-12">
-          <PortableTextRenderer value={page.content} />
+          {segments.map((segment, i) => (
+            <div key={i}>
+              {segment.length > 0 && (
+                <PortableTextRenderer value={segment} />
+              )}
+              {i < segments.length - 1 && i < visualComponents.length &&
+                visualComponents[i]}
+            </div>
+          ))}
         </article>
       )}
     </div>
