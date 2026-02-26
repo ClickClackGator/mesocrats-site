@@ -85,7 +85,7 @@ export default function SpectrumComparison() {
                     <Label
                       value="Economic Left / Right"
                       position="bottom"
-                      offset={10}
+                      offset={0}
                       fill="#9CA3AF"
                       fontSize={11}
                     />
@@ -100,8 +100,8 @@ export default function SpectrumComparison() {
                     <Label
                       value="Libertarian / Authoritarian"
                       angle={-90}
-                      position="insideLeft"
-                      offset={0}
+                      position="center"
+                      dx={-20}
                       fill="#9CA3AF"
                       fontSize={11}
                     />
