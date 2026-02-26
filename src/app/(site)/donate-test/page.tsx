@@ -245,14 +245,14 @@ function DonationForm() {
       {/* Hero */}
       <section className="relative bg-gradient-to-b from-[#2A2A3A] to-[#1A1A1A] py-16 sm:py-24">
         <div className="max-w-3xl mx-auto px-6 text-center">
-          <span className="inline-block px-4 py-1.5 bg-white/10 rounded-full text-xs font-extrabold tracking-wider text-[#6C3393] uppercase mb-6">
+          <span className="inline-block px-4 py-1.5 bg-white/10 rounded-full text-xs font-extrabold tracking-wider text-white uppercase mb-6">
             Invest in the Middle
           </span>
           <h1 className="text-4xl sm:text-6xl font-bold text-white mb-4">
-            Fund the Center.
+            Back the Middle.
           </h1>
           <p className="text-lg text-white/80 max-w-xl mx-auto">
-            Every dollar builds the political home America&rsquo;s middle class deserves. No corporate money. No PAC money. Just people.
+            You&rsquo;re not donating to a candidate. You&rsquo;re building a party.
           </p>
         </div>
       </section>
