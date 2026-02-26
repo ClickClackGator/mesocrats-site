@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import PortableTextRenderer from "@/components/PortableTextRenderer";
 import { client } from "@/sanity/lib/client";
 import { formPageContentQuery } from "@/sanity/lib/queries";
 import DonateForm from "./DonateForm";
@@ -22,8 +21,6 @@ export default async function DonatePage() {
     { formType: "donate" },
     { next: { revalidate: 60 } }
   );
-
-  const hasBodyContent = content?.bodyContent && content.bodyContent.length > 0;
 
   return (
     <div>
