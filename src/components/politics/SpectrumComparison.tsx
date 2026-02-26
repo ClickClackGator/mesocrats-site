@@ -83,7 +83,7 @@ export default function SpectrumComparison() {
                     tickCount={5}
                   >
                     <Label
-                      value="Economic Left \u2194 Right"
+                      value="Economic Left / Right"
                       position="bottom"
                       offset={10}
                       fill="#9CA3AF"
@@ -98,7 +98,7 @@ export default function SpectrumComparison() {
                     tickCount={5}
                   >
                     <Label
-                      value="Libertarian \u2194 Authoritarian"
+                      value="Libertarian / Authoritarian"
                       angle={-90}
                       position="left"
                       offset={10}

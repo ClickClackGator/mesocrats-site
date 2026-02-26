@@ -4,7 +4,7 @@ const positions = [
     conservative: "Private supplemental insurance (choice)",
     liberal: "Universal baseline coverage (access)",
     insight:
-      "Both \u2014 the market and the safety net, working together",
+      "Both -- the market and the safety net, working together",
   },
   {
     policy: "Tax Reform",
@@ -15,7 +15,7 @@ const positions = [
   {
     policy: "Education",
     conservative: "$100K teacher pay tied to performance (accountability)",
-    liberal: "Free through bachelor\u2019s degree (investment)",
+    liberal: "Free through bachelor's degree (investment)",
     insight: "Invest big, expect results",
   },
   {
@@ -28,13 +28,13 @@ const positions = [
     policy: "Immigration",
     conservative: "Strong borders with technology (security)",
     liberal: "Streamlined legal pathways (inclusion)",
-    insight: "Secure and welcoming aren\u2019t opposites",
+    insight: "Secure and welcoming aren't opposites",
   },
   {
     policy: "Housing",
     conservative: "Ban institutional investors from single-family homes",
     liberal: "N/A",
-    insight: "Neither left nor right \u2014 middle class protection",
+    insight: "Neither left nor right -- middle class protection",
   },
 ];
 
