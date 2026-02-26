@@ -122,10 +122,13 @@ export default function SpectrumComparison() {
             </div>
           </div>
         </div>
-        <p className="text-white text-xl text-center mt-6 max-w-2xl mx-auto">
-          When you stop forcing people onto a line, you see where they actually
-          stand
-        </p>
+        <div className="mt-8 flex flex-col items-center max-w-2xl mx-auto">
+          <div className="w-[60px] h-px bg-brand-purple mb-4" />
+          <p className="text-white/80 text-lg font-extralight italic text-center">
+            When you stop forcing people onto a line, you see where they actually
+            stand
+          </p>
+        </div>
       </div>
     </section>
   );
