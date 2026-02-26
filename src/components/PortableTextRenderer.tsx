@@ -20,7 +20,7 @@ const components: PortableTextComponents = {
       </h1>
     ),
     h2: ({ children }) => (
-      <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mt-16 mb-6 pt-10 border-t border-gray-200">
+      <h2 className="text-3xl md:text-4xl font-bold text-[#6c3393] mt-16 mb-6 pt-10 border-t border-gray-200">
         {children}
       </h2>
     ),
