@@ -39,6 +39,7 @@ const F = {
     {
       heading: "About",
       links: [
+        { label: "Declaration", url: "/about/declaration" },
         { label: "Our Idea", url: "/about/idea" },
         { label: "Our Mission", url: "/about/mission" },
         { label: "Our Story", url: "/about/story" },
