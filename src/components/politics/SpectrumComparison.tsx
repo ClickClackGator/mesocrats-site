@@ -67,7 +67,7 @@ export default function SpectrumComparison() {
                 Gallup 2025 Party Identification
               </p>
               <p className="text-gray-400 text-xs text-center mt-2">
-                This is where most Americans actually are.
+                Most Americans are unrepresented
               </p>
             </div>
           </div>
@@ -122,9 +122,9 @@ export default function SpectrumComparison() {
             </div>
           </div>
         </div>
-        <p className="text-gray-400 text-sm text-center mt-6 max-w-2xl mx-auto">
+        <p className="text-white text-xl text-center mt-6 max-w-2xl mx-auto">
           When you stop forcing people onto a line, you see where they actually
-          stand.
+          stand
         </p>
       </div>
     </section>
