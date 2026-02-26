@@ -70,10 +70,13 @@ export default function PolitiverseRadarChart() {
             </RadarChart>
           </ResponsiveContainer>
         </div>
-        <p className="text-gray-400 text-sm text-center mt-4 max-w-2xl mx-auto">
-          Most Americans don&apos;t fit neatly into either party&apos;s profile.
-          The Politiverse captures what the spectrum cannot.
-        </p>
+        <div className="mt-8 flex flex-col items-center max-w-2xl mx-auto">
+          <div className="w-[60px] h-px bg-brand-purple mb-4" />
+          <p className="text-white/80 text-lg font-extralight italic text-center">
+            Most Americans don&apos;t fit neatly into either party&apos;s profile.
+            The Politiverse captures what the spectrum cannot
+          </p>
+        </div>
       </div>
     </section>
   );
