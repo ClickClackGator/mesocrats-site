@@ -23,6 +23,7 @@ const config: Config = {
           DEFAULT: "#4374ba",
           light: "#5687c9",
         },
+        "brand-purple": "#6c3393",
         gray: {
           light: "#F2F2F2",
         },
