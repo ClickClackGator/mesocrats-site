@@ -72,10 +72,10 @@ export default function SpectrumComparison() {
             </div>
           </div>
 
-          {/* Right panel — The Politiverse */}
+          {/* Right panel — Beyond the Line */}
           <div>
             <h4 className="text-white text-lg font-semibold mb-6 text-center">
-              The Politiverse
+              Beyond the Line
             </h4>
             <div style={{ height: 300 }}>
               <ResponsiveContainer width="100%" height="100%">
