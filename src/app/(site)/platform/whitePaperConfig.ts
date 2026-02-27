@@ -13,7 +13,7 @@ export const whitePaperConfig: Record<string, WhitePaperEntry[]> = {
       eyebrow: "TAX REFORM WHITE PAPER",
       headline: "The 15% Plan",
       subheadline: "A Unified Flat Tax for All American Income",
-      pdfPath: "/documents/MP_The_15_Percent_Plan_v1.pdf",
+      pdfPath: "/documents/MP_The_15_Percent_Plan_v2.pdf",
     },
     {
       id: "american-family-growth-credit",
