@@ -1,5 +1,6 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import {
   RadarChart,
   Radar,
@@ -22,7 +23,7 @@ const radarData = [
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 function CustomAxisTick(props: any) {
-  const { x, y, payload, textAnchor, cy: chartCenterY } = props;
+  const { x, y, payload, textAnchor, cy: chartCenterY, titleSize, subtitleSize, lineSpacing } = props;
   const entry = radarData.find((d) => d.axis === payload.value);
   const lines = entry?.lines ?? [payload.value];
 
@@ -36,13 +37,13 @@ function CustomAxisTick(props: any) {
   return (
     <g>
       <text x={x} y={y} textAnchor={textAnchor}>
-        <tspan x={x} dy={topOffset} fill="#9CA3AF" fontSize={8} fontWeight={500}>
+        <tspan x={x} dy={topOffset} fill="#9CA3AF" fontSize={titleSize ?? 8} fontWeight={500}>
           {lines[0]}
         </tspan>
-        <tspan x={x} dy={10} fill="#6B7280" fontSize={7}>
+        <tspan x={x} dy={lineSpacing ?? 10} fill="#6B7280" fontSize={subtitleSize ?? 7}>
           {lines[1]}
         </tspan>
-        <tspan x={x} dy={9} fill="#6B7280" fontSize={7}>
+        <tspan x={x} dy={(lineSpacing ?? 10) - 1} fill="#6B7280" fontSize={subtitleSize ?? 7}>
           {lines[2]}
         </tspan>
       </text>
@@ -52,6 +53,20 @@ function CustomAxisTick(props: any) {
 /* eslint-enable @typescript-eslint/no-explicit-any */
 
 export default function PolitiverseRadarChart() {
+  const [windowWidth, setWindowWidth] = useState(768);
+
+  useEffect(() => {
+    setWindowWidth(window.innerWidth);
+    const onResize = () => setWindowWidth(window.innerWidth);
+    window.addEventListener("resize", onResize);
+    return () => window.removeEventListener("resize", onResize);
+  }, []);
+
+  const isDesktop = windowWidth >= 768;
+  const titleSize = isDesktop ? 14 : 8;
+  const subtitleSize = isDesktop ? 11 : 7;
+  const lineSpacing = isDesktop ? 14 : 10;
+
   return (
     <section className="my-12 -mx-4 sm:mx-0">
       <div className="bg-gray-900 rounded-lg p-6 sm:p-8">
@@ -61,7 +76,7 @@ export default function PolitiverseRadarChart() {
               <PolarGrid stroke="#374151" />
               <PolarAngleAxis
                 dataKey="axis"
-                tick={<CustomAxisTick />}
+                tick={<CustomAxisTick titleSize={titleSize} subtitleSize={subtitleSize} lineSpacing={lineSpacing} />}
               />
               <PolarRadiusAxis
                 tick={false}
