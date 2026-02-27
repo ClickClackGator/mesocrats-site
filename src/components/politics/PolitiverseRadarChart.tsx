@@ -22,13 +22,21 @@ const radarData = [
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 function CustomAxisTick(props: any) {
-  const { x, y, payload, textAnchor } = props;
+  const { x, y, payload, textAnchor, cy: chartCenterY } = props;
   const entry = radarData.find((d) => d.axis === payload.value);
   const lines = entry?.lines ?? [payload.value];
+
+  // Shift labels based on vertical position relative to chart center
+  // Top labels: shift up so all 3 lines sit above the anchor point
+  // Middle labels: shift up by ~1 line to center vertically
+  // Bottom labels: no shift, stacking downward is fine
+  const relY = y - (chartCenterY ?? 210);
+  const topOffset = relY < -20 ? -20 : relY > 20 ? 4 : -9;
+
   return (
     <g>
       <text x={x} y={y} textAnchor={textAnchor}>
-        <tspan x={x} dy={0} fill="#9CA3AF" fontSize={8} fontWeight={500}>
+        <tspan x={x} dy={topOffset} fill="#9CA3AF" fontSize={8} fontWeight={500}>
           {lines[0]}
         </tspan>
         <tspan x={x} dy={10} fill="#6B7280" fontSize={7}>
