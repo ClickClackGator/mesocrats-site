@@ -9,7 +9,7 @@ const positions = [
   {
     policy: "Tax Reform",
     conservative: "15% flat tax (simplicity)",
-    liberal: "No corporate loopholes (fairness)",
+    liberal: "Same rate for billionaires and workers (equality)",
     insight: "A tax code that treats everyone the same",
   },
   {
@@ -32,9 +32,9 @@ const positions = [
   },
   {
     policy: "Housing",
-    conservative: "Ban institutional investors from single-family homes",
-    liberal: "N/A",
-    insight: "Neither left nor right -- middle class protection",
+    conservative: "Protect homeownership and property rights (ownership)",
+    liberal: "Build more affordable housing, reform zoning (access)",
+    insight: "Everyone deserves a shot at owning a home",
   },
 ];
 
