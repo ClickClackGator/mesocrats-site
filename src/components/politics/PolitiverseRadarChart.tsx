@@ -23,7 +23,7 @@ const radarData = [
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 function CustomAxisTick(props: any) {
-  const { x, y, payload, textAnchor, cy: chartCenterY, titleSize, subtitleSize, lineSpacing } = props;
+  const { x, y, payload, textAnchor, cy: chartCenterY, titleSize, subtitleSize, lineSpacing, topLabelOffset } = props;
   const entry = radarData.find((d) => d.axis === payload.value);
   const lines = entry?.lines ?? [payload.value];
 
@@ -32,7 +32,7 @@ function CustomAxisTick(props: any) {
   // Middle labels: shift up by ~1 line to center vertically
   // Bottom labels: no shift, stacking downward is fine
   const relY = y - (chartCenterY ?? 210);
-  const topOffset = relY < -20 ? -20 : relY > 20 ? 4 : -9;
+  const topOffset = relY < -20 ? (topLabelOffset ?? -20) : relY > 20 ? 4 : -9;
 
   return (
     <g>
@@ -66,6 +66,7 @@ export default function PolitiverseRadarChart() {
   const titleSize = isDesktop ? 14 : 8;
   const subtitleSize = isDesktop ? 11 : 7;
   const lineSpacing = isDesktop ? 14 : 10;
+  const topLabelOffset = isDesktop ? -30 : -20;
 
   return (
     <section className="my-12 -mx-4 sm:mx-0">
@@ -76,7 +77,7 @@ export default function PolitiverseRadarChart() {
               <PolarGrid stroke="#374151" />
               <PolarAngleAxis
                 dataKey="axis"
-                tick={<CustomAxisTick titleSize={titleSize} subtitleSize={subtitleSize} lineSpacing={lineSpacing} />}
+                tick={<CustomAxisTick titleSize={titleSize} subtitleSize={subtitleSize} lineSpacing={lineSpacing} topLabelOffset={topLabelOffset} />}
               />
               <PolarRadiusAxis
                 tick={false}
