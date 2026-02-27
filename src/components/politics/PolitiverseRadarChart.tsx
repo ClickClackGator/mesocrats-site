@@ -11,14 +11,33 @@ import {
 } from "recharts";
 
 const radarData = [
-  { axis: "Economic Policy (free market -> regulated)", republican: 25, democrat: 80, american: 55 },
-  { axis: "Governance (distributed -> centralized)", republican: 35, democrat: 75, american: 50 },
-  { axis: "Personal Liberty (collective -> individual)", republican: 40, democrat: 45, american: 65 },
-  { axis: "Cultural Identity (evolution -> tradition)", republican: 85, democrat: 25, american: 55 },
-  { axis: "Foreign Policy (non-interventionist -> interventionist)", republican: 65, democrat: 60, american: 35 },
-  { axis: "Fiscal Approach (investment -> austerity)", republican: 80, democrat: 20, american: 45 },
-  { axis: "Social Structure (egalitarian -> hierarchical)", republican: 70, democrat: 25, american: 45 },
+  { axis: "Economic Policy", poles: "(free market \u2192 regulated)", republican: 25, democrat: 80, american: 55 },
+  { axis: "Governance", poles: "(distributed \u2192 centralized)", republican: 35, democrat: 75, american: 50 },
+  { axis: "Personal Liberty", poles: "(collective \u2192 individual)", republican: 40, democrat: 45, american: 65 },
+  { axis: "Cultural Identity", poles: "(evolution \u2192 tradition)", republican: 85, democrat: 25, american: 55 },
+  { axis: "Foreign Policy", poles: "(non-interventionist \u2192 interventionist)", republican: 65, democrat: 60, american: 35 },
+  { axis: "Fiscal Approach", poles: "(investment \u2192 austerity)", republican: 80, democrat: 20, american: 45 },
+  { axis: "Social Structure", poles: "(egalitarian \u2192 hierarchical)", republican: 70, democrat: 25, american: 45 },
 ];
+
+/* eslint-disable @typescript-eslint/no-explicit-any */
+function CustomAxisTick(props: any) {
+  const { x, y, payload, textAnchor } = props;
+  const entry = radarData.find((d) => d.axis === payload.value);
+  return (
+    <g>
+      <text x={x} y={y} textAnchor={textAnchor} fill="#9CA3AF" fontSize={9}>
+        <tspan x={x} dy={0} fontWeight={500}>
+          {payload.value}
+        </tspan>
+        <tspan x={x} dy={11} fontSize={7.5} fill="#6B7280">
+          {entry?.poles}
+        </tspan>
+      </text>
+    </g>
+  );
+}
+/* eslint-enable @typescript-eslint/no-explicit-any */
 
 export default function PolitiverseRadarChart() {
   return (
@@ -30,7 +49,7 @@ export default function PolitiverseRadarChart() {
               <PolarGrid stroke="#374151" />
               <PolarAngleAxis
                 dataKey="axis"
-                tick={{ fill: "#9CA3AF", fontSize: 9 }}
+                tick={<CustomAxisTick />}
               />
               <PolarRadiusAxis
                 tick={false}
