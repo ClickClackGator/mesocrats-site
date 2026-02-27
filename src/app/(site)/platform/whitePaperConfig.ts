@@ -7,6 +7,15 @@ export interface WhitePaperEntry {
 }
 
 export const whitePaperConfig: Record<string, WhitePaperEntry[]> = {
+  "politics": [
+    {
+      id: "the-politiverse",
+      eyebrow: "FRAMEWORK WHITE PAPER",
+      headline: "The Politiverse",
+      subheadline: "Why the Political Spectrum Failed America and What Replaces It",
+      pdfPath: "/documents/MP_The_Politiverse_v1.pdf",
+    },
+  ],
   "tax-reform": [
     {
       id: "the-15-percent-plan",
