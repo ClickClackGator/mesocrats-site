@@ -21,7 +21,7 @@ Once you fill the field in the CMS, the hardcoded fallback is ignored.
 | # | CMS Field | Fallback |
 |---|-----------|----------|
 | 1 | `heroEyebrow` | "The Mesocratic Party" |
-| 2 | `heroHeadline` | "Where America Meets." |
+| 2 | `heroHeadline` | "America Meets Here" |
 | 3 | `heroSubheadline` | "We're not left. We're not right. We're the people in the middle who actually keep this country running. And we finally have a party." |
 | 4 | `heroImage` | Solid `bg-accent` background (no image) |
 | 5 | `imageCredit` | Nothing displayed |

@@ -56,7 +56,7 @@ export default defineType({
       title: 'Primary Tagline',
       type: 'string',
       group: 'brand',
-      description: 'The main tagline (e.g., "Where America Meets.")',
+      description: 'The main tagline (e.g., "America Meets Here")',
     }),
     defineField({
       name: 'secondaryTaglines',
