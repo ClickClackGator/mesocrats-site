@@ -7,6 +7,8 @@ import { stripe } from '@/lib/stripe';
 import { createClient } from '@supabase/supabase-js';
 import { sendDonationReceipt } from '@/lib/donation-email';
 import { writeAuditLog } from '@/lib/mce/audit';
+import { recordStripeFee } from '@/lib/mce/stripe-fees';
+import { checkAndSendFollowUp } from '@/lib/mce/best-efforts';
 import {
   validateDonorInfo,
   validateDonationInfo,
@@ -321,6 +323,26 @@ export async function POST(request: NextRequest) {
         employer: body.employer,
         occupation: body.occupation,
       }, ipAddress);
+
+      // === 5a. RECORD STRIPE PROCESSING FEE (fire-and-forget) ===
+      const feeCents = Math.round(body.amountCents * 0.029) + 30;
+      recordStripeFee(
+        stripeChargeId,
+        body.amountCents,
+        feeCents,
+        new Date().toISOString().split('T')[0]
+      );
+
+      // === 5b. BEST-EFFORTS EMPLOYER/OCCUPATION FOLLOW-UP (fire-and-forget) ===
+      const newAggregateYtdCents = priorAnnualTotalCents + body.amountCents;
+      checkAndSendFollowUp(
+        donor.id,
+        body.email,
+        body.firstName,
+        newAggregateYtdCents,
+        body.employer || null,
+        body.occupation || null
+      );
     }
 
     // === 6. SEND RECEIPT EMAIL ===
