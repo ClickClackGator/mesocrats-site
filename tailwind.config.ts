@@ -31,6 +31,12 @@ const config: Config = {
       fontFamily: {
         sans: ["var(--font-geist-sans)", "Arial", "Helvetica", "sans-serif"],
         mono: ["var(--font-geist-mono)", "monospace"],
+        "dev-sans": ["var(--font-dm-sans)", "system-ui", "sans-serif"],
+        "dev-mono": [
+          "var(--font-jetbrains-mono)",
+          "ui-monospace",
+          "monospace",
+        ],
       },
     },
   },
