@@ -19,7 +19,7 @@ const siteUrl = "https://mesocrats.org";
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: {
-    default: "The Mesocratic Party — Where America Meets",
+    default: "The Mesocratic Party — America Meets Here",
     template: "%s | The Mesocratic Party",
   },
   description:
@@ -49,7 +49,7 @@ export const metadata: Metadata = {
     type: "website",
     siteName: "The Mesocratic Party",
     url: siteUrl,
-    title: "The Mesocratic Party — Where America Meets",
+    title: "The Mesocratic Party — America Meets Here",
     description:
       "A new political party for the common-sense middle. Pragmatic, evidence-based policy that puts people over partisanship.",
     images: [
@@ -57,14 +57,14 @@ export const metadata: Metadata = {
         url: "/images/og-default.png",
         width: 1200,
         height: 630,
-        alt: "The Mesocratic Party — Where America Meets",
+        alt: "The Mesocratic Party — America Meets Here",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
     site: "@mesocrats",
-    title: "The Mesocratic Party — Where America Meets",
+    title: "The Mesocratic Party — America Meets Here",
     description:
       "A new political party for the common-sense middle. Pragmatic, evidence-based policy that puts people over partisanship.",
     images: ["/images/og-default.png"],
