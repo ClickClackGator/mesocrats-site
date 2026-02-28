@@ -5,8 +5,8 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { stripe } from '@/lib/stripe';
 import { createClient } from '@supabase/supabase-js';
-import { syncDonationToISPolitical } from '@/lib/ispolitical';
 import { sendDonationReceipt } from '@/lib/donation-email';
+import { writeAuditLog } from '@/lib/mce/audit';
 import {
   validateDonorInfo,
   validateDonationInfo,
@@ -305,37 +305,22 @@ export async function POST(request: NextRequest) {
       }
     }
 
-    // === 5. SYNC TO ISPOLITICAL (fire-and-forget) ===
-    const today = new Date().toISOString().split('T')[0];
-    const ispResult = await syncDonationToISPolitical({
-      firstName: body.firstName,
-      lastName: body.lastName,
-      email: body.email,
-      phone: body.phone,
-      addressLine1: body.addressLine1,
-      city: body.city,
-      state: body.state,
-      zipCode: body.zipCode,
-      employer: body.employer,
-      occupation: body.occupation,
-      amount: (body.amountCents / 100).toString(),
-      date: today,
-      stripeChargeId,
-      frequency: body.frequency,
-    });
-
-    // Update ISPolitical sync status in Supabase
+    // === 5. MCE AUDIT LOG (fire-and-forget) ===
     if (donor) {
-      const { error: syncUpdateError } = await supabase
-        .from('donations')
-        .update({
-          ispolitical_synced: ispResult.success,
-          ispolitical_sync_error: ispResult.error || null,
-        })
-        .eq('stripe_charge_id', stripeChargeId);
-      if (syncUpdateError) {
-        console.error('[Supabase] ISPolitical sync status update error:', syncUpdateError);
-      }
+      const ipAddress = request.headers.get('x-forwarded-for') || 'unknown';
+      writeAuditLog('donations', donor.id, 'create', null, {
+        donor_id: donor.id,
+        stripe_charge_id: stripeChargeId,
+        stripe_subscription_id: stripeSubscriptionId,
+        amount_cents: body.amountCents,
+        frequency: body.frequency,
+        status: 'succeeded',
+        fec_itemized: isItemized,
+        donor_email: body.email,
+        donor_name: `${body.firstName} ${body.lastName}`,
+        employer: body.employer,
+        occupation: body.occupation,
+      }, ipAddress);
     }
 
     // === 6. SEND RECEIPT EMAIL ===

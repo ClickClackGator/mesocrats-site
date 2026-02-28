@@ -8,7 +8,7 @@ export const FEC_ANNUAL_LIMIT_CENTS = 44_300_00; // $44,300
 // Minimum donation
 export const MIN_DONATION_CENTS = 100; // $1.00
 
-// Maximum single donation (soft cap — ISPolitical handles authoritative enforcement)
+// Maximum single donation (hard-capped server-side in donate route)
 export const MAX_SINGLE_DONATION_CENTS = 44_300_00; // $44,300
 
 // Itemization threshold
@@ -101,7 +101,7 @@ export function validateDonationInfo(
     );
   }
 
-  // Annual aggregate warning (not a hard block — ISPolitical handles enforcement)
+  // Annual aggregate warning (hard-blocked server-side in donate route)
   const projectedTotal = priorAnnualTotalCents + donation.amountCents;
   if (projectedTotal > FEC_ANNUAL_LIMIT_CENTS) {
     warnings.push(
