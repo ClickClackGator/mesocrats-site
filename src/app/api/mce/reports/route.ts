@@ -5,7 +5,7 @@
 //
 // Secured with MCE_REPORT_API_KEY env var (Bearer token or x-api-key header).
 // Returns FEC Form 3X data as JSON (with embedded CSV + .fec), downloadable
-// CSV, or .fec electronic filing format.
+// CSV, .fec electronic filing format, or IRS Form 8872 XML.
 
 import { NextRequest, NextResponse } from 'next/server';
 import {
@@ -15,8 +15,24 @@ import {
   formatSummaryCsv,
 } from '@/lib/mce/fec-report';
 import { generateFECFile } from '@/lib/mce/fec-formatter';
+import { generate8872XML } from '@/lib/mce/form8872';
 import { writeAuditLog } from '@/lib/mce/audit';
 import type { PeriodType } from '@/lib/mce/types';
+import type { Form8872FilingType, Form8872ReportType } from '@/lib/mce/form8872';
+
+function mapPeriodTo8872ReportType(
+  period: string,
+  periodType: PeriodType
+): Form8872ReportType {
+  if (periodType === 'monthly') return 'MonthlyReport';
+  switch (period.toUpperCase()) {
+    case 'Q1': return 'FirstQuarterlyReport';
+    case 'Q2': return 'SecondQuarterlyReport';
+    case 'Q3': return 'ThirdQuarterlyReport';
+    case 'Q4': return 'YearEndReport';
+    default: return 'FirstQuarterlyReport';
+  }
+}
 
 function isAuthorized(request: NextRequest): boolean {
   const apiKey = process.env.MCE_REPORT_API_KEY;
@@ -90,6 +106,26 @@ export async function GET(request: NextRequest) {
       return new Response(fecContent, {
         headers: {
           'Content-Type': 'text/plain; charset=utf-8',
+          'Content-Disposition': `attachment; filename="${filename}"`,
+        },
+      });
+    }
+
+    // IRS Form 8872 XML
+    if (format === '8872xml') {
+      const filingType = (searchParams.get('filingType') || 'InitalReport') as Form8872FilingType;
+      const reportType = mapPeriodTo8872ReportType(period, periodType);
+      const xmlContent = generate8872XML(report, {
+        filingType,
+        reportType,
+        custodianName: searchParams.get('custodianName') || undefined,
+        contactPerson: searchParams.get('contactPerson') || undefined,
+        email: searchParams.get('email') || undefined,
+      });
+      const filename = `form8872_mnc_${period.toLowerCase()}_${year}.xml`;
+      return new Response(xmlContent, {
+        headers: {
+          'Content-Type': 'application/xml; charset=utf-8',
           'Content-Disposition': `attachment; filename="${filename}"`,
         },
       });

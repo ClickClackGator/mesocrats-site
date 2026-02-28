@@ -9,6 +9,10 @@ export {
   csvEscape,
 } from './fec-report';
 export { generateFECFile } from './fec-formatter';
+export { generate8872XML, validate8872XML } from './form8872';
+export { MNC_COMMITTEE } from './committee-config';
+export type { Form8872Options } from './form8872';
+export type { USAddress, CommitteeConfig } from './committee-config';
 export type {
   ReportingPeriod,
   ScheduleALine,
