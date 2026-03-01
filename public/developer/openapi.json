@@ -1,0 +1,746 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Mesocratic Compliance Engine API",
+    "version": "1.0.0",
+    "description": "The open platform for American political technology. REST API for FEC compliance, contribution tracking, disbursement management, and regulatory report generation for multi-candidate political committees.",
+    "contact": {
+      "name": "MCE Developer Support",
+      "email": "developer@mesocrats.org",
+      "url": "https://developer.mesocrats.org"
+    },
+    "license": {
+      "name": "MIT",
+      "url": "https://opensource.org/licenses/MIT"
+    }
+  },
+  "servers": [
+    {
+      "url": "https://api.mesocrats.org/v1",
+      "description": "Production"
+    },
+    {
+      "url": "https://sandbox.api.mesocrats.org/v1",
+      "description": "Sandbox (synthetic test data)"
+    }
+  ],
+  "security": [
+    {
+      "BearerAuth": []
+    }
+  ],
+  "tags": [
+    { "name": "Contributions", "description": "Record and query donor contributions" },
+    { "name": "Reports", "description": "Generate FEC Form 3X and IRS Form 8872 filings" },
+    { "name": "Disbursements", "description": "Record and query committee expenditures" },
+    { "name": "Webhooks", "description": "Register endpoints for real-time event delivery" }
+  ],
+  "paths": {
+    "/contributions": {
+      "get": {
+        "operationId": "listContributions",
+        "summary": "List contributions",
+        "description": "Returns a paginated list of contributions received by the committee. Supports filtering by reporting period, itemization status, and individual contributor. Contributions are returned with aggregate year-to-date totals calculated using normalized name + ZIP matching.",
+        "tags": ["Contributions"],
+        "parameters": [
+          {
+            "name": "period",
+            "in": "query",
+            "description": "Reporting period filter. Quarterly: Q1, Q2, Q3, Q4. Monthly: 1 through 12.",
+            "schema": { "type": "string" }
+          },
+          {
+            "name": "year",
+            "in": "query",
+            "description": "Calendar year filter. Range: 2020-2100.",
+            "schema": { "type": "integer", "minimum": 2020, "maximum": 2100 }
+          },
+          {
+            "name": "itemized",
+            "in": "query",
+            "description": "Filter by itemization status. True returns only contributions where donor aggregate YTD exceeds $200.",
+            "schema": { "type": "boolean" }
+          },
+          {
+            "name": "contributor_id",
+            "in": "query",
+            "description": "Filter by donor UUID. Returns contributions from this donor and any matched duplicates.",
+            "schema": { "type": "string", "format": "uuid" }
+          },
+          {
+            "name": "cursor",
+            "in": "query",
+            "description": "Pagination cursor from a previous response.",
+            "schema": { "type": "string" }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "Maximum results per page. Default: 50.",
+            "schema": { "type": "integer", "minimum": 1, "maximum": 100, "default": 50 }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A paginated list of contributions.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    { "$ref": "#/components/schemas/PaginatedResponse" },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "data": {
+                          "type": "array",
+                          "items": { "$ref": "#/components/schemas/Contribution" }
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "400": { "$ref": "#/components/responses/BadRequest" },
+          "401": { "$ref": "#/components/responses/Unauthorized" },
+          "429": { "$ref": "#/components/responses/RateLimited" }
+        }
+      },
+      "post": {
+        "operationId": "createContribution",
+        "summary": "Record a contribution",
+        "description": "Records and validates a new contribution. Enforces FEC contribution limits ($5,000 per individual per year for multi-candidate PACs). Automatically triggers best-efforts follow-up emails when donor aggregate exceeds $200 and employer/occupation is missing.",
+        "tags": ["Contributions"],
+        "parameters": [
+          {
+            "name": "Idempotency-Key",
+            "in": "header",
+            "description": "Unique key for safe retries. If a contribution with this key exists, the original response is returned.",
+            "schema": { "type": "string" }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["contributor_name", "contributor_address", "contributor_city", "contributor_state", "contributor_zip", "amount_cents", "email", "stripe_payment_intent_id", "attestations"],
+                "properties": {
+                  "contributor_name": {
+                    "type": "string",
+                    "description": "Full name in \"Last, First\" format."
+                  },
+                  "contributor_address": {
+                    "type": "string",
+                    "description": "Street address."
+                  },
+                  "contributor_city": {
+                    "type": "string",
+                    "description": "City."
+                  },
+                  "contributor_state": {
+                    "type": "string",
+                    "description": "Two-letter US state abbreviation.",
+                    "minLength": 2,
+                    "maxLength": 2
+                  },
+                  "contributor_zip": {
+                    "type": "string",
+                    "description": "5-digit or 9-digit ZIP code.",
+                    "pattern": "^\\d{5}(-\\d{4})?$"
+                  },
+                  "amount_cents": {
+                    "type": "integer",
+                    "description": "Amount in cents. Maximum 500000 ($5,000) per FEC limits.",
+                    "minimum": 1,
+                    "maximum": 500000
+                  },
+                  "email": {
+                    "type": "string",
+                    "format": "email",
+                    "description": "Contributor email for best-efforts follow-up."
+                  },
+                  "employer": {
+                    "type": "string",
+                    "description": "Employer name. Required by FEC for itemized contributions."
+                  },
+                  "occupation": {
+                    "type": "string",
+                    "description": "Occupation. Required by FEC for itemized contributions."
+                  },
+                  "stripe_payment_intent_id": {
+                    "type": "string",
+                    "description": "Stripe PaymentIntent ID for fee calculation (2.9% + $0.30)."
+                  },
+                  "attestations": {
+                    "$ref": "#/components/schemas/Attestations"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Contribution recorded successfully.",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/Contribution" }
+              }
+            }
+          },
+          "400": { "$ref": "#/components/responses/BadRequest" },
+          "401": { "$ref": "#/components/responses/Unauthorized" },
+          "429": { "$ref": "#/components/responses/RateLimited" }
+        }
+      }
+    },
+    "/reports": {
+      "get": {
+        "operationId": "generateReport",
+        "summary": "Generate a report",
+        "description": "Generates an FEC Form 3X or IRS Form 8872 report for the specified period. Returns Schedule A (itemized receipts over $200 aggregate YTD), Schedule B (itemized disbursements), and a summary. Supports JSON, CSV, FEC pipe-delimited, and IRS 8872 XML output formats.",
+        "tags": ["Reports"],
+        "parameters": [
+          {
+            "name": "year",
+            "in": "query",
+            "required": true,
+            "description": "Report year. Range: 2020-2100.",
+            "schema": { "type": "integer", "minimum": 2020, "maximum": 2100 }
+          },
+          {
+            "name": "period",
+            "in": "query",
+            "required": true,
+            "description": "Reporting period. Quarterly: Q1-Q4. Monthly: 1-12.",
+            "schema": { "type": "string" }
+          },
+          {
+            "name": "period_type",
+            "in": "query",
+            "description": "Period type. Default: quarterly.",
+            "schema": { "type": "string", "enum": ["quarterly", "monthly"], "default": "quarterly" }
+          },
+          {
+            "name": "format",
+            "in": "query",
+            "description": "Output format. Default: json.",
+            "schema": { "type": "string", "enum": ["json", "csv", "fec", "8872xml"], "default": "json" }
+          },
+          {
+            "name": "schedule",
+            "in": "query",
+            "description": "Required when format=csv. Which schedule to export.",
+            "schema": { "type": "string", "enum": ["a", "b", "summary"] }
+          },
+          {
+            "name": "cash_on_hand_start",
+            "in": "query",
+            "description": "Opening cash-on-hand balance in cents.",
+            "schema": { "type": "integer" }
+          },
+          {
+            "name": "filing_type",
+            "in": "query",
+            "description": "For 8872xml only. IRS filing type.",
+            "schema": { "type": "string", "enum": ["InitalReport", "AmendedReport", "FinalReport", "ChangeOfAddress"], "default": "InitalReport" }
+          },
+          {
+            "name": "custodian_name",
+            "in": "query",
+            "description": "For 8872xml only. Override custodian name.",
+            "schema": { "type": "string", "maxLength": 50 }
+          },
+          {
+            "name": "contact_person",
+            "in": "query",
+            "description": "For 8872xml only. Override contact person.",
+            "schema": { "type": "string", "maxLength": 50 }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Report generated successfully. Content-Type varies by format.",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/Report" }
+              },
+              "text/csv": {
+                "schema": { "type": "string" }
+              },
+              "text/plain": {
+                "schema": { "type": "string", "description": "FEC pipe-delimited file content." }
+              },
+              "application/xml": {
+                "schema": { "type": "string", "description": "IRS Form 8872 XML." }
+              }
+            }
+          },
+          "400": { "$ref": "#/components/responses/BadRequest" },
+          "401": { "$ref": "#/components/responses/Unauthorized" },
+          "429": { "$ref": "#/components/responses/RateLimited" }
+        }
+      }
+    },
+    "/disbursements": {
+      "get": {
+        "operationId": "listDisbursements",
+        "summary": "List disbursements",
+        "description": "Returns disbursements within a date range, ordered by date ascending. Includes operating expenses, contributions, independent expenditures, and auto-recorded Stripe processing fees.",
+        "tags": ["Disbursements"],
+        "parameters": [
+          {
+            "name": "start_date",
+            "in": "query",
+            "required": true,
+            "description": "Start of date range (YYYY-MM-DD). Inclusive.",
+            "schema": { "type": "string", "format": "date" }
+          },
+          {
+            "name": "end_date",
+            "in": "query",
+            "required": true,
+            "description": "End of date range (YYYY-MM-DD). Inclusive.",
+            "schema": { "type": "string", "format": "date" }
+          },
+          {
+            "name": "category",
+            "in": "query",
+            "description": "Filter by disbursement category.",
+            "schema": { "type": "string", "enum": ["operating", "contribution", "independent_expenditure", "other"] }
+          },
+          {
+            "name": "cursor",
+            "in": "query",
+            "description": "Pagination cursor.",
+            "schema": { "type": "string" }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "Maximum results per page. Default: 50.",
+            "schema": { "type": "integer", "minimum": 1, "maximum": 100, "default": 50 }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A paginated list of disbursements.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    { "$ref": "#/components/schemas/PaginatedResponse" },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "data": {
+                          "type": "array",
+                          "items": { "$ref": "#/components/schemas/Disbursement" }
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "400": { "$ref": "#/components/responses/BadRequest" },
+          "401": { "$ref": "#/components/responses/Unauthorized" },
+          "429": { "$ref": "#/components/responses/RateLimited" }
+        }
+      },
+      "post": {
+        "operationId": "createDisbursement",
+        "summary": "Record a disbursement",
+        "description": "Records a new disbursement for the committee. Disbursements over $200 are automatically itemized on FEC Form 3X Schedule B. Written to the immutable audit log.",
+        "tags": ["Disbursements"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["payee_name", "amount_cents", "date", "purpose", "category"],
+                "properties": {
+                  "payee_name": {
+                    "type": "string",
+                    "description": "Payee name."
+                  },
+                  "amount_cents": {
+                    "type": "integer",
+                    "description": "Amount in cents. Must be positive.",
+                    "minimum": 1
+                  },
+                  "date": {
+                    "type": "string",
+                    "format": "date",
+                    "description": "Disbursement date (YYYY-MM-DD)."
+                  },
+                  "purpose": {
+                    "type": "string",
+                    "description": "FEC-compliant expenditure purpose."
+                  },
+                  "category": {
+                    "type": "string",
+                    "enum": ["operating", "contribution", "independent_expenditure", "other"],
+                    "description": "Disbursement category."
+                  },
+                  "payee_address": {
+                    "$ref": "#/components/schemas/Address"
+                  },
+                  "check_number": {
+                    "type": "string",
+                    "description": "Check number if paid by check."
+                  },
+                  "receipt_url": {
+                    "type": "string",
+                    "format": "uri",
+                    "description": "URL to uploaded receipt."
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Disbursement recorded successfully.",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/Disbursement" }
+              }
+            }
+          },
+          "400": { "$ref": "#/components/responses/BadRequest" },
+          "401": { "$ref": "#/components/responses/Unauthorized" },
+          "429": { "$ref": "#/components/responses/RateLimited" }
+        }
+      }
+    },
+    "/webhooks": {
+      "post": {
+        "operationId": "registerWebhook",
+        "summary": "Register a webhook",
+        "description": "Registers a new webhook endpoint for real-time event notifications. Events are delivered via HTTP POST with HMAC-SHA256 signature verification. Failed deliveries are retried with exponential backoff (up to 5 attempts over 24 hours).",
+        "tags": ["Webhooks"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["url", "events"],
+                "properties": {
+                  "url": {
+                    "type": "string",
+                    "format": "uri",
+                    "description": "HTTPS endpoint URL for event delivery."
+                  },
+                  "events": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "enum": [
+                        "*",
+                        "contribution.created",
+                        "contribution.flagged",
+                        "contribution.refunded",
+                        "disbursement.created",
+                        "report.generated",
+                        "report.validated",
+                        "aggregate.threshold_crossed",
+                        "compliance.deadline_approaching"
+                      ]
+                    },
+                    "description": "Event types to subscribe to. Use \"*\" for all events."
+                  },
+                  "description": {
+                    "type": "string",
+                    "description": "Human-readable description."
+                  },
+                  "metadata": {
+                    "type": "object",
+                    "additionalProperties": { "type": "string" },
+                    "description": "Arbitrary key-value pairs."
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Webhook registered. The signing_secret is only returned once -- store it securely.",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/Webhook" }
+              }
+            }
+          },
+          "400": { "$ref": "#/components/responses/BadRequest" },
+          "401": { "$ref": "#/components/responses/Unauthorized" },
+          "429": { "$ref": "#/components/responses/RateLimited" }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "BearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "API Key",
+        "description": "API key prefixed with mce_live_ (production) or mce_test_ (sandbox)."
+      }
+    },
+    "schemas": {
+      "Contribution": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "string", "description": "Unique contribution ID." },
+          "object": { "type": "string", "const": "contribution" },
+          "donor_id": { "type": "string", "description": "Canonical donor UUID." },
+          "contributor_name": { "type": "string", "description": "Name in \"Last, First\" format." },
+          "contributor_address": { "type": "string" },
+          "contributor_city": { "type": "string" },
+          "contributor_state": { "type": "string", "minLength": 2, "maxLength": 2 },
+          "contributor_zip": { "type": "string" },
+          "employer": { "type": ["string", "null"] },
+          "occupation": { "type": ["string", "null"] },
+          "date_received": { "type": "string", "format": "date" },
+          "amount_cents": { "type": "integer", "description": "Amount in cents." },
+          "aggregate_ytd_cents": { "type": "integer", "description": "Year-to-date aggregate across matched donors." },
+          "itemized": { "type": "boolean", "description": "True if aggregate YTD exceeds $200." },
+          "stripe_charge_id": { "type": "string" },
+          "stripe_fee_cents": { "type": "integer", "description": "Stripe processing fee in cents (2.9% + $0.30)." },
+          "attestations_verified": { "type": "boolean" },
+          "compliance": {
+            "type": "object",
+            "properties": {
+              "within_limits": { "type": "boolean" },
+              "annual_limit_cents": { "type": "integer" },
+              "remaining_cents": { "type": "integer" }
+            }
+          },
+          "best_efforts": {
+            "type": "object",
+            "properties": {
+              "employer_occupation_complete": { "type": "boolean" },
+              "follow_up_required": { "type": "boolean" }
+            }
+          },
+          "created_at": { "type": "string", "format": "date-time" }
+        }
+      },
+      "Disbursement": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "string", "description": "Unique disbursement ID." },
+          "object": { "type": "string", "const": "disbursement" },
+          "payee_name": { "type": "string" },
+          "payee_address_line1": { "type": ["string", "null"] },
+          "payee_address_city": { "type": ["string", "null"] },
+          "payee_address_state": { "type": ["string", "null"] },
+          "payee_address_zip": { "type": ["string", "null"] },
+          "amount_cents": { "type": "integer" },
+          "date": { "type": "string", "format": "date" },
+          "purpose": { "type": "string" },
+          "category": { "type": "string", "enum": ["operating", "contribution", "independent_expenditure", "other"] },
+          "check_number": { "type": ["string", "null"] },
+          "receipt_url": { "type": ["string", "null"] },
+          "created_at": { "type": "string", "format": "date-time" },
+          "updated_at": { "type": "string", "format": "date-time" }
+        }
+      },
+      "Report": {
+        "type": "object",
+        "properties": {
+          "object": { "type": "string", "const": "report" },
+          "report": {
+            "type": "object",
+            "properties": {
+              "period": {
+                "type": "object",
+                "properties": {
+                  "type": { "type": "string", "enum": ["quarterly", "monthly"] },
+                  "year": { "type": "integer" },
+                  "period": { "type": "string" },
+                  "startDate": { "type": "string", "format": "date" },
+                  "endDate": { "type": "string", "format": "date" }
+                }
+              },
+              "scheduleA": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "donorId": { "type": "string" },
+                    "donationId": { "type": "string" },
+                    "contributorName": { "type": "string" },
+                    "contributorAddress": { "type": "string" },
+                    "contributorCity": { "type": "string" },
+                    "contributorState": { "type": "string" },
+                    "contributorZip": { "type": "string" },
+                    "employer": { "type": "string" },
+                    "occupation": { "type": "string" },
+                    "dateReceived": { "type": "string", "format": "date" },
+                    "amountCents": { "type": "integer" },
+                    "aggregateYtdCents": { "type": "integer" }
+                  }
+                }
+              },
+              "scheduleB": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "disbursementId": { "type": "string" },
+                    "payeeName": { "type": "string" },
+                    "payeeAddress": { "type": "string" },
+                    "payeeCity": { "type": "string" },
+                    "payeeState": { "type": "string" },
+                    "payeeZip": { "type": "string" },
+                    "datePaid": { "type": "string", "format": "date" },
+                    "amountCents": { "type": "integer" },
+                    "purpose": { "type": "string" },
+                    "category": { "type": "string" }
+                  }
+                }
+              },
+              "summary": {
+                "type": "object",
+                "properties": {
+                  "totalReceiptsCents": { "type": "integer" },
+                  "itemizedReceiptsCents": { "type": "integer" },
+                  "unitemizedReceiptsCents": { "type": "integer" },
+                  "totalDisbursementsCents": { "type": "integer" },
+                  "disbursementsByCategory": { "type": "object", "additionalProperties": { "type": "integer" } },
+                  "cashOnHandStartCents": { "type": ["integer", "null"] },
+                  "cashOnHandEndCents": { "type": ["integer", "null"] }
+                }
+              },
+              "warnings": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "type": { "type": "string", "enum": ["missing_employer", "missing_occupation", "missing_employer_occupation"] },
+                    "donorId": { "type": "string" },
+                    "donorName": { "type": "string" },
+                    "donationId": { "type": "string" },
+                    "message": { "type": "string" }
+                  }
+                }
+              },
+              "generatedAt": { "type": "string", "format": "date-time" }
+            }
+          },
+          "csv": {
+            "type": "object",
+            "properties": {
+              "scheduleA": { "type": "string" },
+              "scheduleB": { "type": "string" },
+              "summary": { "type": "string" }
+            }
+          },
+          "fec": { "type": "string", "description": "Pipe-delimited FEC electronic filing format (v8.4)." }
+        }
+      },
+      "Webhook": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "string" },
+          "object": { "type": "string", "const": "webhook" },
+          "url": { "type": "string", "format": "uri" },
+          "events": { "type": "array", "items": { "type": "string" } },
+          "description": { "type": ["string", "null"] },
+          "signing_secret": { "type": "string", "description": "HMAC-SHA256 signing secret. Only returned on creation." },
+          "status": { "type": "string", "enum": ["active", "disabled"] },
+          "metadata": { "type": "object", "additionalProperties": { "type": "string" } },
+          "created_at": { "type": "string", "format": "date-time" }
+        }
+      },
+      "Address": {
+        "type": "object",
+        "properties": {
+          "line1": { "type": "string" },
+          "line2": { "type": "string" },
+          "city": { "type": "string" },
+          "state": { "type": "string", "minLength": 2, "maxLength": 2 },
+          "zip": { "type": "string" }
+        }
+      },
+      "Attestations": {
+        "type": "object",
+        "required": ["us_citizen", "own_funds", "not_federal_contractor", "not_foreign_national", "contribution_limits_acknowledged"],
+        "properties": {
+          "us_citizen": { "type": "boolean", "description": "Contributor is a US citizen or lawful permanent resident." },
+          "own_funds": { "type": "boolean", "description": "Contribution is from personal funds, not another entity." },
+          "not_federal_contractor": { "type": "boolean", "description": "Contributor is not a federal government contractor." },
+          "not_foreign_national": { "type": "boolean", "description": "Contributor is not a foreign national." },
+          "contribution_limits_acknowledged": { "type": "boolean", "description": "Contributor acknowledges contribution limits." }
+        }
+      },
+      "PaginatedResponse": {
+        "type": "object",
+        "properties": {
+          "object": { "type": "string", "const": "list" },
+          "data": { "type": "array", "items": {} },
+          "has_more": { "type": "boolean" },
+          "next_cursor": { "type": ["string", "null"] },
+          "total_count": { "type": "integer" }
+        }
+      },
+      "Error": {
+        "type": "object",
+        "properties": {
+          "error": {
+            "type": "object",
+            "properties": {
+              "type": { "type": "string", "enum": ["invalid_request", "authentication_error", "rate_limit_error", "api_error"] },
+              "message": { "type": "string" },
+              "code": { "type": "string" },
+              "param": { "type": ["string", "null"], "description": "The parameter that caused the error, if applicable." }
+            },
+            "required": ["type", "message"]
+          }
+        }
+      }
+    },
+    "responses": {
+      "BadRequest": {
+        "description": "Invalid request parameters.",
+        "content": {
+          "application/json": {
+            "schema": { "$ref": "#/components/schemas/Error" }
+          }
+        }
+      },
+      "Unauthorized": {
+        "description": "Missing or invalid API key.",
+        "content": {
+          "application/json": {
+            "schema": { "$ref": "#/components/schemas/Error" }
+          }
+        }
+      },
+      "RateLimited": {
+        "description": "Too many requests. Retry after the period specified in Retry-After header.",
+        "headers": {
+          "Retry-After": {
+            "description": "Seconds to wait before retrying.",
+            "schema": { "type": "integer" }
+          }
+        },
+        "content": {
+          "application/json": {
+            "schema": { "$ref": "#/components/schemas/Error" }
+          }
+        }
+      }
+    }
+  }
+}
