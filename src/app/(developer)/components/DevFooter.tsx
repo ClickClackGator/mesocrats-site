@@ -38,7 +38,7 @@ export default function DevFooter() {
                 height={20}
                 className="h-5 w-auto"
               />
-              <span className="text-sm font-semibold text-white">
+              <span className="text-lg font-extrabold text-white">
                 PartyStack
               </span>
             </div>

@@ -81,7 +81,7 @@ export default function DevNavBar() {
               height={24}
               className="h-6 w-auto"
             />
-            <span className="text-base font-bold text-white">
+            <span className="text-lg font-extrabold text-white">
               PartyStack
             </span>
           </Link>
