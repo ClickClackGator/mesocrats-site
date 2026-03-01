@@ -23,6 +23,12 @@ export function middleware(request: NextRequest) {
       return NextResponse.next();
     }
 
+    // API routes live in the (developer) route group at /api/v1/* —
+    // don't rewrite them to /developer/api/v1/* or they'll 404.
+    if (pathname.startsWith("/api/v1")) {
+      return NextResponse.next();
+    }
+
     // Rewrite to /developer/* path
     const url = request.nextUrl.clone();
     url.pathname = `/developer${pathname}`;
