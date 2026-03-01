@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
@@ -72,35 +71,20 @@ export default function DevNavBar() {
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
-          {/* Left: Mesocrats logo + divider + PartyStack logo & name */}
-          <div className="flex items-center gap-3 shrink-0">
-            <a
-              href="https://mesocrats.org"
-              aria-label="Back to mesocrats.org"
-              className="hover:opacity-80 transition-opacity"
-            >
-              <Image
-                src="/images/mp-logo-m.png"
-                alt="Mesocratic Party logo"
-                width={28}
-                height={28}
-                className="h-7 w-auto"
-              />
-            </a>
-            <div className="w-px h-5 bg-white/10" />
-            <Link href="/" className="flex items-center gap-2">
-              <Image
-                src="/images/MP_PartyStack_Logo.png"
-                alt="PartyStack logo"
-                width={24}
-                height={24}
-                className="h-6 w-auto"
-              />
-              <span className="text-sm font-semibold text-white">
-                PartyStack
-              </span>
-            </Link>
-          </div>
+          {/* Left: PartyStack logo & name */}
+          <Link href="/" className="flex items-center gap-2 shrink-0">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="/images/MP_PartyStack_Logo.png"
+              alt="PartyStack logo"
+              width={30}
+              height={24}
+              className="h-6 w-auto"
+            />
+            <span className="text-base font-bold text-white">
+              PartyStack
+            </span>
+          </Link>
 
           {/* Center: Nav links (desktop) */}
           <div className="hidden lg:flex items-center gap-1">
@@ -122,8 +106,23 @@ export default function DevNavBar() {
             })}
           </div>
 
-          {/* Right: GitHub + mobile toggle */}
-          <div className="flex items-center gap-3">
+          {/* Right: Mesocrats logo + GitHub + mobile toggle */}
+          <div className="flex items-center gap-1">
+            <a
+              href="https://mesocrats.org"
+              aria-label="mesocrats.org"
+              title="mesocrats.org"
+              className="hidden lg:flex text-gray-400 hover:text-white transition-colors p-2"
+            >
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src="/images/mp-logo-m.png"
+                alt="Mesocratic Party"
+                width={24}
+                height={24}
+                className="h-6 w-auto"
+              />
+            </a>
             <a
               href="https://github.com/ClickClackGator/mesocrats-site"
               target="_blank"
@@ -164,6 +163,22 @@ export default function DevNavBar() {
                 </Link>
               );
             })}
+            <div className="border-t border-white/[0.06] mt-3 pt-3">
+              <a
+                href="https://mesocrats.org"
+                className="flex items-center gap-2 px-3 py-2.5 rounded-md text-sm text-gray-400 hover:text-white hover:bg-white/[0.04] transition-colors"
+              >
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src="/images/mp-logo-m.png"
+                  alt="Mesocratic Party"
+                  width={20}
+                  height={20}
+                  className="h-5 w-auto"
+                />
+                mesocrats.org
+              </a>
+            </div>
           </div>
         </div>
       )}
