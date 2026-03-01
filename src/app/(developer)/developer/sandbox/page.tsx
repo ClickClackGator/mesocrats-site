@@ -1,229 +1,384 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import Badge from "../../components/Badge";
 import CodeBlock from "../../components/CodeBlock";
 
 /* ------------------------------------------------------------------ */
-/*  Mock response data                                                 */
+/*  Endpoint configuration                                             */
 /* ------------------------------------------------------------------ */
 
-const mockResponses: Record<string, Record<string, string>> = {
+interface EndpointInfo {
+  path: string;
+  methods: ("GET" | "POST")[];
+}
+
+const endpoints: EndpointInfo[] = [
+  { path: "/api/v1/health", methods: ["GET"] },
+  { path: "/api/v1/committees", methods: ["GET", "POST"] },
+  { path: "/api/v1/contributors", methods: ["GET", "POST"] },
+  { path: "/api/v1/contributions", methods: ["GET", "POST"] },
+  { path: "/api/v1/disbursements", methods: ["GET", "POST"] },
+  { path: "/api/v1/compliance/limits", methods: ["GET"] },
+  { path: "/api/v1/reports", methods: ["GET", "POST"] },
+];
+
+/* ------------------------------------------------------------------ */
+/*  Example request bodies (POST endpoints)                            */
+/* ------------------------------------------------------------------ */
+
+const requestBodies: Record<string, string> = {
+  "/api/v1/committees": JSON.stringify(
+    {
+      name: "Test Committee for Democracy",
+      committee_type: "pac",
+      treasurer_name: "Jane Smith",
+      mailing_address: "123 Test St, Washington, DC 20001",
+    },
+    null,
+    2,
+  ),
+  "/api/v1/contributors": JSON.stringify(
+    {
+      first_name: "John",
+      last_name: "Doe",
+      email: "john@example.com",
+      address_line1: "456 Main St",
+      city: "Richmond",
+      state: "VA",
+      zip_code: "23220",
+      employer: "Acme Corp",
+      occupation: "Engineer",
+    },
+    null,
+    2,
+  ),
+  "/api/v1/contributions": JSON.stringify(
+    {
+      contributor_id: "c2cb6703-a1d2-4e77-9440-22ca4485f510",
+      amount_cents: 5000,
+      date_received: "2026-03-01",
+      contribution_type: "individual",
+      payment_method: "credit_card",
+      citizenship_attested: true,
+      personal_funds_attested: true,
+      non_contractor_attested: true,
+      personal_card_attested: true,
+      age_attested: true,
+    },
+    null,
+    2,
+  ),
+  "/api/v1/disbursements": JSON.stringify(
+    {
+      payee_name: "Office Supply Co",
+      payee_address: "789 Commerce Ave, Richmond, VA 23219",
+      amount_cents: 15000,
+      date: "2026-03-01",
+      purpose: "Office supplies for committee operations",
+      category: "operating",
+    },
+    null,
+    2,
+  ),
+  "/api/v1/reports": JSON.stringify(
+    {
+      report_type: "quarterly",
+      coverage_start: "2026-01-01",
+      coverage_end: "2026-03-31",
+      filing_deadline: "2026-04-15",
+    },
+    null,
+    2,
+  ),
+};
+
+/* ------------------------------------------------------------------ */
+/*  Example responses                                                   */
+/* ------------------------------------------------------------------ */
+
+const exampleResponses: Record<string, Record<string, string>> = {
   GET: {
-    "/v1/contributions": JSON.stringify(
+    "/api/v1/health": JSON.stringify(
       {
-        object: "list",
+        status: "ok",
+        version: "1.0.0",
+        timestamp: "2026-03-01T22:56:02.552Z",
+        database: "connected",
+      },
+      null,
+      2,
+    ),
+    "/api/v1/committees": JSON.stringify(
+      {
+        data: {
+          id: "1c330ac4-f784-44d8-9f3c-c5ed5bf4a102",
+          owner_user_id: "1fb69979-79fb-478c-b344-a86a80d149f6",
+          name: "Test Committee for Democracy",
+          legal_name: null,
+          fec_id: null,
+          ein: null,
+          committee_type: "pac",
+          treasurer_name: "Jane Smith",
+          treasurer_address: null,
+          mailing_address: "123 Test St, Washington, DC 20001",
+          filing_frequency: "quarterly",
+          created_at: "2026-03-01T23:07:43.730245+00:00",
+          updated_at: "2026-03-01T23:07:43.730245+00:00",
+        },
+      },
+      null,
+      2,
+    ),
+    "/api/v1/contributors": JSON.stringify(
+      {
         data: [
           {
-            id: "don_test_a1b2c3d4-e5f6-7890-abcd-ef1234567890",
-            object: "contribution",
-            donor_id: "dnr_test_1111-2222-3333-4444",
-            contributor_name: "Testworth, Alice",
-            contributor_city: "Arlington",
-            contributor_state: "VA",
-            contributor_zip: "22201",
-            employer: "Test Corp",
-            occupation: "QA Engineer",
-            date_received: "2026-03-10",
+            id: "c2cb6703-a1d2-4e77-9440-22ca4485f510",
+            committee_id: "1c330ac4-f784-44d8-9f3c-c5ed5bf4a102",
+            entity_type: "individual",
+            first_name: "John",
+            last_name: "Doe",
+            full_name: "John Doe",
+            email: "john@example.com",
+            address_line1: "456 Main St",
+            address_line2: null,
+            city: "Richmond",
+            state: "VA",
+            zip_code: "23220",
+            employer: "Acme Corp",
+            occupation: "Engineer",
+            match_key: "doe_23220",
+            created_at: "2026-03-01T23:13:28.230242+00:00",
+            updated_at: "2026-03-01T23:13:28.230242+00:00",
+          },
+        ],
+        pagination: {
+          page: 1,
+          limit: 50,
+          total: 1,
+          total_pages: 1,
+        },
+      },
+      null,
+      2,
+    ),
+    "/api/v1/contributions": JSON.stringify(
+      {
+        data: [
+          {
+            id: "728418f9-08d1-41b7-935f-7bc28cd2fa86",
+            committee_id: "1c330ac4-f784-44d8-9f3c-c5ed5bf4a102",
+            contributor_id: "c2cb6703-a1d2-4e77-9440-22ca4485f510",
             amount_cents: 5000,
+            date_received: "2026-03-01",
+            contribution_type: "individual",
+            payment_method: "credit_card",
+            stripe_charge_id: null,
+            frequency: "one_time",
+            citizenship_attested: true,
+            personal_funds_attested: true,
+            non_contractor_attested: true,
+            personal_card_attested: true,
+            age_attested: true,
+            ip_address: "108.4.77.219",
             aggregate_ytd_cents: 5000,
             itemized: false,
-            payment_method: "card",
-            stripe_charge_id: "ch_test_abc123",
-            created_at: "2026-03-10T10:00:00Z",
-          },
-          {
-            id: "don_test_b2c3d4e5-f6a7-8901-bcde-f12345678901",
-            object: "contribution",
-            donor_id: "dnr_test_5555-6666-7777-8888",
-            contributor_name: "Mockington, Bob",
-            contributor_city: "Richmond",
-            contributor_state: "VA",
-            contributor_zip: "23220",
-            employer: "Mock Industries",
-            occupation: "Product Manager",
-            date_received: "2026-02-28",
-            amount_cents: 25000,
-            aggregate_ytd_cents: 25000,
-            itemized: true,
-            payment_method: "card",
-            stripe_charge_id: "ch_test_def456",
-            created_at: "2026-02-28T14:30:00Z",
-          },
-          {
-            id: "don_test_c3d4e5f6-a7b8-9012-cdef-123456789012",
-            object: "contribution",
-            donor_id: "dnr_test_9999-aaaa-bbbb-cccc",
-            contributor_name: "Sandbox, Carol",
-            contributor_city: "Glen Allen",
-            contributor_state: "VA",
-            contributor_zip: "23058",
-            employer: null,
-            occupation: null,
-            date_received: "2026-01-15",
-            amount_cents: 10000,
-            aggregate_ytd_cents: 10000,
-            itemized: false,
-            payment_method: "card",
-            stripe_charge_id: "ch_test_ghi789",
-            created_at: "2026-01-15T09:00:00Z",
+            report_id: null,
+            created_at: "2026-03-01T23:13:55.142983+00:00",
           },
         ],
-        has_more: false,
-        next_cursor: null,
-        total_count: 3,
+        pagination: {
+          page: 1,
+          limit: 50,
+          total: 1,
+          total_pages: 1,
+        },
       },
       null,
       2,
     ),
-    "/v1/disbursements": JSON.stringify(
+    "/api/v1/disbursements": JSON.stringify(
       {
-        object: "list",
         data: [
           {
-            id: "dis_test_d4e5f6a7-b8c9-0123-def0-234567890123",
-            object: "disbursement",
-            payee_name: "Stripe, Inc.",
-            payee_address_line1: "354 Oyster Point Blvd",
-            payee_address_city: "South San Francisco",
-            payee_address_state: "CA",
-            payee_address_zip: "94080",
-            amount_cents: 175,
-            date: "2026-03-10",
-            purpose:
-              "Payment processing fee for donation ch_test_abc123",
+            id: "5f524567-d4b0-46de-8520-dd73dd83d5f9",
+            committee_id: "1c330ac4-f784-44d8-9f3c-c5ed5bf4a102",
+            payee_name: "Office Supply Co",
+            payee_address: "789 Commerce Ave, Richmond, VA 23219",
+            amount_cents: 15000,
+            date: "2026-03-01",
+            purpose: "Office supplies for committee operations",
             category: "operating",
             check_number: null,
             receipt_url: null,
-            created_at: "2026-03-10T10:00:01Z",
-          },
-          {
-            id: "dis_test_e5f6a7b8-c9d0-1234-ef01-345678901234",
-            object: "disbursement",
-            payee_name: "Stripe, Inc.",
-            payee_address_line1: "354 Oyster Point Blvd",
-            payee_address_city: "South San Francisco",
-            payee_address_state: "CA",
-            payee_address_zip: "94080",
-            amount_cents: 753,
-            date: "2026-02-28",
-            purpose:
-              "Payment processing fee for donation ch_test_def456",
-            category: "operating",
-            check_number: null,
-            receipt_url: null,
-            created_at: "2026-02-28T14:30:01Z",
-          },
-          {
-            id: "dis_test_f6a7b8c9-d0e1-2345-f012-456789012345",
-            object: "disbursement",
-            payee_name: "Keystone Consulting Group",
-            payee_address_line1: "1200 K St NW",
-            payee_address_city: "Washington",
-            payee_address_state: "DC",
-            payee_address_zip: "20005",
-            amount_cents: 250000,
-            date: "2026-01-20",
-            purpose: "Compliance consulting -- Q1 filing preparation",
-            category: "operating",
-            check_number: "1001",
-            receipt_url: null,
-            created_at: "2026-01-20T11:00:00Z",
+            report_id: null,
+            created_at: "2026-03-01T23:14:24.542532+00:00",
           },
         ],
-        has_more: false,
-        next_cursor: null,
-        total_count: 3,
+        pagination: {
+          page: 1,
+          limit: 50,
+          total: 1,
+          total_pages: 1,
+        },
       },
       null,
       2,
     ),
-    "/v1/reports": JSON.stringify(
+    "/api/v1/compliance/limits": JSON.stringify(
       {
-        object: "report",
-        id: "rpt_test_a7b8c9d0-e1f2-3456-0123-567890123456",
-        type: "FEC_3X",
-        period: {
-          type: "quarterly",
-          year: 2026,
-          period: "Q1",
-          startDate: "2026-01-01",
-          endDate: "2026-03-31",
-        },
-        summary: {
-          totalReceiptsCents: 40000,
-          itemizedReceiptsCents: 25000,
-          unitemizedReceiptsCents: 15000,
-          totalDisbursementsCents: 250928,
-          disbursementsByCategory: {
-            operating: 250928,
+        data: {
+          committee_type: "pac",
+          cycle: "2025-2026",
+          limits: {
+            individual_per_year: 500000,
+            pac_per_year: 500000,
+            party_per_year: 500000,
           },
-          cashOnHandStartCents: null,
-          cashOnHandEndCents: null,
+          itemization_threshold: 20000,
         },
-        schedule_a_count: 1,
-        schedule_b_count: 3,
-        warnings_count: 1,
-        status: "draft",
-        download_urls: {
-          fec: "/v1/reports?year=2026&period=Q1&format=fec",
-          csv_a: "/v1/reports?year=2026&period=Q1&format=csv&schedule=a",
-          csv_b: "/v1/reports?year=2026&period=Q1&format=csv&schedule=b",
-          xml_8872: "/v1/reports?year=2026&period=Q1&format=8872xml",
-        },
-        generatedAt: "2026-04-01T12:00:00Z",
+      },
+      null,
+      2,
+    ),
+    "/api/v1/reports": JSON.stringify(
+      {
+        data: [
+          {
+            id: "902c1dcc-a261-4647-a789-9c3a86e88071",
+            committee_id: "1c330ac4-f784-44d8-9f3c-c5ed5bf4a102",
+            report_type: "quarterly",
+            coverage_start: "2026-01-01",
+            coverage_end: "2026-03-31",
+            filing_deadline: "2026-04-15",
+            status: "draft",
+            fec_file_path: null,
+            fec_confirmation_number: null,
+            created_at: "2026-03-01T23:14:34.092108+00:00",
+            updated_at: "2026-03-01T23:14:34.092108+00:00",
+          },
+        ],
       },
       null,
       2,
     ),
   },
   POST: {
-    "/v1/contributions": JSON.stringify(
+    "/api/v1/committees": JSON.stringify(
       {
-        object: "contribution",
-        id: "don_test_new_1234-5678-9abc-def0-123456789abc",
-        donor_id: "dnr_test_1111-2222-3333-4444",
-        contributor_name: "Testworth, Alice",
-        amount_cents: 5000,
-        aggregate_ytd_cents: 10000,
-        itemized: false,
-        status: "accepted",
-        stripe_charge_id: "ch_test_new_xyz",
-        stripe_fee_cents: 175,
-        attestations_verified: true,
-        compliance: {
-          within_limits: true,
-          annual_limit_cents: 500000,
-          remaining_cents: 490000,
+        data: {
+          id: "1c330ac4-f784-44d8-9f3c-c5ed5bf4a102",
+          owner_user_id: "1fb69979-79fb-478c-b344-a86a80d149f6",
+          name: "Test Committee for Democracy",
+          legal_name: null,
+          fec_id: null,
+          ein: null,
+          committee_type: "pac",
+          treasurer_name: "Jane Smith",
+          treasurer_address: null,
+          mailing_address: "123 Test St, Washington, DC 20001",
+          filing_frequency: "quarterly",
+          created_at: "2026-03-01T23:07:43.730245+00:00",
+          updated_at: "2026-03-01T23:07:43.730245+00:00",
         },
-        created_at: "2026-03-20T15:00:00Z",
       },
       null,
       2,
     ),
-    "/v1/disbursements": JSON.stringify(
+    "/api/v1/contributors": JSON.stringify(
       {
-        object: "disbursement",
-        id: "dis_test_new_abcd-ef01-2345-6789-abcdef012345",
-        payee_name: "Office Supply Co.",
-        amount_cents: 8500,
-        date: "2026-03-20",
-        purpose: "Office supplies -- printer paper and toner",
-        category: "operating",
-        status: "recorded",
-        created_at: "2026-03-20T15:00:00Z",
+        data: {
+          id: "c2cb6703-a1d2-4e77-9440-22ca4485f510",
+          committee_id: "1c330ac4-f784-44d8-9f3c-c5ed5bf4a102",
+          entity_type: "individual",
+          first_name: "John",
+          last_name: "Doe",
+          full_name: "John Doe",
+          email: "john@example.com",
+          address_line1: "456 Main St",
+          address_line2: null,
+          city: "Richmond",
+          state: "VA",
+          zip_code: "23220",
+          employer: "Acme Corp",
+          occupation: "Engineer",
+          match_key: "doe_23220",
+          created_at: "2026-03-01T23:13:28.230242+00:00",
+          updated_at: "2026-03-01T23:13:28.230242+00:00",
+        },
       },
       null,
       2,
     ),
-    "/v1/reports": JSON.stringify(
+    "/api/v1/contributions": JSON.stringify(
       {
-        object: "report",
-        id: "rpt_test_new_1234-5678-9abc-def0",
-        type: "FEC_3X",
-        period: { type: "quarterly", year: 2026, period: "Q1" },
-        status: "accepted",
-        generatedAt: "2026-03-20T15:00:00Z",
+        data: {
+          id: "728418f9-08d1-41b7-935f-7bc28cd2fa86",
+          committee_id: "1c330ac4-f784-44d8-9f3c-c5ed5bf4a102",
+          contributor_id: "c2cb6703-a1d2-4e77-9440-22ca4485f510",
+          amount_cents: 5000,
+          date_received: "2026-03-01",
+          contribution_type: "individual",
+          payment_method: "credit_card",
+          stripe_charge_id: null,
+          frequency: "one_time",
+          citizenship_attested: true,
+          personal_funds_attested: true,
+          non_contractor_attested: true,
+          personal_card_attested: true,
+          age_attested: true,
+          ip_address: "108.4.77.219",
+          aggregate_ytd_cents: 5000,
+          itemized: false,
+          report_id: null,
+          created_at: "2026-03-01T23:13:55.142983+00:00",
+          aggregate: {
+            calendar_year: 2026,
+            total_cents: 5000,
+            contribution_count: 1,
+            itemization_required: false,
+          },
+        },
+      },
+      null,
+      2,
+    ),
+    "/api/v1/disbursements": JSON.stringify(
+      {
+        data: {
+          id: "5f524567-d4b0-46de-8520-dd73dd83d5f9",
+          committee_id: "1c330ac4-f784-44d8-9f3c-c5ed5bf4a102",
+          payee_name: "Office Supply Co",
+          payee_address: "789 Commerce Ave, Richmond, VA 23219",
+          amount_cents: 15000,
+          date: "2026-03-01",
+          purpose: "Office supplies for committee operations",
+          category: "operating",
+          check_number: null,
+          receipt_url: null,
+          report_id: null,
+          created_at: "2026-03-01T23:14:24.542532+00:00",
+        },
+      },
+      null,
+      2,
+    ),
+    "/api/v1/reports": JSON.stringify(
+      {
+        data: {
+          id: "902c1dcc-a261-4647-a789-9c3a86e88071",
+          committee_id: "1c330ac4-f784-44d8-9f3c-c5ed5bf4a102",
+          report_type: "quarterly",
+          coverage_start: "2026-01-01",
+          coverage_end: "2026-03-31",
+          filing_deadline: "2026-04-15",
+          status: "draft",
+          fec_file_path: null,
+          fec_confirmation_number: null,
+          created_at: "2026-03-01T23:14:34.092108+00:00",
+          updated_at: "2026-03-01T23:14:34.092108+00:00",
+        },
       },
       null,
       2,
@@ -232,38 +387,44 @@ const mockResponses: Record<string, Record<string, string>> = {
 };
 
 /* ------------------------------------------------------------------ */
-/*  Endpoint options                                                   */
-/* ------------------------------------------------------------------ */
-
-const endpointOptions = [
-  "/v1/contributions",
-  "/v1/disbursements",
-  "/v1/reports",
-];
-
-/* ------------------------------------------------------------------ */
 /*  Page                                                               */
 /* ------------------------------------------------------------------ */
 
 export default function SandboxPage() {
   const [method, setMethod] = useState<"GET" | "POST">("GET");
-  const [endpoint, setEndpoint] = useState(endpointOptions[0]);
+  const [endpoint, setEndpoint] = useState(endpoints[0].path);
   const [response, setResponse] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
+
+  const availableEndpoints = useMemo(
+    () => endpoints.filter((ep) => ep.methods.includes(method)),
+    [method],
+  );
+
+  const handleMethodChange = (m: "GET" | "POST") => {
+    setMethod(m);
+    const available = endpoints.filter((ep) => ep.methods.includes(m));
+    if (!available.some((ep) => ep.path === endpoint)) {
+      setEndpoint(available[0].path);
+    }
+  };
 
   const handleSend = () => {
     setLoading(true);
     setResponse(null);
     setTimeout(() => {
-      setResponse(mockResponses[method]?.[endpoint] || "{}");
+      setResponse(exampleResponses[method]?.[endpoint] || "{}");
       setLoading(false);
     }, 600);
   };
 
+  const currentRequestBody =
+    method === "POST" ? requestBodies[endpoint] : null;
+
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-24">
       {/* Header */}
-      <div className="mb-12">
+      <div className="mb-8">
         <p className="text-sm font-medium uppercase tracking-widest text-[#4374BA] mb-3">
           Interactive playground
         </p>
@@ -271,8 +432,32 @@ export default function SandboxPage() {
           API Sandbox
         </h1>
         <p className="mt-4 text-lg text-gray-400 max-w-2xl">
-          Test API endpoints with pre-loaded sandbox data. No API key required
-          -- responses are simulated with realistic test data.
+          Explore the PartyStack API with realistic example responses. Select an
+          endpoint and method to see the exact response format the live API
+          returns.
+        </p>
+      </div>
+
+      {/* Info note */}
+      <div className="mb-12 rounded-lg border border-[#4374BA]/20 bg-[#4374BA]/5 p-4 flex items-start gap-3">
+        <svg
+          width="20"
+          height="20"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="#4374BA"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          className="mt-0.5 shrink-0"
+        >
+          <circle cx="12" cy="12" r="10" />
+          <line x1="12" y1="16" x2="12" y2="12" />
+          <line x1="12" y1="8" x2="12.01" y2="8" />
+        </svg>
+        <p className="text-sm text-gray-300">
+          These examples show real API response formats. Sign in and create an
+          API key to make live requests.
         </p>
       </div>
 
@@ -295,7 +480,7 @@ export default function SandboxPage() {
                 {(["GET", "POST"] as const).map((m) => (
                   <button
                     key={m}
-                    onClick={() => setMethod(m)}
+                    onClick={() => handleMethodChange(m)}
                     className={`px-4 py-2 rounded-md text-sm font-semibold font-dev-mono transition-colors ${
                       method === m
                         ? m === "GET"
@@ -325,9 +510,9 @@ export default function SandboxPage() {
                   backgroundPosition: "right 12px center",
                 }}
               >
-                {endpointOptions.map((ep) => (
-                  <option key={ep} value={ep} className="bg-[#12121F]">
-                    {ep}
+                {availableEndpoints.map((ep) => (
+                  <option key={ep.path} value={ep.path} className="bg-[#12121F]">
+                    {ep.path}
                   </option>
                 ))}
               </select>
@@ -336,15 +521,27 @@ export default function SandboxPage() {
             {/* API Key display */}
             <div className="mb-6">
               <label className="block text-xs text-gray-500 uppercase tracking-wider mb-2">
-                API Key
+                Authorization
               </label>
               <div className="flex items-center gap-3 bg-white/[0.03] border border-white/[0.08] rounded-md px-3 py-2.5">
                 <code className="text-sm font-dev-mono text-gray-300 flex-1">
-                  mce_test_sandbox_key
+                  Bearer mce_live_*************
                 </code>
-                <Badge text="Sandbox" variant="green" />
+                <Badge text="Required" variant="purple" />
               </div>
             </div>
+
+            {/* Request body (POST only) */}
+            {currentRequestBody && (
+              <div className="mb-6">
+                <label className="block text-xs text-gray-500 uppercase tracking-wider mb-2">
+                  Request Body
+                </label>
+                <div className="bg-black/40 border border-white/[0.08] rounded-lg p-3 font-dev-mono text-xs leading-relaxed text-gray-300 overflow-x-auto max-h-[200px] overflow-y-auto">
+                  <pre>{currentRequestBody}</pre>
+                </div>
+              </div>
+            )}
 
             {/* Send button */}
             <button
@@ -360,41 +557,35 @@ export default function SandboxPage() {
             </button>
           </div>
 
-          {/* Sandbox test data card */}
+          {/* Available endpoints card */}
           <div className="rounded-xl border border-white/[0.06] bg-[#12121F] p-6">
             <h3 className="text-sm font-semibold text-white mb-3">
-              Sandbox Test Data
+              Available Endpoints
             </h3>
             <p className="text-xs text-gray-500 mb-4">
-              The sandbox is pre-loaded with synthetic data for a test
-              committee:
+              All endpoints require an API key via the Authorization header,
+              except /api/v1/health.
             </p>
-            <div className="space-y-2 font-dev-mono text-xs text-gray-300">
-              <div className="flex justify-between">
-                <span className="text-gray-500">Committee</span>
-                <span>Test National Committee</span>
-              </div>
-              <div className="flex justify-between">
-                <span className="text-gray-500">FEC ID</span>
-                <span>C00000000</span>
-              </div>
-              <div className="flex justify-between">
-                <span className="text-gray-500">EIN</span>
-                <span>00-0000000</span>
-              </div>
-              <div className="border-t border-white/[0.06] my-3" />
-              <div className="flex justify-between">
-                <span className="text-gray-500">Contributors</span>
-                <span>3 test donors</span>
-              </div>
-              <div className="flex justify-between">
-                <span className="text-gray-500">Contributions</span>
-                <span>3 records ($50 -- $250)</span>
-              </div>
-              <div className="flex justify-between">
-                <span className="text-gray-500">Disbursements</span>
-                <span>3 records ($1.75 -- $2,500)</span>
-              </div>
+            <div className="space-y-2 font-dev-mono text-xs">
+              {endpoints.map((ep) => (
+                <div key={ep.path} className="flex items-center gap-2">
+                  <div className="flex gap-1">
+                    {ep.methods.map((m) => (
+                      <span
+                        key={m}
+                        className={`px-1.5 py-0.5 rounded text-[10px] font-bold ${
+                          m === "GET"
+                            ? "bg-emerald-500/15 text-emerald-400"
+                            : "bg-[#4374BA]/15 text-[#6B9FE8]"
+                        }`}
+                      >
+                        {m}
+                      </span>
+                    ))}
+                  </div>
+                  <span className="text-gray-300">{ep.path}</span>
+                </div>
+              ))}
             </div>
           </div>
         </div>

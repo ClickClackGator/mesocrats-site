@@ -3,22 +3,27 @@ import Card from "../../components/Card";
 import Badge from "../../components/Badge";
 
 /* ------------------------------------------------------------------ */
-/*  Compliance API feature card                                        */
+/*  Compliance API feature grid                                        */
 /* ------------------------------------------------------------------ */
 
-const complianceFeatures = [
-  "FEC Form 3X generation",
-  "IRS Form 8872 XML export",
-  "Real-time limit enforcement",
-  "Contributor fuzzy matching",
-  "Best-efforts follow-up",
-  "Disbursement tracking",
-  "Stripe fee auto-capture",
-  ".fec file export (v8.4+)",
-  "Immutable audit log",
-  "Schedule A & B generation",
-  "HMAC-SHA256 webhooks",
-  "CSV & JSON exports",
+interface ComplianceFeature {
+  name: string;
+  live: boolean;
+}
+
+const complianceFeatures: ComplianceFeature[] = [
+  { name: "Contribution tracking", live: true },
+  { name: "Real-time limit enforcement", live: true },
+  { name: "Aggregate YTD tracking", live: true },
+  { name: "Itemization threshold detection", live: true },
+  { name: "Disbursement tracking", live: true },
+  { name: "Contributor management", live: true },
+  { name: "Report creation (drafts)", live: true },
+  { name: "FEC compliance limits reference", live: true },
+  { name: "Immutable audit log", live: true },
+  { name: ".fec file export", live: false },
+  { name: "Webhook delivery", live: false },
+  { name: "QuickBooks integration", live: false },
 ];
 
 function CheckIcon() {
@@ -39,11 +44,30 @@ function CheckIcon() {
   );
 }
 
+function ClockIcon() {
+  return (
+    <svg
+      width="16"
+      height="16"
+      viewBox="0 0 16 16"
+      fill="none"
+      stroke="#6B7280"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className="shrink-0 mt-0.5"
+    >
+      <circle cx="8" cy="8" r="6.5" />
+      <polyline points="8 4.5 8 8 10.5 9.5" />
+    </svg>
+  );
+}
+
 function ComplianceAPICard() {
   return (
     <div className="rounded-xl border border-white/[0.06] border-l-4 border-l-[#4374BA] bg-[#12121F] p-6 md:p-8 mb-12">
       <div className="flex flex-wrap items-center gap-3 mb-2">
-        <Badge text="Generally Available" variant="green" size="md" />
+        <Badge text="LIVE" variant="green" size="md" />
       </div>
       <h2 className="text-2xl font-bold text-white mb-1">Compliance API</h2>
       <p className="text-gray-400 mb-6">
@@ -59,9 +83,18 @@ function ComplianceAPICard() {
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-6 gap-y-3 mb-8">
         {complianceFeatures.map((feature) => (
-          <div key={feature} className="flex items-start gap-2.5">
-            <CheckIcon />
-            <span className="text-sm text-gray-300">{feature}</span>
+          <div key={feature.name} className="flex items-start gap-2.5">
+            {feature.live ? <CheckIcon /> : <ClockIcon />}
+            <span
+              className={`text-sm ${feature.live ? "text-gray-300" : "text-gray-500"}`}
+            >
+              {feature.name}
+              {!feature.live && (
+                <span className="ml-1.5 text-[10px] text-gray-600 uppercase tracking-wider">
+                  Soon
+                </span>
+              )}
+            </span>
           </div>
         ))}
       </div>
