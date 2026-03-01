@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 
 const productLinks = [
@@ -30,38 +31,23 @@ export default function DevFooter() {
           {/* Brand column */}
           <div className="lg:col-span-1">
             <div className="flex items-center gap-2.5 mb-4">
-              <svg
-                width="20"
-                height="20"
-                viewBox="0 0 24 24"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M12 2L22 12L12 22L2 12L12 2Z"
-                  fill="url(#footer-diamond)"
-                />
-                <defs>
-                  <linearGradient
-                    id="footer-diamond"
-                    x1="2"
-                    y1="2"
-                    x2="22"
-                    y2="22"
-                    gradientUnits="userSpaceOnUse"
-                  >
-                    <stop stopColor="#4374BA" />
-                    <stop offset="1" stopColor="#6C3393" />
-                  </linearGradient>
-                </defs>
-              </svg>
+              <Image
+                src="/images/MP_PartyStack_Logo.png"
+                alt="PartyStack logo"
+                width={20}
+                height={20}
+                className="h-5 w-auto"
+              />
               <span className="text-sm font-semibold text-white">
-                developer.mesocrats.org
+                PartyStack
               </span>
             </div>
             <p className="text-sm text-gray-500 leading-relaxed">
               The open platform for American political technology. Build
               compliant, transparent, and accessible tools for democracy.
+            </p>
+            <p className="text-xs text-gray-600 mt-2">
+              by the Mesocratic National Committee
             </p>
           </div>
 

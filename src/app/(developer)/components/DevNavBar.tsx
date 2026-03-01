@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
@@ -12,42 +13,6 @@ const navLinks = [
   { label: "SDKs", href: "/sdks" },
   { label: "Community", href: "/community" },
 ];
-
-function DiamondLogo() {
-  return (
-    <svg
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-      className="shrink-0"
-    >
-      <path
-        d="M12 2L22 12L12 22L2 12L12 2Z"
-        fill="url(#diamond-gradient)"
-      />
-      <path
-        d="M12 6L18 12L12 18L6 12L12 6Z"
-        fill="#0A0A15"
-        fillOpacity="0.4"
-      />
-      <defs>
-        <linearGradient
-          id="diamond-gradient"
-          x1="2"
-          y1="2"
-          x2="22"
-          y2="22"
-          gradientUnits="userSpaceOnUse"
-        >
-          <stop stopColor="#4374BA" />
-          <stop offset="1" stopColor="#6C3393" />
-        </linearGradient>
-      </defs>
-    </svg>
-  );
-}
 
 function GitHubIcon() {
   return (
@@ -107,18 +72,33 @@ export default function DevNavBar() {
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
-          {/* Left: Main site logo + divider + developer portal name */}
+          {/* Left: Mesocrats logo + divider + PartyStack logo & name */}
           <div className="flex items-center gap-3 shrink-0">
             <a
               href="https://mesocrats.org"
               aria-label="Back to mesocrats.org"
-              className="text-white hover:opacity-80 transition-opacity"
+              className="hover:opacity-80 transition-opacity"
             >
-              <DiamondLogo />
+              <Image
+                src="/images/mp-logo-m.png"
+                alt="Mesocratic Party logo"
+                width={28}
+                height={28}
+                className="h-7 w-auto"
+              />
             </a>
             <div className="w-px h-5 bg-white/10" />
-            <Link href="/" className="text-sm font-semibold text-white">
-              developer.mesocrats.org
+            <Link href="/" className="flex items-center gap-2">
+              <Image
+                src="/images/MP_PartyStack_Logo.png"
+                alt="PartyStack logo"
+                width={24}
+                height={24}
+                className="h-6 w-auto"
+              />
+              <span className="text-sm font-semibold text-white">
+                PartyStack
+              </span>
             </Link>
           </div>
 

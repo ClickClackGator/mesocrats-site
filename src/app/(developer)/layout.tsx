@@ -16,11 +16,11 @@ const jetbrainsMono = JetBrains_Mono({
 export const metadata: Metadata = {
   title: {
     default:
-      "developer.mesocrats.org -- The Open Platform for American Political Technology",
-    template: "%s | developer.mesocrats.org",
+      "PartyStack -- The Open Platform for American Political Technology",
+    template: "%s | PartyStack",
   },
   description:
-    "Open-source political technology APIs, SDKs, and prompt libraries. Build compliant, transparent, and accessible tools for democracy with the Mesocratic Compliance Engine.",
+    "PartyStack is the open platform for American political technology. APIs, SDKs, and prompt libraries to build compliant, transparent, and accessible tools for democracy.",
 };
 
 export default function DeveloperLayout({
