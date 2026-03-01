@@ -89,7 +89,7 @@ export default function HomeJoinDonate() {
               <button
                 type="submit"
                 disabled={joinLoading}
-                className="w-full bg-transparent border border-[#1A1A2E] text-[#1A1A2E] font-bold py-3 rounded transition-all duration-200 hover:bg-[#FDD023] hover:border-[#FDD023] hover:text-[#1A1A2E] disabled:opacity-50"
+                className="w-full bg-transparent border border-[#1A1A2E] text-[#1A1A2E] font-bold py-3 rounded transition-all duration-200 hover:bg-[#6C3393] hover:border-[#6C3393] hover:text-white disabled:opacity-50"
               >
                 {joinLoading ? "SUBMITTING..." : "I'M IN"}
               </button>
