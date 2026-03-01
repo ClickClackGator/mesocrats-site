@@ -243,21 +243,30 @@ function DonationForm() {
   return (
     <div className="min-h-screen bg-[#1A1A1A]">
       {/* Hero */}
-      <section className="relative bg-gradient-to-b from-[#2A2A3A] to-[#1A1A1A] py-16 sm:py-24">
-        <div className="max-w-3xl mx-auto px-6 text-center">
-          <span className="inline-block px-4 py-1.5 bg-white/10 rounded-full text-xs font-extrabold tracking-wider text-white uppercase mb-6">
-            Invest in the Middle
+      <section className="relative bg-gradient-to-br from-white via-blue-50 to-purple-50 py-20 sm:py-28 overflow-hidden">
+        {/* Subtle dot pattern */}
+        <div
+          className="absolute inset-0 opacity-[0.04]"
+          style={{
+            backgroundImage: 'radial-gradient(circle, #6C3393 1px, transparent 1px)',
+            backgroundSize: '24px 24px',
+          }}
+        />
+        <div className="relative max-w-3xl mx-auto px-6 text-center">
+          <span className="inline-block px-4 py-1.5 bg-[#6C3393]/10 rounded-full text-xs font-extrabold tracking-wider text-[#6C3393] uppercase mb-6">
+            Every dollar builds the party
           </span>
-          <h1 className="text-4xl sm:text-6xl font-bold text-white mb-4">
+          <h1 className="text-4xl sm:text-6xl font-bold text-[#1A1A2E] mb-4">
             Back the Middle.
           </h1>
-          <p className="text-lg text-white/80 max-w-xl mx-auto">
-            You&rsquo;re not donating to a candidate. You&rsquo;re building a party.
+          <p className="text-lg text-gray-600 max-w-xl mx-auto">
+            You&rsquo;re not donating to a candidate. You&rsquo;re building a party &mdash; and a movement that puts people over politics.
           </p>
         </div>
       </section>
 
-      <div className="h-1 bg-[#6C3393]" />
+      {/* Gradient fade into dark form section */}
+      <div className="h-16 bg-gradient-to-b from-purple-50 to-[#1A1A1A]" />
 
       {/* Form */}
       <section className="max-w-2xl mx-auto px-6 py-12 sm:py-16">
@@ -413,7 +422,7 @@ function DonationForm() {
           <button
             type="submit"
             disabled={loading || !stripe}
-            className="w-full py-4 bg-[#EE2C24] hover:bg-[#cc2420] disabled:bg-[#666] text-white font-bold text-lg rounded-md transition-colors"
+            className="w-full py-4 border-2 border-white text-white bg-transparent font-bold text-lg rounded-md transition-all duration-200 hover:bg-[#6C3393] hover:border-[#6C3393] active:scale-[0.98] disabled:border-[#666] disabled:text-[#666] disabled:hover:bg-transparent disabled:hover:border-[#666] disabled:active:scale-100"
           >
             {loading ? (
               <span className="flex items-center justify-center gap-2">

@@ -109,7 +109,7 @@ export default function HomeJoinDonate() {
           </p>
           <a
             href="/donate"
-            className="inline-block w-full text-center bg-[#4374BA] hover:bg-[#4374BA]/90 text-white font-bold py-4 rounded transition-colors text-lg"
+            className="inline-block w-full text-center border-2 border-white text-white bg-transparent font-bold py-4 rounded transition-all duration-200 hover:bg-[#6C3393] hover:border-[#6C3393] text-lg"
           >
             DONATE NOW
           </a>
