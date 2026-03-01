@@ -75,7 +75,7 @@ export default function DevNavBar() {
           <Link href="/" className="flex items-center gap-2 shrink-0">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
-              src="/images/MP_PartyStack_Logo.png"
+              src="/images/partystack-logo-nav.png"
               alt="PartyStack logo"
               width={30}
               height={24}

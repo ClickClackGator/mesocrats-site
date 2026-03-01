@@ -32,7 +32,7 @@ export default function DevFooter() {
             <div className="flex items-center gap-2.5 mb-4">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
-                src="/images/MP_PartyStack_Logo.png"
+                src="/images/partystack-logo-footer.png"
                 alt="PartyStack logo"
                 width={25}
                 height={20}

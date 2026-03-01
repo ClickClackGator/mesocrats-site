@@ -21,6 +21,22 @@ export const metadata: Metadata = {
   },
   description:
     "PartyStack is the open platform for American political technology. APIs, SDKs, and prompt libraries to build compliant, transparent, and accessible tools for democracy.",
+  icons: {
+    icon: [
+      { url: "/developer/favicon-32x32.png", sizes: "32x32", type: "image/png" },
+      { url: "/developer/favicon-16x16.png", sizes: "16x16", type: "image/png" },
+    ],
+    apple: "/developer/apple-touch-icon.png",
+  },
+  openGraph: {
+    title: "PartyStack -- The Open Platform for American Political Technology",
+    description:
+      "Open-source APIs for FEC compliance, party formation, ballot access, and election calendars. Built by the Mesocratic National Committee.",
+    url: "https://developer.mesocrats.org",
+    siteName: "PartyStack",
+    images: [{ url: "/images/partystack-logo-og.png", width: 400, height: 326 }],
+    type: "website",
+  },
 };
 
 export default function DeveloperLayout({
