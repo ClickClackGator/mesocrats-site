@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { DM_Sans, JetBrains_Mono } from "next/font/google";
 import DevNavBar from "./components/DevNavBar";
 import DevFooter from "./components/DevFooter";
+import { AuthProviderWrapper } from "./components/AuthProviderWrapper";
 
 const dmSans = DM_Sans({
   subsets: ["latin"],
@@ -48,9 +49,11 @@ export default function DeveloperLayout({
     <div
       className={`${dmSans.variable} ${jetbrainsMono.variable} font-dev-sans bg-[#0A0A15] text-white min-h-screen`}
     >
-      <DevNavBar />
-      <main className="pt-16">{children}</main>
-      <DevFooter />
+      <AuthProviderWrapper>
+        <DevNavBar />
+        <main className="pt-16">{children}</main>
+        <DevFooter />
+      </AuthProviderWrapper>
     </div>
   );
 }

@@ -1,8 +1,9 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
+import { useAuth } from "../lib/auth-context";
 
 const navLinks = [
   { label: "Products", href: "/products" },
@@ -12,20 +13,6 @@ const navLinks = [
   { label: "SDKs", href: "/sdks" },
   { label: "Community", href: "/community" },
 ];
-
-function GitHubIcon() {
-  return (
-    <svg
-      width="20"
-      height="20"
-      viewBox="0 0 24 24"
-      fill="currentColor"
-      xmlns="http://www.w3.org/2000/svg"
-    >
-      <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z" />
-    </svg>
-  );
-}
 
 function HamburgerIcon() {
   return (
@@ -49,7 +36,11 @@ function CloseIcon() {
 export default function DevNavBar() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [dropdownOpen, setDropdownOpen] = useState(false);
+  const dropdownRef = useRef<HTMLDivElement>(null);
   const pathname = usePathname();
+  const router = useRouter();
+  const { user, loading, signOut } = useAuth();
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 10);
@@ -59,7 +50,32 @@ export default function DevNavBar() {
 
   useEffect(() => {
     setMobileOpen(false);
+    setDropdownOpen(false);
   }, [pathname]);
+
+  useEffect(() => {
+    function handleClickOutside(e: MouseEvent) {
+      if (dropdownRef.current && !dropdownRef.current.contains(e.target as Node)) {
+        setDropdownOpen(false);
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
+  const handleSignOut = async () => {
+    await signOut();
+    setDropdownOpen(false);
+    router.push("/sign-in");
+  };
+
+  const avatarUrl =
+    user?.user_metadata?.avatar_url || user?.user_metadata?.picture;
+  const displayName =
+    user?.user_metadata?.full_name ||
+    user?.user_metadata?.name ||
+    user?.email?.split("@")[0] ||
+    "";
 
   return (
     <nav
@@ -106,7 +122,7 @@ export default function DevNavBar() {
             })}
           </div>
 
-          {/* Right: Mesocrats logo + GitHub + mobile toggle */}
+          {/* Right: Mesocrats logo + auth + mobile toggle */}
           <div className="flex items-center gap-1">
             <a
               href="https://mesocrats.org"
@@ -123,15 +139,68 @@ export default function DevNavBar() {
                 className="h-6 w-auto"
               />
             </a>
-            <a
-              href="https://github.com/mesocrats/mesocrats-site"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-gray-400 hover:text-white transition-colors p-2"
-              aria-label="GitHub repository"
-            >
-              <GitHubIcon />
-            </a>
+
+            {/* Auth UI */}
+            {!loading && (
+              <>
+                {user ? (
+                  <div className="relative" ref={dropdownRef}>
+                    <button
+                      onClick={() => setDropdownOpen(!dropdownOpen)}
+                      className="flex items-center p-1 rounded-full hover:ring-2 hover:ring-white/20 transition-all"
+                      aria-label="User menu"
+                    >
+                      {avatarUrl ? (
+                        // eslint-disable-next-line @next/next/no-img-element
+                        <img
+                          src={avatarUrl}
+                          alt={displayName}
+                          width={28}
+                          height={28}
+                          className="w-7 h-7 rounded-full"
+                        />
+                      ) : (
+                        <div className="w-7 h-7 rounded-full bg-[#4374BA]/20 border border-[#4374BA]/30 flex items-center justify-center text-xs font-bold text-[#4374BA]">
+                          {displayName.charAt(0).toUpperCase()}
+                        </div>
+                      )}
+                    </button>
+
+                    {dropdownOpen && (
+                      <div className="absolute right-0 mt-2 w-48 bg-[#12121f] border border-white/[0.08] rounded-xl shadow-xl py-1 z-50">
+                        <Link
+                          href="/dashboard"
+                          className="block px-4 py-2.5 text-sm text-gray-300 hover:text-white hover:bg-white/[0.04] transition-colors"
+                        >
+                          Dashboard
+                        </Link>
+                        <Link
+                          href="/dashboard#api-keys"
+                          className="block px-4 py-2.5 text-sm text-gray-300 hover:text-white hover:bg-white/[0.04] transition-colors"
+                        >
+                          API Keys
+                        </Link>
+                        <div className="border-t border-white/[0.06] my-1" />
+                        <button
+                          onClick={handleSignOut}
+                          className="w-full text-left px-4 py-2.5 text-sm text-gray-300 hover:text-white hover:bg-white/[0.04] transition-colors"
+                        >
+                          Sign Out
+                        </button>
+                      </div>
+                    )}
+                  </div>
+                ) : (
+                  <Link
+                    href="/sign-in"
+                    className="hidden lg:inline-flex px-3 py-1.5 text-sm text-gray-400 hover:text-white border border-white/10 hover:border-[#6C3393]/50 hover:bg-[#6C3393]/10 rounded-lg transition-colors"
+                  >
+                    Sign In
+                  </Link>
+                )}
+              </>
+            )}
+
             <button
               onClick={() => setMobileOpen(!mobileOpen)}
               className="lg:hidden text-gray-400 hover:text-white transition-colors p-2"
@@ -164,6 +233,29 @@ export default function DevNavBar() {
               );
             })}
             <div className="border-t border-white/[0.06] mt-3 pt-3">
+              {!loading && user ? (
+                <>
+                  <Link
+                    href="/dashboard"
+                    className="block px-3 py-2.5 rounded-md text-sm text-gray-400 hover:text-white hover:bg-white/[0.04] transition-colors"
+                  >
+                    Dashboard
+                  </Link>
+                  <button
+                    onClick={handleSignOut}
+                    className="w-full text-left px-3 py-2.5 rounded-md text-sm text-gray-400 hover:text-white hover:bg-white/[0.04] transition-colors"
+                  >
+                    Sign Out
+                  </button>
+                </>
+              ) : (
+                <Link
+                  href="/sign-in"
+                  className="block px-3 py-2.5 rounded-md text-sm text-gray-400 hover:text-white hover:bg-white/[0.04] transition-colors"
+                >
+                  Sign In
+                </Link>
+              )}
               <a
                 href="https://mesocrats.org"
                 className="flex items-center gap-2 px-3 py-2.5 rounded-md text-sm text-gray-400 hover:text-white hover:bg-white/[0.04] transition-colors"
