@@ -149,7 +149,7 @@ export const endpoints: Record<string, Endpoint> = {
       },
     ],
     requestExample: `curl -X GET "https://api.mesocrats.org/v1/contributions?year=2026&period=Q1&itemized=true&limit=2" \\
-  -H "Authorization: Bearer mce_live_sk_a1b2c3d4e5f6" \\
+  -H "Authorization: Bearer mce_live_sk_your_key_here" \\
   -H "Content-Type: application/json"`,
     responseExample: JSON.stringify(
       {
@@ -297,7 +297,7 @@ export const endpoints: Record<string, Endpoint> = {
       },
     ],
     requestExample: `curl -X POST "https://api.mesocrats.org/v1/contributions" \\
-  -H "Authorization: Bearer mce_live_sk_a1b2c3d4e5f6" \\
+  -H "Authorization: Bearer mce_live_sk_your_key_here" \\
   -H "Content-Type: application/json" \\
   -H "Idempotency-Key: idem_abc123def456" \\
   -d '{
@@ -428,7 +428,7 @@ export const endpoints: Record<string, Endpoint> = {
       },
     ],
     requestExample: `curl -X GET "https://api.mesocrats.org/v1/reports?year=2026&period=Q1&format=json" \\
-  -H "Authorization: Bearer mce_live_sk_a1b2c3d4e5f6" \\
+  -H "Authorization: Bearer mce_live_sk_your_key_here" \\
   -H "Content-Type: application/json"`,
     responseExample: JSON.stringify(
       {
@@ -557,7 +557,7 @@ export const endpoints: Record<string, Endpoint> = {
       },
     ],
     requestExample: `curl -X GET "https://api.mesocrats.org/v1/disbursements?start_date=2026-01-01&end_date=2026-03-31&category=operating" \\
-  -H "Authorization: Bearer mce_live_sk_a1b2c3d4e5f6" \\
+  -H "Authorization: Bearer mce_live_sk_your_key_here" \\
   -H "Content-Type: application/json"`,
     responseExample: JSON.stringify(
       {
@@ -694,7 +694,7 @@ export const endpoints: Record<string, Endpoint> = {
       },
     ],
     requestExample: `curl -X POST "https://api.mesocrats.org/v1/disbursements" \\
-  -H "Authorization: Bearer mce_live_sk_a1b2c3d4e5f6" \\
+  -H "Authorization: Bearer mce_live_sk_your_key_here" \\
   -H "Content-Type: application/json" \\
   -d '{
     "payee_name": "Capitol Printing Co.",
@@ -774,7 +774,7 @@ export const endpoints: Record<string, Endpoint> = {
       },
     ],
     requestExample: `curl -X POST "https://api.mesocrats.org/v1/webhooks" \\
-  -H "Authorization: Bearer mce_live_sk_a1b2c3d4e5f6" \\
+  -H "Authorization: Bearer mce_live_sk_your_key_here" \\
   -H "Content-Type: application/json" \\
   -d '{
     "url": "https://your-app.example.com/webhooks/mce",
