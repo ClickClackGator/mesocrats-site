@@ -124,7 +124,7 @@ export default function DevNavBar() {
               />
             </a>
             <a
-              href="https://github.com/ClickClackGator/mesocrats-site"
+              href="https://github.com/mesocrats/mesocrats-site"
               target="_blank"
               rel="noopener noreferrer"
               className="text-gray-400 hover:text-white transition-colors p-2"

@@ -16,7 +16,7 @@ const developerLinks = [
 ];
 
 const communityLinks = [
-  { label: "GitHub", href: "https://github.com/ClickClackGator/mesocrats-site" },
+  { label: "GitHub", href: "https://github.com/mesocrats/mesocrats-site" },
   { label: "Community Forum", href: "/community" },
   { label: "Contributing Guide", href: "/contributing" },
   { label: "Code of Conduct", href: "/code-of-conduct" },

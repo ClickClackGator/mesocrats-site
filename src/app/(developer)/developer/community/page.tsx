@@ -75,10 +75,10 @@ function TopCards() {
           and client SDKs. All MIT licensed.
         </p>
         <p className="text-xs font-dev-mono text-gray-500 mb-4">
-          github.com/ClickClackGator/mesocrats-site
+          github.com/mesocrats/mesocrats-site
         </p>
         <a
-          href="https://github.com/ClickClackGator/mesocrats-site"
+          href="https://github.com/mesocrats/mesocrats-site"
           target="_blank"
           rel="noopener noreferrer"
           className="inline-flex items-center gap-1.5 text-sm text-[#4374BA] hover:text-[#6B9FE8] transition-colors"
@@ -109,7 +109,7 @@ function TopCards() {
           developers building on the MCE platform.
         </p>
         <a
-          href="https://github.com/ClickClackGator/mesocrats-site/discussions"
+          href="https://github.com/mesocrats/mesocrats-site/discussions"
           target="_blank"
           rel="noopener noreferrer"
           className="inline-flex items-center gap-1.5 text-sm text-[#4374BA] hover:text-[#6B9FE8] transition-colors"
@@ -140,7 +140,7 @@ function TopCards() {
           Contributor License Agreement.
         </p>
         <a
-          href="https://github.com/ClickClackGator/mesocrats-site/blob/main/CONTRIBUTING.md"
+          href="https://github.com/mesocrats/mesocrats-site/blob/main/CONTRIBUTING.md"
           target="_blank"
           rel="noopener noreferrer"
           className="inline-flex items-center gap-1.5 text-sm text-[#4374BA] hover:text-[#6B9FE8] transition-colors"

@@ -382,7 +382,7 @@ function OpenSourceCTA() {
 
         <div className="mt-8 flex flex-wrap justify-center gap-4">
           <a
-            href="https://github.com/ClickClackGator/mesocrats-site"
+            href="https://github.com/mesocrats/mesocrats-site"
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center gap-2 px-6 py-3 rounded-lg bg-white/[0.06] text-white font-medium text-sm hover:bg-white/[0.1] transition-colors border border-white/[0.06]"
