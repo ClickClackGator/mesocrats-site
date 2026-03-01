@@ -298,10 +298,13 @@ export default function ApiReferencePage() {
   const [expandedCategories, setExpandedCategories] = useState<
     Record<string, boolean>
   >({
+    System: true,
+    Committees: true,
+    Contributors: true,
     Contributions: true,
-    Reports: true,
     Disbursements: true,
-    Webhooks: true,
+    Compliance: true,
+    Reports: true,
   });
   const [mobileOpen, setMobileOpen] = useState(false);
 
