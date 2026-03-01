@@ -7,6 +7,7 @@ import { useState } from "react";
 interface NavChild {
   label: string;
   href: string;
+  external?: boolean;
 }
 
 interface NavItemWithChildren {
@@ -47,6 +48,7 @@ const navItems: NavItem[] = [
       { label: "Overview", href: "/platform" },
       { label: "How It Works", href: "/platform/how-it-works" },
       { label: "Policy Positions", href: "/platform/policies" },
+      { label: "PartyStack", href: "https://developer.mesocrats.org", external: true },
     ],
   },
   {
@@ -121,15 +123,28 @@ export default function Header() {
                   {openDropdown === item.label && (
                     <div className="absolute left-0 top-full pt-1">
                       <div className="bg-white text-primary rounded-md shadow-lg ring-1 ring-black/5 min-w-[200px] py-1">
-                        {item.children.map((child) => (
-                          <Link
-                            key={child.href}
-                            href={child.href}
-                            className="block px-4 py-2.5 text-sm hover:bg-gray-light transition-colors"
-                          >
-                            {child.label}
-                          </Link>
-                        ))}
+                        {item.children.map((child) =>
+                          child.external ? (
+                            <a
+                              key={child.href}
+                              href={child.href}
+                              className="flex items-center gap-1.5 px-4 py-2.5 text-sm hover:bg-gray-light transition-colors"
+                            >
+                              {child.label}
+                              <svg className="w-3 h-3 opacity-40" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                              </svg>
+                            </a>
+                          ) : (
+                            <Link
+                              key={child.href}
+                              href={child.href}
+                              className="block px-4 py-2.5 text-sm hover:bg-gray-light transition-colors"
+                            >
+                              {child.label}
+                            </Link>
+                          )
+                        )}
                       </div>
                     </div>
                   )}
@@ -211,16 +226,30 @@ export default function Header() {
                 </button>
                 {openAccordion === item.label && (
                   <div className="pb-2 pl-4">
-                    {item.children.map((child) => (
-                      <Link
-                        key={child.href}
-                        href={child.href}
-                        className="block px-2 py-2 text-sm text-white/70 hover:text-accent-light transition-colors"
-                        onClick={() => setMobileOpen(false)}
-                      >
-                        {child.label}
-                      </Link>
-                    ))}
+                    {item.children.map((child) =>
+                      child.external ? (
+                        <a
+                          key={child.href}
+                          href={child.href}
+                          className="flex items-center gap-1.5 px-2 py-2 text-sm text-white/70 hover:text-accent-light transition-colors"
+                          onClick={() => setMobileOpen(false)}
+                        >
+                          {child.label}
+                          <svg className="w-3 h-3 opacity-40" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                          </svg>
+                        </a>
+                      ) : (
+                        <Link
+                          key={child.href}
+                          href={child.href}
+                          className="block px-2 py-2 text-sm text-white/70 hover:text-accent-light transition-colors"
+                          onClick={() => setMobileOpen(false)}
+                        >
+                          {child.label}
+                        </Link>
+                      )
+                    )}
                   </div>
                 )}
               </div>
