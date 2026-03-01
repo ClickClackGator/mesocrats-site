@@ -29,6 +29,19 @@ export function middleware(request: NextRequest) {
     return NextResponse.rewrite(url);
   }
 
+  // Redirect mesocrats.org/developer/* to developer.mesocrats.org/*
+  // Skip localhost so local dev keeps working
+  const isLocalhost =
+    nextUrlHost === "localhost" ||
+    hostHeader.startsWith("localhost") ||
+    forwardedHost.startsWith("localhost");
+
+  if (!isLocalhost && pathname.startsWith("/developer")) {
+    const subpath = pathname.replace(/^\/developer/, "") || "/";
+    const redirectUrl = `https://developer.mesocrats.org${subpath}`;
+    return NextResponse.redirect(redirectUrl, 301);
+  }
+
   return NextResponse.next();
 }
 
