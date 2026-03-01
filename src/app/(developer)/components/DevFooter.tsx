@@ -1,25 +1,25 @@
 import Link from "next/link";
 
 const productLinks = [
-  { label: "Compliance API", href: "/developer/products/compliance" },
-  { label: "Party Formation API", href: "/developer/products/party-formation" },
-  { label: "Ballot Access API", href: "/developer/products/ballot-access" },
-  { label: "Election Calendar API", href: "/developer/products/election-calendar" },
+  { label: "Compliance API", href: "/products/compliance" },
+  { label: "Party Formation API", href: "/products/party-formation" },
+  { label: "Ballot Access API", href: "/products/ballot-access" },
+  { label: "Election Calendar API", href: "/products/election-calendar" },
 ];
 
 const developerLinks = [
-  { label: "API Reference", href: "/developer/api-reference" },
-  { label: "SDKs", href: "/developer/sdks" },
-  { label: "Prompt Library", href: "/developer/prompt-library" },
-  { label: "Sandbox", href: "/developer/sandbox" },
-  { label: "Changelog", href: "/developer/changelog" },
+  { label: "API Reference", href: "/api-reference" },
+  { label: "SDKs", href: "/sdks" },
+  { label: "Prompt Library", href: "/prompt-library" },
+  { label: "Sandbox", href: "/sandbox" },
+  { label: "Changelog", href: "/changelog" },
 ];
 
 const communityLinks = [
   { label: "GitHub", href: "https://github.com/ClickClackGator/mesocrats-site" },
-  { label: "Community Forum", href: "/developer/community" },
-  { label: "Contributing Guide", href: "/developer/contributing" },
-  { label: "Code of Conduct", href: "/developer/code-of-conduct" },
+  { label: "Community Forum", href: "/community" },
+  { label: "Contributing Guide", href: "/contributing" },
+  { label: "Code of Conduct", href: "/code-of-conduct" },
 ];
 
 export default function DevFooter() {

@@ -51,7 +51,7 @@ function ComplianceAPICard() {
       </p>
 
       <a
-        href="/developer/api-reference"
+        href="/api-reference"
         className="inline-flex items-center px-5 py-2.5 rounded-lg bg-[#4374BA] text-sm font-medium text-white hover:bg-[#4374BA]/90 transition-colors mb-8"
       >
         View API Reference

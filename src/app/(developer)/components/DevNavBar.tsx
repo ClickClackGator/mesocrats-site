@@ -5,12 +5,12 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 const navLinks = [
-  { label: "Products", href: "/developer/products" },
-  { label: "API Reference", href: "/developer/api-reference" },
-  { label: "Prompt Library", href: "/developer/prompt-library" },
-  { label: "Sandbox", href: "/developer/sandbox" },
-  { label: "SDKs", href: "/developer/sdks" },
-  { label: "Community", href: "/developer/community" },
+  { label: "Products", href: "/products" },
+  { label: "API Reference", href: "/api-reference" },
+  { label: "Prompt Library", href: "/prompt-library" },
+  { label: "Sandbox", href: "/sandbox" },
+  { label: "SDKs", href: "/sdks" },
+  { label: "Community", href: "/community" },
 ];
 
 function DiamondLogo() {
@@ -108,7 +108,7 @@ export default function DevNavBar() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           {/* Left: Logo + site name */}
-          <Link href="/developer" className="flex items-center gap-2.5 shrink-0">
+          <Link href="/" className="flex items-center gap-2.5 shrink-0">
             <DiamondLogo />
             <span className="text-sm font-semibold text-white">
               developer.mesocrats.org

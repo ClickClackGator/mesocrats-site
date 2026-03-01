@@ -262,13 +262,13 @@ function TypeScriptTab() {
         </p>
         <div className="flex flex-wrap gap-3">
           <a
-            href="/developer/api-reference"
+            href="/api-reference"
             className="inline-flex items-center px-4 py-2.5 rounded-lg border border-white/[0.08] text-sm font-medium text-gray-300 hover:bg-white/[0.04] hover:text-white transition-colors"
           >
             View Spec
           </a>
           <a
-            href="/developer/openapi.json"
+            href="/openapi.json"
             className="inline-flex items-center px-4 py-2.5 rounded-lg bg-[#4374BA] text-sm font-medium text-white hover:bg-[#4374BA]/90 transition-colors"
           >
             Download JSON
@@ -315,7 +315,7 @@ function ComingSoonTab({
           our Prompt Library.
         </p>
         <a
-          href="/developer/prompt-library"
+          href="/prompt-library"
           className="inline-flex items-center gap-1.5 mt-4 text-sm text-[#4374BA] hover:text-[#6B9FE8] transition-colors"
         >
           Browse the Prompt Library
