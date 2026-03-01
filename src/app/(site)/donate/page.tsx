@@ -422,7 +422,7 @@ function DonationForm() {
           <button
             type="submit"
             disabled={loading || !stripe}
-            className="w-full py-4 border-2 border-white text-white bg-transparent font-bold text-lg rounded-md transition-all duration-200 hover:bg-[#6C3393] hover:border-[#6C3393] active:scale-[0.98] disabled:border-[#666] disabled:text-[#666] disabled:hover:bg-transparent disabled:hover:border-[#666] disabled:active:scale-100"
+            className="w-full py-4 border-2 border-white text-white bg-transparent font-bold text-lg rounded-md transition-all duration-200 hover:bg-[#FBEE46] hover:border-[#FBEE46] hover:text-[#1A1A2E] active:scale-[0.98] disabled:border-[#666] disabled:text-[#666] disabled:hover:bg-transparent disabled:hover:border-[#666] disabled:active:scale-100"
           >
             {loading ? (
               <span className="flex items-center justify-center gap-2">
