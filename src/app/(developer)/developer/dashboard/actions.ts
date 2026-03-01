@@ -2,6 +2,11 @@
 
 import { createSupabaseServerClient } from "../../lib/supabase-server";
 import crypto from "crypto";
+import bcrypt from "bcryptjs";
+
+// NOTE: Any existing plain-text keys in developer_api_keys predate hashing.
+// They should be revoked and regenerated. No automated migration is provided —
+// revoke via the dashboard and create fresh keys.
 
 export async function createApiKey(keyName: string) {
   const supabase = createSupabaseServerClient();
@@ -13,17 +18,19 @@ export async function createApiKey(keyName: string) {
 
   const rawKey = `mce_live_${crypto.randomBytes(16).toString("hex")}`;
   const prefix = rawKey.slice(0, 12);
+  const hashedKey = await bcrypt.hash(rawKey, 12);
 
   const { error } = await supabase.from("developer_api_keys").insert({
     user_id: user.id,
     key_name: keyName,
-    api_key: rawKey,
+    api_key: hashedKey,
     prefix,
     is_active: true,
   });
 
   if (error) return { error: error.message };
 
+  // Return the raw key ONE TIME — it is not stored and cannot be retrieved
   return { key: rawKey, prefix };
 }
 
