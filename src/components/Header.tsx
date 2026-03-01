@@ -153,7 +153,7 @@ export default function Header() {
                 <Link
                   key={item.href}
                   href={item.href}
-                  className="bg-[#FDD023] hover:bg-[#e5bc1a] text-[#1A1A2E] text-sm font-medium px-4 py-2 rounded ml-2 transition-colors"
+                  className="border border-white/20 bg-transparent text-white text-sm font-medium px-4 py-2 rounded ml-2 transition-all duration-200 hover:bg-[#FDD023] hover:border-[#FDD023] hover:text-[#1A1A2E]"
                 >
                   {item.label}
                 </Link>
@@ -257,7 +257,7 @@ export default function Header() {
               <Link
                 key={item.href}
                 href={item.href}
-                className="block bg-[#FDD023] hover:bg-[#e5bc1a] text-[#1A1A2E] text-sm font-medium rounded mt-3 py-2.5 text-center transition-colors"
+                className="block border border-white/20 bg-transparent text-white text-sm font-medium rounded mt-3 py-2.5 text-center transition-all duration-200 hover:bg-[#FDD023] hover:border-[#FDD023] hover:text-[#1A1A2E]"
                 onClick={() => setMobileOpen(false)}
               >
                 {item.label}
