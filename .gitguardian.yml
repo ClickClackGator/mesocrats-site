@@ -1,0 +1,9 @@
+paths-ignore:
+  - '**/*.md'
+  - '**/openapi.json'
+
+matches-ignore:
+  - name: 'Example API key in documentation'
+    match: 'mce_live_sk_your_key_here'
+  - name: 'Example API key prefix in docs'
+    match: 'mce_live_sk_'
