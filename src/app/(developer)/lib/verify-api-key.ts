@@ -27,7 +27,7 @@ export async function verifyApiKey(authHeader: string | null) {
 
   const { data: candidates, error } = await supabase
     .from("developer_api_keys")
-    .select("id, user_id, key_name, api_key, prefix")
+    .select("id, user_id, key_name, api_key, prefix, committee_id")
     .eq("prefix", prefix)
     .eq("is_active", true);
 
@@ -43,7 +43,12 @@ export async function verifyApiKey(authHeader: string | null) {
         .eq("id", row.id)
         .then(() => {});
 
-      return { id: row.id, userId: row.user_id, keyName: row.key_name };
+      return {
+        id: row.id,
+        userId: row.user_id,
+        keyName: row.key_name,
+        committeeId: row.committee_id as string | null,
+      };
     }
   }
 
