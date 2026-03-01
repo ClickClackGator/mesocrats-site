@@ -107,13 +107,20 @@ export default function DevNavBar() {
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
-          {/* Left: Logo + site name */}
-          <Link href="/" className="flex items-center gap-2.5 shrink-0">
-            <DiamondLogo />
-            <span className="text-sm font-semibold text-white">
+          {/* Left: Main site logo + divider + developer portal name */}
+          <div className="flex items-center gap-3 shrink-0">
+            <a
+              href="https://mesocrats.org"
+              aria-label="Back to mesocrats.org"
+              className="text-white hover:opacity-80 transition-opacity"
+            >
+              <DiamondLogo />
+            </a>
+            <div className="w-px h-5 bg-white/10" />
+            <Link href="/" className="text-sm font-semibold text-white">
               developer.mesocrats.org
-            </span>
-          </Link>
+            </Link>
+          </div>
 
           {/* Center: Nav links (desktop) */}
           <div className="hidden lg:flex items-center gap-1">
