@@ -104,9 +104,16 @@ export default function DisclosuresPage() {
           </p>
           <p>
             We are committed to transparency in our fundraising, spending, and
-            governance. When the donation platform launches, all required
-            financial disclosures will be publicly available in accordance with
-            federal law.
+            governance. Contributions to the Mesocratic National Committee can
+            be made at{" "}
+            <a
+              href="/donate"
+              className="text-secondary hover:underline"
+            >
+              mesocrats.org/donate
+            </a>
+            . All contributions are processed via Stripe and reported to the
+            FEC in accordance with federal election law.
           </p>
         </section>
 

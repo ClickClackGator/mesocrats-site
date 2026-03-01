@@ -10,10 +10,6 @@ export default function HomeJoinDonate() {
   const [joinSuccess, setJoinSuccess] = useState(false);
   const [joinError, setJoinError] = useState("");
 
-  const [donateEmail, setDonateEmail] = useState("");
-  const [donateLoading, setDonateLoading] = useState(false);
-  const [donateSuccess, setDonateSuccess] = useState(false);
-  const [donateError, setDonateError] = useState("");
 
   async function handleJoin(e: React.FormEvent) {
     e.preventDefault();
@@ -43,29 +39,6 @@ export default function HomeJoinDonate() {
     }
   }
 
-  async function handleDonate(e: React.FormEvent) {
-    e.preventDefault();
-    setDonateLoading(true);
-    setDonateError("");
-    try {
-      const res = await fetch("/api/donate", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email: donateEmail }),
-      });
-      if (!res.ok) {
-        const data = await res.json();
-        throw new Error(data.error || "Something went wrong");
-      }
-      setDonateSuccess(true);
-    } catch (err) {
-      setDonateError(
-        err instanceof Error ? err.message : "Something went wrong"
-      );
-    } finally {
-      setDonateLoading(false);
-    }
-  }
 
   return (
     <section className="grid grid-cols-1 lg:grid-cols-2">
@@ -129,49 +102,18 @@ export default function HomeJoinDonate() {
       <div className="bg-primary text-white py-16 px-6 sm:px-10 lg:px-16">
         <div className="max-w-md mx-auto lg:mx-0">
           <h2 className="text-3xl font-bold mb-3">Fund the Middle Ground.</h2>
-          <p className="text-white/70 mb-6">
-            We&apos;re building the donation platform now. When it launches,
-            every dollar will go directly to building this party and getting
-            Mesocrats on ballots.
-          </p>
           <p className="text-white/70 mb-8">
-            Join our email list to be the first to know when donations open.
+            Every dollar goes directly to building this party and getting
+            Mesocrats on ballots across America. All contributions are processed
+            securely via Stripe and reported to the FEC.
           </p>
-          {donateSuccess ? (
-            <div className="py-4">
-              <p className="text-white font-bold">
-                You&apos;re on the list! We&apos;ll notify you when donations
-                open.
-              </p>
-            </div>
-          ) : (
-            <>
-              <form
-                className="flex flex-col sm:flex-row gap-3"
-                onSubmit={handleDonate}
-              >
-                <input
-                  type="email"
-                  placeholder="Email Address"
-                  required
-                  value={donateEmail}
-                  onChange={(e) => setDonateEmail(e.target.value)}
-                  className="flex-1 bg-white/10 border border-white/20 rounded px-4 py-3 text-sm text-white placeholder:text-white/40 focus:outline-none focus:ring-2 focus:ring-accent"
-                />
-                <button
-                  type="submit"
-                  disabled={donateLoading}
-                  className="bg-accent hover:bg-accent-light text-white font-bold px-6 py-3 rounded transition-colors whitespace-nowrap disabled:opacity-50"
-                >
-                  {donateLoading ? "..." : "NOTIFY ME"}
-                </button>
-              </form>
-              {donateError && (
-                <p className="text-red-400 text-sm mt-2">{donateError}</p>
-              )}
-            </>
-          )}
-          <p className="text-xs text-white/40 mt-4 leading-relaxed">
+          <a
+            href="/donate"
+            className="inline-block w-full text-center bg-[#4374BA] hover:bg-[#4374BA]/90 text-white font-bold py-4 rounded transition-colors text-lg"
+          >
+            DONATE NOW
+          </a>
+          <p className="text-xs text-white/40 mt-6 leading-relaxed">
             Paid for by the Mesocratic National Committee. Not authorized by any
             candidate or candidate&apos;s committee. Contributions or gifts to
             the Mesocratic National Committee are not tax deductible.
