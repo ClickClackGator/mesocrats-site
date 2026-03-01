@@ -243,33 +243,74 @@ function DonationForm() {
   return (
     <div className="min-h-screen bg-[#1A1A1A]">
       {/* Hero */}
-      <section className="relative bg-gradient-to-br from-white via-blue-50 to-purple-50 py-20 sm:py-28 overflow-hidden">
-        {/* Subtle dot pattern */}
+      <section className="relative bg-[#1A1A2E] py-20 sm:py-28 overflow-hidden">
+        {/* Diagonal gradient accent stripe */}
         <div
-          className="absolute inset-0 opacity-[0.04]"
+          className="absolute inset-0 opacity-20"
           style={{
-            backgroundImage: 'radial-gradient(circle, #6C3393 1px, transparent 1px)',
-            backgroundSize: '24px 24px',
+            background: 'linear-gradient(135deg, #4374BA 0%, #6C3393 35%, #EE2C24 65%, #FDD023 100%)',
           }}
         />
+
+        {/* Radial glow behind headline */}
+        <div
+          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[400px] sm:w-[800px] sm:h-[500px] opacity-30 pointer-events-none"
+          style={{
+            background: 'radial-gradient(ellipse at center, #6C3393 0%, transparent 70%)',
+          }}
+        />
+
+        {/* Decorative gradient blob — top-right */}
+        <div
+          className="absolute -top-20 -right-20 w-72 h-72 sm:w-96 sm:h-96 rounded-full opacity-15 blur-3xl pointer-events-none"
+          style={{
+            background: 'radial-gradient(circle, #4374BA, transparent 70%)',
+          }}
+        />
+
+        {/* Decorative gradient blob — bottom-left */}
+        <div
+          className="absolute -bottom-16 -left-16 w-64 h-64 sm:w-80 sm:h-80 rounded-full opacity-15 blur-3xl pointer-events-none"
+          style={{
+            background: 'radial-gradient(circle, #EE2C24, transparent 70%)',
+          }}
+        />
+
+        {/* Multi-color accent bar at top */}
+        <div className="absolute top-0 left-0 right-0 h-1">
+          <div
+            className="w-full h-full"
+            style={{
+              background: 'linear-gradient(90deg, #4374BA 0%, #6C3393 33%, #EE2C24 66%, #FDD023 100%)',
+            }}
+          />
+        </div>
+
         <div className="relative max-w-3xl mx-auto px-6 text-center">
-          <span className="inline-block px-4 py-1.5 bg-[#6C3393]/10 rounded-full text-xs font-extrabold tracking-wider text-[#6C3393] uppercase mb-6">
+          <span className="inline-block rounded-full bg-white/90 text-[#6C3393] px-4 py-1 text-sm font-extrabold tracking-wide uppercase mb-6">
             Every dollar builds the party
           </span>
-          <h1 className="text-4xl sm:text-6xl font-bold text-[#1A1A2E] mb-4">
+          <h1 className="text-4xl sm:text-6xl font-extrabold text-white mb-5 leading-tight">
             Back the Middle.
           </h1>
-          <p className="text-lg text-gray-600 max-w-xl mx-auto">
+          <p className="text-lg sm:text-xl text-white/80 max-w-xl mx-auto mb-10 leading-relaxed">
             You&rsquo;re not donating to a candidate. You&rsquo;re building a party &mdash; and a movement that puts people over politics.
           </p>
+          <button
+            type="button"
+            onClick={() => document.getElementById('donation-form')?.scrollIntoView({ behavior: 'smooth' })}
+            className="inline-block px-8 py-3.5 bg-[#FDD023] text-[#1A1A2E] font-bold text-lg rounded-md transition-all duration-200 hover:brightness-110 hover:scale-[1.02] active:scale-[0.98] shadow-lg shadow-[#FDD023]/20"
+          >
+            Donate Now
+          </button>
         </div>
       </section>
 
       {/* Gradient fade into dark form section */}
-      <div className="h-16 bg-gradient-to-b from-purple-50 to-[#1A1A1A]" />
+      <div className="h-12 bg-gradient-to-b from-[#1A1A2E] to-[#1A1A1A]" />
 
       {/* Form */}
-      <section className="max-w-2xl mx-auto px-6 py-12 sm:py-16">
+      <section id="donation-form" className="max-w-2xl mx-auto px-6 py-12 sm:py-16 scroll-mt-4">
         <form onSubmit={handleSubmit} className="space-y-8">
 
           {/* Amount Selection */}
