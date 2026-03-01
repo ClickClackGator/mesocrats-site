@@ -1,0 +1,865 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "PartyStack API",
+    "description": "Mesocratic Compliance Engine — multi-tenant political committee compliance API. Manage contributors, contributions, disbursements, FEC reports, and compliance limits.",
+    "version": "1.0.0",
+    "contact": {
+      "name": "Mesocratic National Committee",
+      "url": "https://developer.mesocrats.org",
+      "email": "info@mesocrats.org"
+    }
+  },
+  "servers": [
+    {
+      "url": "https://developer.mesocrats.org/api/v1",
+      "description": "Production"
+    }
+  ],
+  "security": [
+    {
+      "bearerAuth": []
+    }
+  ],
+  "paths": {
+    "/health": {
+      "get": {
+        "operationId": "getHealth",
+        "summary": "Health check",
+        "description": "Returns API status and database connectivity. No authentication required.",
+        "tags": ["System"],
+        "security": [],
+        "responses": {
+          "200": {
+            "description": "API is running",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": { "type": "string", "example": "ok" },
+                    "version": { "type": "string", "example": "1.0.0" },
+                    "timestamp": { "type": "string", "format": "date-time" },
+                    "database": { "type": "string", "enum": ["connected", "error"] }
+                  },
+                  "required": ["status", "version", "timestamp", "database"]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/committees": {
+      "get": {
+        "operationId": "getCommittee",
+        "summary": "Get your committee",
+        "description": "Returns the committee bound to this API key, or null if the key is not yet bound. Does not require committee binding.",
+        "tags": ["Committees"],
+        "responses": {
+          "200": {
+            "description": "Committee or null",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "oneOf": [
+                        { "$ref": "#/components/schemas/Committee" },
+                        { "type": "null" }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": { "$ref": "#/components/responses/Unauthorized" }
+        }
+      },
+      "post": {
+        "operationId": "createCommittee",
+        "summary": "Create a committee",
+        "description": "Creates a new committee and binds it to the calling API key. The key must not already be bound to a committee. Writes to both the PartyStack database (committee record) and the main database (key binding).",
+        "tags": ["Committees"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["name"],
+                "properties": {
+                  "name": { "type": "string", "description": "Committee display name" },
+                  "legal_name": { "type": "string" },
+                  "fec_id": { "type": "string", "description": "FEC committee ID if registered" },
+                  "ein": { "type": "string", "description": "IRS Employer Identification Number" },
+                  "committee_type": {
+                    "type": "string",
+                    "enum": ["national_party", "state_party", "pac", "super_pac", "candidate"],
+                    "default": "national_party"
+                  },
+                  "treasurer_name": { "type": "string" },
+                  "treasurer_address": { "type": "string" },
+                  "mailing_address": { "type": "string" },
+                  "filing_frequency": {
+                    "type": "string",
+                    "enum": ["quarterly", "monthly", "semiannual"],
+                    "default": "quarterly"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Committee created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": { "$ref": "#/components/schemas/Committee" }
+                  }
+                }
+              }
+            }
+          },
+          "400": { "$ref": "#/components/responses/BadRequest" },
+          "401": { "$ref": "#/components/responses/Unauthorized" },
+          "409": {
+            "description": "API key already bound to a committee",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/Error" }
+              }
+            }
+          },
+          "500": { "$ref": "#/components/responses/ServerError" }
+        }
+      }
+    },
+    "/contributors": {
+      "get": {
+        "operationId": "listContributors",
+        "summary": "List contributors",
+        "description": "Returns a paginated list of contributors for this committee. Supports case-insensitive search across full_name, email, and last_name.",
+        "tags": ["Contributors"],
+        "parameters": [
+          { "$ref": "#/components/parameters/Page" },
+          { "$ref": "#/components/parameters/Limit" },
+          {
+            "name": "search",
+            "in": "query",
+            "description": "Case-insensitive search against full_name, email, or last_name",
+            "schema": { "type": "string" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Paginated list of contributors",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": { "$ref": "#/components/schemas/Contributor" }
+                    },
+                    "pagination": { "$ref": "#/components/schemas/Pagination" }
+                  }
+                }
+              }
+            }
+          },
+          "401": { "$ref": "#/components/responses/Unauthorized" },
+          "403": { "$ref": "#/components/responses/Forbidden" },
+          "500": { "$ref": "#/components/responses/ServerError" }
+        }
+      },
+      "post": {
+        "operationId": "createContributor",
+        "summary": "Create a contributor",
+        "description": "Creates a new contributor record. Automatically generates match_key (lowercase last_name + zip_code) for fuzzy matching and full_name if not provided.",
+        "tags": ["Contributors"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["first_name", "last_name"],
+                "properties": {
+                  "first_name": { "type": "string" },
+                  "last_name": { "type": "string" },
+                  "full_name": { "type": "string", "description": "Auto-generated from first_name + last_name if omitted" },
+                  "entity_type": { "type": "string", "default": "individual", "description": "individual, organization, or committee" },
+                  "email": { "type": "string", "format": "email" },
+                  "address_line1": { "type": "string" },
+                  "address_line2": { "type": "string" },
+                  "city": { "type": "string" },
+                  "state": { "type": "string", "description": "Two-letter US state abbreviation" },
+                  "zip_code": { "type": "string" },
+                  "employer": { "type": "string" },
+                  "occupation": { "type": "string" }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Contributor created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": { "$ref": "#/components/schemas/Contributor" }
+                  }
+                }
+              }
+            }
+          },
+          "400": { "$ref": "#/components/responses/BadRequest" },
+          "401": { "$ref": "#/components/responses/Unauthorized" },
+          "403": { "$ref": "#/components/responses/Forbidden" },
+          "500": { "$ref": "#/components/responses/ServerError" }
+        }
+      }
+    },
+    "/contributions": {
+      "get": {
+        "operationId": "listContributions",
+        "summary": "List contributions",
+        "description": "Returns a paginated list of contributions for this committee. Supports filtering by date range, contributor, and itemization status.",
+        "tags": ["Contributions"],
+        "parameters": [
+          { "$ref": "#/components/parameters/Page" },
+          { "$ref": "#/components/parameters/Limit" },
+          {
+            "name": "start_date",
+            "in": "query",
+            "description": "Filter contributions received on or after this date",
+            "schema": { "type": "string", "format": "date" }
+          },
+          {
+            "name": "end_date",
+            "in": "query",
+            "description": "Filter contributions received on or before this date",
+            "schema": { "type": "string", "format": "date" }
+          },
+          {
+            "name": "contributor_id",
+            "in": "query",
+            "description": "Filter by contributor UUID",
+            "schema": { "type": "string", "format": "uuid" }
+          },
+          {
+            "name": "itemized",
+            "in": "query",
+            "description": "Filter by itemization status (aggregate > $200)",
+            "schema": { "type": "string", "enum": ["true", "false"] }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Paginated list of contributions",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": { "$ref": "#/components/schemas/Contribution" }
+                    },
+                    "pagination": { "$ref": "#/components/schemas/Pagination" }
+                  }
+                }
+              }
+            }
+          },
+          "401": { "$ref": "#/components/responses/Unauthorized" },
+          "403": { "$ref": "#/components/responses/Forbidden" },
+          "500": { "$ref": "#/components/responses/ServerError" }
+        }
+      },
+      "post": {
+        "operationId": "createContribution",
+        "summary": "Record a contribution",
+        "description": "Records a new contribution. Validates the contributor belongs to this committee, enforces FEC contribution limits based on committee type, updates the contributor's year-to-date aggregate, and sets the itemization flag when the aggregate exceeds $200. Returns the contribution with aggregate info.",
+        "tags": ["Contributions"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["contributor_id", "amount_cents", "date_received"],
+                "properties": {
+                  "contributor_id": { "type": "string", "format": "uuid", "description": "Must reference a contributor belonging to this committee" },
+                  "amount_cents": { "type": "integer", "minimum": 100, "description": "Amount in cents. Minimum $1.00 (100 cents)" },
+                  "date_received": { "type": "string", "format": "date", "description": "Date the contribution was received (YYYY-MM-DD)" },
+                  "contribution_type": { "type": "string", "default": "individual", "description": "individual, pac, party_transfer, or other" },
+                  "payment_method": { "type": "string", "description": "credit_card, check, wire, or other" },
+                  "stripe_charge_id": { "type": "string" },
+                  "frequency": { "type": "string", "default": "one_time", "description": "one_time, monthly, or quarterly" },
+                  "citizenship_attested": { "type": "boolean", "default": false },
+                  "personal_funds_attested": { "type": "boolean", "default": false },
+                  "non_contractor_attested": { "type": "boolean", "default": false },
+                  "personal_card_attested": { "type": "boolean", "default": false },
+                  "age_attested": { "type": "boolean", "default": false },
+                  "ip_address": { "type": "string", "description": "Falls back to x-forwarded-for if omitted" }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Contribution created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "allOf": [
+                        { "$ref": "#/components/schemas/Contribution" },
+                        {
+                          "type": "object",
+                          "properties": {
+                            "aggregate": { "$ref": "#/components/schemas/AggregateInfo" }
+                          }
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": { "$ref": "#/components/responses/BadRequest" },
+          "401": { "$ref": "#/components/responses/Unauthorized" },
+          "403": { "$ref": "#/components/responses/Forbidden" },
+          "404": {
+            "description": "Contributor not found or does not belong to this committee",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/Error" }
+              }
+            }
+          },
+          "422": {
+            "description": "FEC contribution limit would be exceeded",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/Error" },
+                "example": {
+                  "error": "Contribution would exceed the FEC individual limit of $5,000.00/year for pac committees. Current YTD aggregate: $4,500.00. Attempted: $1,000.00."
+                }
+              }
+            }
+          },
+          "500": { "$ref": "#/components/responses/ServerError" }
+        }
+      }
+    },
+    "/contributions/{id}": {
+      "get": {
+        "operationId": "getContribution",
+        "summary": "Get a contribution",
+        "description": "Returns a single contribution by ID, scoped to this committee. Returns 404 if the contribution doesn't exist or belongs to a different committee.",
+        "tags": ["Contributions"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Contribution UUID",
+            "schema": { "type": "string", "format": "uuid" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Contribution found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": { "$ref": "#/components/schemas/Contribution" }
+                  }
+                }
+              }
+            }
+          },
+          "401": { "$ref": "#/components/responses/Unauthorized" },
+          "403": { "$ref": "#/components/responses/Forbidden" },
+          "404": {
+            "description": "Contribution not found",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/Error" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/disbursements": {
+      "get": {
+        "operationId": "listDisbursements",
+        "summary": "List disbursements",
+        "description": "Returns a paginated list of disbursements for this committee. Supports filtering by date range and category.",
+        "tags": ["Disbursements"],
+        "parameters": [
+          { "$ref": "#/components/parameters/Page" },
+          { "$ref": "#/components/parameters/Limit" },
+          {
+            "name": "start_date",
+            "in": "query",
+            "description": "Filter disbursements on or after this date",
+            "schema": { "type": "string", "format": "date" }
+          },
+          {
+            "name": "end_date",
+            "in": "query",
+            "description": "Filter disbursements on or before this date",
+            "schema": { "type": "string", "format": "date" }
+          },
+          {
+            "name": "category",
+            "in": "query",
+            "description": "Filter by disbursement category",
+            "schema": {
+              "type": "string",
+              "enum": ["operating", "contribution_to_candidate", "independent_expenditure", "coordinated_expenditure", "other"]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Paginated list of disbursements",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": { "$ref": "#/components/schemas/Disbursement" }
+                    },
+                    "pagination": { "$ref": "#/components/schemas/Pagination" }
+                  }
+                }
+              }
+            }
+          },
+          "401": { "$ref": "#/components/responses/Unauthorized" },
+          "403": { "$ref": "#/components/responses/Forbidden" },
+          "500": { "$ref": "#/components/responses/ServerError" }
+        }
+      },
+      "post": {
+        "operationId": "createDisbursement",
+        "summary": "Record a disbursement",
+        "description": "Records a new disbursement (expenditure) for the committee. Validates required fields and category.",
+        "tags": ["Disbursements"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["payee_name", "amount_cents", "date", "purpose"],
+                "properties": {
+                  "payee_name": { "type": "string" },
+                  "payee_address": { "type": "string" },
+                  "amount_cents": { "type": "integer", "minimum": 1, "description": "Amount in cents. Minimum $0.01" },
+                  "date": { "type": "string", "format": "date", "description": "Disbursement date (YYYY-MM-DD)" },
+                  "purpose": { "type": "string", "description": "FEC-compliant expenditure purpose description" },
+                  "category": {
+                    "type": "string",
+                    "enum": ["operating", "contribution_to_candidate", "independent_expenditure", "coordinated_expenditure", "other"],
+                    "default": "operating"
+                  },
+                  "check_number": { "type": "string" },
+                  "receipt_url": { "type": "string", "format": "uri" }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Disbursement created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": { "$ref": "#/components/schemas/Disbursement" }
+                  }
+                }
+              }
+            }
+          },
+          "400": { "$ref": "#/components/responses/BadRequest" },
+          "401": { "$ref": "#/components/responses/Unauthorized" },
+          "403": { "$ref": "#/components/responses/Forbidden" },
+          "500": { "$ref": "#/components/responses/ServerError" }
+        }
+      }
+    },
+    "/compliance/limits": {
+      "get": {
+        "operationId": "getComplianceLimits",
+        "summary": "Get FEC contribution limits",
+        "description": "Returns the FEC contribution limits for this committee's type for the 2025-2026 election cycle. All values in cents. Null means unlimited.",
+        "tags": ["Compliance"],
+        "responses": {
+          "200": {
+            "description": "Contribution limits",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "committee_type": {
+                          "type": "string",
+                          "enum": ["national_party", "state_party", "pac", "super_pac", "candidate"]
+                        },
+                        "cycle": { "type": "string", "example": "2025-2026" },
+                        "limits": {
+                          "type": "object",
+                          "properties": {
+                            "individual_per_year": { "type": ["integer", "null"], "description": "Cents. Null = unlimited." },
+                            "pac_per_year": { "type": ["integer", "null"], "description": "Cents. Null = unlimited." },
+                            "party_per_year": { "type": ["integer", "null"], "description": "Cents. Null = unlimited." }
+                          }
+                        },
+                        "itemization_threshold": { "type": "integer", "example": 20000, "description": "Aggregate YTD threshold in cents for FEC itemization ($200)" }
+                      }
+                    }
+                  }
+                },
+                "example": {
+                  "data": {
+                    "committee_type": "pac",
+                    "cycle": "2025-2026",
+                    "limits": {
+                      "individual_per_year": 500000,
+                      "pac_per_year": 500000,
+                      "party_per_year": 500000
+                    },
+                    "itemization_threshold": 20000
+                  }
+                }
+              }
+            }
+          },
+          "401": { "$ref": "#/components/responses/Unauthorized" },
+          "403": { "$ref": "#/components/responses/Forbidden" },
+          "500": { "$ref": "#/components/responses/ServerError" }
+        }
+      }
+    },
+    "/reports": {
+      "get": {
+        "operationId": "listReports",
+        "summary": "List reports",
+        "description": "Returns all reports for this committee. Supports filtering by status and report type. Not paginated — returns all matching rows.",
+        "tags": ["Reports"],
+        "parameters": [
+          {
+            "name": "status",
+            "in": "query",
+            "description": "Filter by report status",
+            "schema": {
+              "type": "string",
+              "enum": ["draft", "review", "submitted", "accepted", "rejected"]
+            }
+          },
+          {
+            "name": "report_type",
+            "in": "query",
+            "description": "Filter by report type",
+            "schema": {
+              "type": "string",
+              "enum": ["quarterly", "monthly", "semiannual", "year_end", "amendment"]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of reports",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": { "$ref": "#/components/schemas/Report" }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": { "$ref": "#/components/responses/Unauthorized" },
+          "403": { "$ref": "#/components/responses/Forbidden" },
+          "500": { "$ref": "#/components/responses/ServerError" }
+        }
+      },
+      "post": {
+        "operationId": "createReport",
+        "summary": "Create a report",
+        "description": "Creates a new report in draft status. Coverage start must be before coverage end.",
+        "tags": ["Reports"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["coverage_start", "coverage_end"],
+                "properties": {
+                  "coverage_start": { "type": "string", "format": "date", "description": "Report period start date (YYYY-MM-DD)" },
+                  "coverage_end": { "type": "string", "format": "date", "description": "Report period end date (YYYY-MM-DD). Must be after coverage_start." },
+                  "report_type": {
+                    "type": "string",
+                    "enum": ["quarterly", "monthly", "semiannual", "year_end", "amendment"],
+                    "default": "quarterly"
+                  },
+                  "filing_deadline": { "type": "string", "format": "date", "description": "Filing deadline date (YYYY-MM-DD)" }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Report created in draft status",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": { "$ref": "#/components/schemas/Report" }
+                  }
+                }
+              }
+            }
+          },
+          "400": { "$ref": "#/components/responses/BadRequest" },
+          "401": { "$ref": "#/components/responses/Unauthorized" },
+          "403": { "$ref": "#/components/responses/Forbidden" },
+          "500": { "$ref": "#/components/responses/ServerError" }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "description": "API key obtained from the developer dashboard. Format: mce_live_..."
+      }
+    },
+    "parameters": {
+      "Page": {
+        "name": "page",
+        "in": "query",
+        "description": "Page number (default: 1)",
+        "schema": { "type": "integer", "minimum": 1, "default": 1 }
+      },
+      "Limit": {
+        "name": "limit",
+        "in": "query",
+        "description": "Results per page (default: 50, max: 250)",
+        "schema": { "type": "integer", "minimum": 1, "maximum": 250, "default": 50 }
+      }
+    },
+    "schemas": {
+      "Error": {
+        "type": "object",
+        "properties": {
+          "error": { "type": "string" }
+        },
+        "required": ["error"]
+      },
+      "Pagination": {
+        "type": "object",
+        "properties": {
+          "page": { "type": "integer" },
+          "limit": { "type": "integer" },
+          "total": { "type": "integer" },
+          "total_pages": { "type": "integer" }
+        },
+        "required": ["page", "limit", "total", "total_pages"]
+      },
+      "Committee": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "string", "format": "uuid" },
+          "owner_user_id": { "type": "string", "format": "uuid" },
+          "name": { "type": "string" },
+          "legal_name": { "type": ["string", "null"] },
+          "fec_id": { "type": ["string", "null"] },
+          "ein": { "type": ["string", "null"] },
+          "committee_type": { "type": "string", "enum": ["national_party", "state_party", "pac", "super_pac", "candidate"] },
+          "treasurer_name": { "type": ["string", "null"] },
+          "treasurer_address": { "type": ["string", "null"] },
+          "mailing_address": { "type": ["string", "null"] },
+          "filing_frequency": { "type": "string", "enum": ["quarterly", "monthly", "semiannual"] },
+          "created_at": { "type": "string", "format": "date-time" },
+          "updated_at": { "type": "string", "format": "date-time" }
+        }
+      },
+      "Contributor": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "string", "format": "uuid" },
+          "committee_id": { "type": "string", "format": "uuid" },
+          "entity_type": { "type": "string" },
+          "first_name": { "type": ["string", "null"] },
+          "last_name": { "type": ["string", "null"] },
+          "full_name": { "type": ["string", "null"] },
+          "email": { "type": ["string", "null"] },
+          "address_line1": { "type": ["string", "null"] },
+          "address_line2": { "type": ["string", "null"] },
+          "city": { "type": ["string", "null"] },
+          "state": { "type": ["string", "null"] },
+          "zip_code": { "type": ["string", "null"] },
+          "employer": { "type": ["string", "null"] },
+          "occupation": { "type": ["string", "null"] },
+          "match_key": { "type": ["string", "null"], "description": "Auto-generated: lowercase(last_name)_zip_code" },
+          "created_at": { "type": "string", "format": "date-time" },
+          "updated_at": { "type": "string", "format": "date-time" }
+        }
+      },
+      "Contribution": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "string", "format": "uuid" },
+          "committee_id": { "type": "string", "format": "uuid" },
+          "contributor_id": { "type": "string", "format": "uuid" },
+          "amount_cents": { "type": "integer" },
+          "date_received": { "type": "string", "format": "date" },
+          "contribution_type": { "type": "string" },
+          "payment_method": { "type": ["string", "null"] },
+          "stripe_charge_id": { "type": ["string", "null"] },
+          "frequency": { "type": "string" },
+          "citizenship_attested": { "type": "boolean" },
+          "personal_funds_attested": { "type": "boolean" },
+          "non_contractor_attested": { "type": "boolean" },
+          "personal_card_attested": { "type": "boolean" },
+          "age_attested": { "type": "boolean" },
+          "ip_address": { "type": ["string", "null"] },
+          "aggregate_ytd_cents": { "type": ["integer", "null"], "description": "Year-to-date aggregate for this contributor after this contribution" },
+          "itemized": { "type": "boolean", "description": "True if aggregate YTD exceeds $200 (20000 cents)" },
+          "report_id": { "type": ["string", "null"], "format": "uuid" },
+          "created_at": { "type": "string", "format": "date-time" }
+        }
+      },
+      "AggregateInfo": {
+        "type": "object",
+        "description": "Year-to-date aggregate info returned with newly created contributions",
+        "properties": {
+          "calendar_year": { "type": "integer" },
+          "total_cents": { "type": "integer" },
+          "contribution_count": { "type": "integer" },
+          "itemization_required": { "type": "boolean" }
+        }
+      },
+      "Disbursement": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "string", "format": "uuid" },
+          "committee_id": { "type": "string", "format": "uuid" },
+          "payee_name": { "type": "string" },
+          "payee_address": { "type": ["string", "null"] },
+          "amount_cents": { "type": "integer" },
+          "date": { "type": "string", "format": "date" },
+          "purpose": { "type": "string" },
+          "category": { "type": "string", "enum": ["operating", "contribution_to_candidate", "independent_expenditure", "coordinated_expenditure", "other"] },
+          "check_number": { "type": ["string", "null"] },
+          "receipt_url": { "type": ["string", "null"] },
+          "report_id": { "type": ["string", "null"], "format": "uuid" },
+          "created_at": { "type": "string", "format": "date-time" }
+        }
+      },
+      "Report": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "string", "format": "uuid" },
+          "committee_id": { "type": "string", "format": "uuid" },
+          "report_type": { "type": "string", "enum": ["quarterly", "monthly", "semiannual", "year_end", "amendment"] },
+          "coverage_start": { "type": "string", "format": "date" },
+          "coverage_end": { "type": "string", "format": "date" },
+          "filing_deadline": { "type": ["string", "null"], "format": "date" },
+          "status": { "type": "string", "enum": ["draft", "review", "submitted", "accepted", "rejected"] },
+          "fec_file_path": { "type": ["string", "null"] },
+          "fec_confirmation_number": { "type": ["string", "null"] },
+          "created_at": { "type": "string", "format": "date-time" },
+          "updated_at": { "type": "string", "format": "date-time" }
+        }
+      }
+    },
+    "responses": {
+      "Unauthorized": {
+        "description": "Invalid or missing API key",
+        "content": {
+          "application/json": {
+            "schema": { "$ref": "#/components/schemas/Error" },
+            "example": { "error": "Invalid API key" }
+          }
+        }
+      },
+      "Forbidden": {
+        "description": "API key not bound to a committee",
+        "content": {
+          "application/json": {
+            "schema": { "$ref": "#/components/schemas/Error" },
+            "example": { "error": "API key not bound to a committee. Create a committee first via POST /api/v1/committees." }
+          }
+        }
+      },
+      "BadRequest": {
+        "description": "Invalid request body or parameters",
+        "content": {
+          "application/json": {
+            "schema": { "$ref": "#/components/schemas/Error" }
+          }
+        }
+      },
+      "ServerError": {
+        "description": "Internal server error",
+        "content": {
+          "application/json": {
+            "schema": { "$ref": "#/components/schemas/Error" }
+          }
+        }
+      }
+    }
+  },
+  "tags": [
+    { "name": "System", "description": "Health and status endpoints" },
+    { "name": "Committees", "description": "Committee management" },
+    { "name": "Contributors", "description": "Contributor records" },
+    { "name": "Contributions", "description": "Contribution recording with FEC limit enforcement" },
+    { "name": "Disbursements", "description": "Expenditure tracking" },
+    { "name": "Compliance", "description": "FEC compliance reference data" },
+    { "name": "Reports", "description": "FEC report management" }
+  ]
+}
