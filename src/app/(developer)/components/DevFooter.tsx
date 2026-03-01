@@ -1,4 +1,3 @@
-import Image from "next/image";
 import Link from "next/link";
 
 const productLinks = [
@@ -31,10 +30,11 @@ export default function DevFooter() {
           {/* Brand column */}
           <div className="lg:col-span-1">
             <div className="flex items-center gap-2.5 mb-4">
-              <Image
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
                 src="/images/MP_PartyStack_Logo.png"
                 alt="PartyStack logo"
-                width={20}
+                width={25}
                 height={20}
                 className="h-5 w-auto"
               />
