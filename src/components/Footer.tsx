@@ -54,6 +54,15 @@ const F = {
       ],
     },
     {
+      heading: "Platform",
+      links: [
+        { label: "Overview", url: "/platform" },
+        { label: "How It Works", url: "/platform/how-it-works" },
+        { label: "Policy Positions", url: "/platform/policies" },
+        { label: "PartyStack", url: "https://developer.mesocrats.org" },
+      ],
+    },
+    {
       heading: "Get Involved",
       links: [
         { label: "Join", url: "/involved/join" },
@@ -65,8 +74,6 @@ const F = {
     {
       heading: "Resources",
       links: [
-        { label: "Platform", url: "/platform" },
-        { label: "Policy Positions", url: "/platform/policies" },
         { label: "CCX", url: "/convention" },
         { label: "News", url: "/news" },
         { label: "Contact", url: "/contact" },
@@ -116,7 +123,7 @@ export default async function Footer() {
     <footer className="bg-primary text-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         {/* Footer link columns */}
-        <div className="grid grid-cols-2 md:grid-cols-[repeat(5,auto)] gap-x-4 gap-y-8 md:gap-x-12 md:gap-y-0 md:justify-start mb-10">
+        <div className="grid grid-cols-2 md:grid-cols-[repeat(6,auto)] gap-x-4 gap-y-8 md:gap-x-12 md:gap-y-0 md:justify-start mb-10">
           {columns.map((section) => (
             <div key={section.heading}>
               <h3 className="text-xs font-semibold uppercase tracking-wider mb-3">
@@ -125,12 +132,23 @@ export default async function Footer() {
               <ul className="space-y-2">
                 {section.links.map((link) => (
                   <li key={link.url}>
-                    <Link
-                      href={link.url}
-                      className="text-xs text-white/70 hover:text-white transition-colors"
-                    >
-                      {link.label}
-                    </Link>
+                    {link.url.startsWith("http") ? (
+                      <a
+                        href={link.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-xs text-white/70 hover:text-white transition-colors"
+                      >
+                        {link.label}
+                      </a>
+                    ) : (
+                      <Link
+                        href={link.url}
+                        className="text-xs text-white/70 hover:text-white transition-colors"
+                      >
+                        {link.label}
+                      </Link>
+                    )}
                   </li>
                 ))}
               </ul>
