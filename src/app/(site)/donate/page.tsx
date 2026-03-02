@@ -303,6 +303,13 @@ function DonationForm() {
           >
             Donate Now
           </button>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src="/images/powered-by-stripe-white.svg"
+            alt="Powered by Stripe"
+            className="mt-6 mx-auto opacity-70"
+            style={{ width: 160, height: 'auto' }}
+          />
         </div>
       </section>
 
@@ -420,6 +427,15 @@ function DonationForm() {
                     invalid: { color: '#EE2C24' },
                   },
                 }}
+              />
+            </div>
+            <div className="flex justify-end mt-3">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src="/images/stripe-wordmark-white.svg"
+                alt="Stripe"
+                className="opacity-50"
+                style={{ width: 65, height: 'auto' }}
               />
             </div>
           </div>
