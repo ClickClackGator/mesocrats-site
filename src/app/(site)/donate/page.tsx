@@ -307,8 +307,8 @@ function DonationForm() {
           <img
             src="/images/powered-by-stripe-white.svg"
             alt="Powered by Stripe"
-            className="mt-6 mx-auto opacity-70"
-            style={{ width: 80, height: 'auto' }}
+            className="mt-3 mx-auto opacity-70"
+            style={{ width: 100, height: 'auto' }}
           />
         </div>
       </section>
