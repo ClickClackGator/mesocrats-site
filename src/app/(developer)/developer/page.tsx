@@ -31,7 +31,7 @@ console.log(report.filing_id); // -> "FEC-2026-Q1-..."`;
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 md:py-32">
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
           {/* Left: Copy */}
-          <div>
+          <div className="min-w-0">
             <div className="mb-6">
               <Badge text="Open Source -- MIT License" variant="green" size="md" />
             </div>
@@ -49,7 +49,7 @@ console.log(report.filing_id); // -> "FEC-2026-Q1-..."`;
               on building for democracy.
             </p>
 
-            <div className="mt-8 flex flex-wrap gap-4">
+            <div className="mt-8 flex flex-col sm:flex-row gap-4">
               <a
                 href="/api-reference"
                 className="inline-flex items-center px-6 py-3 rounded-lg bg-[#4374BA] text-white font-medium text-sm hover:bg-[#4374BA]/90 transition-colors"
@@ -66,7 +66,7 @@ console.log(report.filing_id); // -> "FEC-2026-Q1-..."`;
           </div>
 
           {/* Right: Code preview */}
-          <div className="space-y-4">
+          <div className="min-w-0 w-full max-w-full overflow-hidden space-y-4">
             <CodeBlock code={installCode} language="bash" title="Terminal" />
             <CodeBlock
               code={previewCode}
