@@ -24,16 +24,8 @@ interface WhitePaper {
   href: string;
 }
 
+// The Developer Platform white paper is always first -- it tells the story of developer.mesocrats.org
 const whitePapers: WhitePaper[] = [
-  {
-    title: "The Mesocratic Compliance Engine",
-    description:
-      "A comprehensive technical white paper covering the architecture, database schema, compliance engine, FEC report generation, IRS reporting, and public API design of the MCE platform. Covers the full stack from contribution validation to .fec file export.",
-    version: "v2.0",
-    date: "March 2026",
-    filename: "MP_The_Mesocratic_Compliance_Engine_v2.pdf",
-    href: "/documents/developer/MP_The_Mesocratic_Compliance_Engine_v2.pdf",
-  },
   {
     title: "The Developer Platform",
     description:
@@ -42,6 +34,15 @@ const whitePapers: WhitePaper[] = [
     date: "March 2026",
     filename: "MP_Developer_Platform_v2.pdf",
     href: "/documents/developer/MP_Developer_Platform_v2.pdf",
+  },
+  {
+    title: "The Mesocratic Compliance Engine",
+    description:
+      "A comprehensive technical white paper covering the architecture, database schema, compliance engine, FEC report generation, IRS reporting, and public API design of the MCE platform. Covers the full stack from contribution validation to .fec file export.",
+    version: "v2.0",
+    date: "March 2026",
+    filename: "MP_The_Mesocratic_Compliance_Engine_v2.pdf",
+    href: "/documents/developer/MP_The_Mesocratic_Compliance_Engine_v2.pdf",
   },
 ];
 
