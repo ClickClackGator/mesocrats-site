@@ -47,11 +47,11 @@ export default function DeveloperLayout({
 }) {
   return (
     <div
-      className={`${dmSans.variable} ${jetbrainsMono.variable} font-dev-sans bg-[#0A0A15] text-white min-h-screen`}
+      className={`${dmSans.variable} ${jetbrainsMono.variable} font-dev-sans bg-[#0A0A15] text-white min-h-screen overscroll-y-none`}
     >
       <AuthProviderWrapper>
         <DevNavBar />
-        <main className="pt-16">{children}</main>
+        <main>{children}</main>
         <DevFooter />
       </AuthProviderWrapper>
     </div>
