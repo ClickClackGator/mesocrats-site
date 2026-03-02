@@ -11,6 +11,7 @@ const navLinks = [
   { label: "Prompt Library", href: "/prompt-library" },
   { label: "Sandbox", href: "/sandbox" },
   { label: "SDKs", href: "/sdks" },
+  { label: "White Papers", href: "/white-papers" },
   { label: "Community", href: "/community" },
 ];
 
