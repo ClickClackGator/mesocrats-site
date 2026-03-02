@@ -49,7 +49,7 @@ console.log(report.filing_id); // -> "FEC-2026-Q1-..."`;
               on building for democracy.
             </p>
 
-            <div className="mt-8 flex flex-col sm:flex-row gap-4">
+            <div className="mt-8 flex flex-wrap gap-4">
               <a
                 href="/api-reference"
                 className="inline-flex items-center px-6 py-3 rounded-lg bg-[#4374BA] text-white font-medium text-sm hover:bg-[#4374BA]/90 transition-colors"
